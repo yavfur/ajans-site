@@ -88,7 +88,7 @@ export default async function DashboardPage() {
             </div>
             <span className="text-sm font-medium text-foreground/70 group-hover:text-foreground transition-colors">{label}</span>
             {badge !== null && badge !== undefined && (
-              <span className="ml-auto px-2 py-0.5 rounded-full bg-brand text-white text-xs font-bold min-w-[20px] text-center">
+              <span className="ml-auto px-2 py-0.5 rounded-full bg-brand text-[#0b1a12] text-xs font-bold min-w-[20px] text-center">
                 {badge}
               </span>
             )}

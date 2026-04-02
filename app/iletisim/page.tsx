@@ -343,7 +343,7 @@ export default function IletisimPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg bg-brand text-white font-medium hover:bg-brand/90 transition-colors duration-200"
+                  className="w-full py-3 rounded-lg bg-brand text-[#0b1a12] font-medium hover:bg-brand/90 transition-colors duration-200"
                 >
                   Teklif Talebi Gönder
                 </button>

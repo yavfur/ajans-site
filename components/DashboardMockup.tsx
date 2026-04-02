@@ -21,12 +21,12 @@ function MiniChart() {
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+          <stop offset="0%" stopColor="#B4FF00" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#B4FF00" stopOpacity="0" />
         </linearGradient>
       </defs>
       <polygon points={area} fill="url(#chartGrad)" />
-      <polyline points={pts} fill="none" stroke="#6366f1" strokeWidth="2" strokeLinejoin="round" />
+      <polyline points={pts} fill="none" stroke="#B4FF00" strokeWidth="2" strokeLinejoin="round" />
     </svg>
   );
 }

@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, BarChart2, CheckCircle } from "lucide-react";
+import { ArrowRight, BarChart2, CheckCircle, ChevronDown } from "lucide-react";
 import { ShaderAnimation } from "@/components/ShaderAnimation";
 import DashboardMockup from "@/components/DashboardMockup";
+import ScrambleText from "@/components/ScrambleText";
 
 const trust = ["İlk görüşme ücretsiz", "Sözleşmesiz başlangıç", "Haftalık raporlama"];
 
@@ -13,7 +14,10 @@ export default function Hero() {
     <section className="relative min-h-screen overflow-hidden flex flex-col">
       <ShaderAnimation />
       <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/85" />
+      {/* Gradient orbs — anima.ai style depth */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-brand/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-[400px] h-[300px] rounded-full bg-brand/6 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/2 w-[600px] h-[200px] rounded-full bg-emerald-900/20 blur-[140px] pointer-events-none" />
 
       {/* Navbar spacer */}
       <div className="h-[72px] shrink-0" />
@@ -41,11 +45,11 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Reklam bütçenizi{" "}
+                <ScrambleText text="Reklam bütçenizi" delay={300} duration={600} trigger={true} />{" "}
                 <span className="bg-gradient-to-r from-brand via-violet-400 to-brand/70 bg-clip-text text-transparent">
-                  veriye dayalı
+                  <ScrambleText text="veriye dayalı" delay={500} duration={700} trigger={true} />
                 </span>{" "}
-                sistemlerle büyütüyoruz
+                <ScrambleText text="sistemlerle büyütüyoruz" delay={700} duration={800} trigger={true} />
               </motion.h1>
 
               <motion.p
@@ -80,7 +84,7 @@ export default function Hero() {
               >
                 <Link
                   href="/iletisim"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/40 hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-[#0b1a12] font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/40 hover:-translate-y-0.5"
                 >
                   Ücretsiz Analiz Al
                   <ArrowRight size={16} />
@@ -108,6 +112,22 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Scroll cue */}
+      <motion.div
+        className="relative z-10 flex flex-col items-center gap-1.5 pb-8 text-white/30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+      >
+        <span className="text-[10px] tracking-widest uppercase font-medium">Keşfet</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} className="text-brand/50" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

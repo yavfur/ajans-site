@@ -65,7 +65,7 @@ export default function DashboardMesajlarPage() {
             <div key={msg.id} className={`flex ${isFromMe ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-md p-4 rounded-xl text-sm ${
                 isFromMe
-                  ? "bg-brand text-white"
+                  ? "bg-brand text-[#0b1a12]"
                   : "bg-background border border-border text-foreground"
               }`}>
                 <p>{msg.content}</p>
@@ -83,7 +83,7 @@ export default function DashboardMesajlarPage() {
           placeholder="Ajansınıza mesaj gönderin..." required
           className="flex-1 px-4 py-3 rounded-xl bg-background border border-border text-foreground text-sm focus:outline-none focus:border-brand/60 transition-colors" />
         <button type="submit" disabled={sending || !adminId}
-          className="px-5 py-3 rounded-xl bg-brand text-white hover:bg-brand/90 disabled:opacity-50 transition-colors">
+          className="px-5 py-3 rounded-xl bg-brand text-[#0b1a12] hover:bg-brand/90 disabled:opacity-50 transition-colors">
           <Send size={16} />
         </button>
       </form>

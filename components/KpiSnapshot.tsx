@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, Target, MousePointerClick, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import ScrambleText from "@/components/ScrambleText";
 
 const kpis = [
   {
@@ -73,11 +74,12 @@ export default function KpiSnapshot() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">001/</p>
           <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
             Temel Metrikler
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            Performansınızı sayılarla yönetin
+            <ScrambleText text="Performansınızı sayılarla yönetin" duration={900} />
           </h2>
           <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm leading-relaxed">
             Reklam bütçenizin gerçekte ne kadar çalıştığını 4 temel metrikle ölçüyoruz.

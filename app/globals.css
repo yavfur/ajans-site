@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Raneva';
+  src: url('/fonts/Raneva-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raneva';
+  src: url('/fonts/Raneva-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --card: #ffffff;
   --ring: #a1a1a1;
@@ -20,7 +36,7 @@
   --font-mono: Geist Mono, monospace;
   --font-sans: 'DM Sans', sans-serif;
   --font-serif: 'Space Grotesk', sans-serif;
-  --font-heading: 'Space Grotesk', sans-serif;
+  --font-heading: 'Raneva', 'Space Grotesk', sans-serif;
   --secondary: #f5f5f5;
   --background: #ffffff;
   --foreground: #0a0a0a;
@@ -46,44 +62,44 @@
   --sidebar-accent-foreground: #171717;
   --sidebar-primary-foreground: #fafafa;
   /* Marka rengi */
-  --brand: #6366F1;
+  --brand: #B4FF00;
 }
 
 .dark {
-  --card: #191919;
-  --ring: #737373;
-  --input: #525252;
-  --muted: #262626;
-  --accent: #404040;
-  --border: #383838;
-  --chart-1: #737373;
-  --chart-2: #737373;
-  --chart-3: #737373;
-  --chart-4: #737373;
-  --chart-5: #737373;
-  --popover: #262626;
-  --primary: #737373;
-  --sidebar: #171717;
-  --secondary: #262626;
-  --background: #0a0a0a;
-  --foreground: #fafafa;
+  --card: #0f2318;
+  --ring: #2a4a30;
+  --input: #1a3822;
+  --muted: #0f2318;
+  --accent: #1a3822;
+  --border: #1c3822;
+  --chart-1: #B4FF00;
+  --chart-2: #B4FF00;
+  --chart-3: #B4FF00;
+  --chart-4: #B4FF00;
+  --chart-5: #B4FF00;
+  --popover: #0f2318;
+  --primary: #B4FF00;
+  --sidebar: #091610;
+  --secondary: #0f2318;
+  --background: #0b1a12;
+  --foreground: #f0faf2;
   --destructive: #ff6467;
-  --sidebar-ring: #525252;
-  --sidebar-accent: #262626;
-  --sidebar-border: #ffffff;
-  --card-foreground: #fafafa;
-  --sidebar-primary: #fafafa;
-  --muted-foreground: #a1a1a1;
-  --accent-foreground: #fafafa;
-  --popover-foreground: #fafafa;
-  --primary-foreground: #fafafa;
-  --sidebar-foreground: #fafafa;
-  --secondary-foreground: #fafafa;
-  --destructive-foreground: #262626;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-primary-foreground: #171717;
+  --sidebar-ring: #1c3822;
+  --sidebar-accent: #0f2318;
+  --sidebar-border: #1c3822;
+  --card-foreground: #f0faf2;
+  --sidebar-primary: #B4FF00;
+  --muted-foreground: #7aad88;
+  --accent-foreground: #f0faf2;
+  --popover-foreground: #f0faf2;
+  --primary-foreground: #0b1a12;
+  --sidebar-foreground: #f0faf2;
+  --secondary-foreground: #f0faf2;
+  --destructive-foreground: #0b1a12;
+  --sidebar-accent-foreground: #f0faf2;
+  --sidebar-primary-foreground: #0b1a12;
   /* Marka rengi */
-  --brand: #6366F1;
+  --brand: #B4FF00;
 }
 
 @theme inline {
@@ -135,7 +151,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(ellipse at top left, #122516 0%, #0b1a12 60%, #080f0a 100%);
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;

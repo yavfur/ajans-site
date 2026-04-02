@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, BrainCircuit } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 
 const vars = [
   "Hedef kitle segmentasyonu",
@@ -32,14 +33,15 @@ export default function DataPositioning() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
+            <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">003/</p>
             <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium">
               <BrainCircuit size={13} />
               Veri Altyapısı
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">
-              Her karar{" "}
+              <ScrambleText text="Her karar" duration={700} />{" "}
               <span className="bg-gradient-to-r from-brand to-violet-400 bg-clip-text text-transparent">
-                veriye dayanır
+                <ScrambleText text="veriye dayanır" delay={200} duration={800} />
               </span>
             </h2>
             <p className="text-foreground/55 text-sm leading-relaxed mb-4">
@@ -51,7 +53,7 @@ export default function DataPositioning() {
             </p>
             <Link
               href="/iletisim"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-white text-sm font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-lg hover:shadow-brand/30"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-[#0b1a12] text-sm font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-lg hover:shadow-brand/30"
             >
               Ücretsiz Analiz Talep Et
               <ArrowRight size={15} />

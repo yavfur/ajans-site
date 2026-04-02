@@ -131,7 +131,7 @@ export default function IceriklerPage() {
         <h1 className="text-2xl font-bold text-foreground">İçerikler</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors"
         >
           <Plus size={16} />
           İçerik Yükle
@@ -184,7 +184,7 @@ export default function IceriklerPage() {
           </div>
           <div className="flex gap-3">
             <button type="submit" disabled={submitting}
-              className="px-5 py-2.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
+              className="px-5 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
               {submitting ? "Gönderiliyor..." : "Müşteriye Sun"}
             </button>
             <button type="button" onClick={() => setShowForm(false)}

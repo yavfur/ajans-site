@@ -205,7 +205,7 @@ export default function HakkimizdaPage() {
             </p>
             <Link
               href="/iletisim"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/25 hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-brand text-[#0b1a12] font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/25 hover:-translate-y-0.5 cursor-pointer"
             >
               İletişime Geç
               <ArrowRight size={16} />

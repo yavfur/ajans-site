@@ -18,7 +18,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/"
-          className="px-8 py-3.5 rounded-lg bg-brand text-white font-medium hover:bg-brand/90 transition-colors duration-200"
+          className="px-8 py-3.5 rounded-lg bg-brand text-[#0b1a12] font-medium hover:bg-brand/90 transition-colors duration-200"
         >
           Ana Sayfaya Dön
         </Link>

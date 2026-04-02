@@ -1,7 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 
 const testimonials = [
   {
@@ -12,6 +14,7 @@ const testimonials = [
     company: "Lumière Skin",
     initial: "SK",
     color: "bg-rose-500/20 text-rose-400",
+    accent: "border-rose-500/20",
   },
   {
     quote:
@@ -21,6 +24,7 @@ const testimonials = [
     company: "StepUp Ayakkabı",
     initial: "MD",
     color: "bg-amber-500/20 text-amber-400",
+    accent: "border-amber-500/20",
   },
   {
     quote:
@@ -30,6 +34,7 @@ const testimonials = [
     company: "NutriBox",
     initial: "AY",
     color: "bg-emerald-500/20 text-emerald-400",
+    accent: "border-emerald-500/20",
   },
   {
     quote:
@@ -39,77 +44,92 @@ const testimonials = [
     company: "BeautyLab TR",
     initial: "CS",
     color: "bg-violet-500/20 text-violet-400",
+    accent: "border-violet-500/20",
   },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const } },
-};
-
 export default function Testimonials() {
-  return (
-    <section className="py-28 px-4 sm:px-6 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/3 to-transparent pointer-events-none" />
+  const [active, setActive] = useState(0);
+  const [dir, setDir] = useState(1);
+  const [paused, setPaused] = useState(false);
 
-      <div className="max-w-6xl mx-auto relative">
+  function go(next: number) {
+    setDir(next > active ? 1 : -1);
+    setActive(next);
+  }
+
+  const advance = useCallback(() => {
+    const next = (active + 1) % testimonials.length;
+    setDir(1);
+    setActive(next);
+  }, [active]);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(advance, 4500);
+    return () => clearTimeout(t);
+  }, [advance, paused]);
+
+  const t = testimonials[active];
+
+  return (
+    <section
+      className="py-28 px-4 sm:px-6 relative overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/3 to-transparent pointer-events-none" />
+      {/* Gradient orb */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto relative">
+        {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">005/</p>
           <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
             Referanslar
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">
-            Müşterilerimiz Anlatıyor
+            <ScrambleText text="Müşterilerimiz Anlatıyor" duration={900} />
           </h2>
           <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base leading-relaxed">
             Başarı hikayelerini kendi sesleriyle duymak daha anlamlı.
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-5"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {testimonials.map((t) => (
+        {/* Rotating card */}
+        <div className="relative min-h-[240px] flex items-center">
+          <AnimatePresence mode="wait" custom={dir}>
             <motion.div
-              key={t.name}
-              variants={item}
-              className="group relative p-7 rounded-2xl border border-border bg-background hover:border-brand/25 hover:shadow-lg hover:shadow-brand/5 transition-all duration-300"
+              key={active}
+              custom={dir}
+              initial={{ opacity: 0, y: dir * 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: dir * -24 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className={`w-full p-8 md:p-10 rounded-2xl border bg-background ${t.accent}`}
             >
-              {/* Quote icon */}
-              <div className="absolute top-6 right-7 text-foreground/8">
-                <Quote size={40} />
-              </div>
-
               {/* Stars */}
-              <div className="flex gap-0.5 mb-4">
+              <div className="flex gap-0.5 mb-6">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} size={13} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
 
               {/* Quote */}
-              <p className="text-sm text-foreground/65 leading-relaxed mb-6 relative">
+              <p className="text-base md:text-lg text-foreground/70 leading-relaxed mb-8">
                 &ldquo;{t.quote}&rdquo;
               </p>
 
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${t.color}`}>
+                <div className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${t.color}`}>
                   {t.initial}
                 </div>
                 <div>
@@ -120,8 +140,44 @@ export default function Testimonials() {
                 </div>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center justify-between mt-6">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => { setPaused(true); go(active === 0 ? testimonials.length - 1 : active - 1); }}
+              className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={() => { setPaused(true); go((active + 1) % testimonials.length); }}
+              className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          {/* Position + progress dots */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-mono text-foreground/25">
+              {String(active + 1).padStart(2, "0")}/{String(testimonials.length).padStart(2, "0")}
+            </span>
+            <div className="flex gap-1.5">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setPaused(true); go(i); }}
+                  className={`h-1 rounded-full transition-all duration-300 ${
+                    i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

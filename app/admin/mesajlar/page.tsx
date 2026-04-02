@@ -67,7 +67,7 @@ export default function AdminMesajlarPage() {
             placeholder="Mesajınızı yazın..." required
             className="flex-1 px-3 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:border-brand/60 transition-colors" />
           <button type="submit" disabled={sending}
-            className="px-4 py-2.5 rounded-lg bg-brand text-white text-sm hover:bg-brand/90 disabled:opacity-50 transition-colors">
+            className="px-4 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm hover:bg-brand/90 disabled:opacity-50 transition-colors">
             <Send size={16} />
           </button>
         </div>

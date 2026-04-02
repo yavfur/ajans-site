@@ -24,7 +24,7 @@ export default function Error({
       <div className="flex gap-3">
         <button
           onClick={reset}
-          className="px-6 py-3 rounded-xl bg-brand text-white font-medium hover:bg-brand/90 transition-colors cursor-pointer"
+          className="px-6 py-3 rounded-xl bg-brand text-[#0b1a12] font-medium hover:bg-brand/90 transition-colors cursor-pointer"
         >
           Tekrar Dene
         </button>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown, TrendingUp, Target, MousePointerClick, ShoppingCart, ArrowRight } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 
 const metrics = [
   {
@@ -118,9 +119,9 @@ export default function KpiPage() {
             Metrikler
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mt-3 mb-4 leading-tight">
-            Reklam performansını{" "}
+            <ScrambleText text="Reklam performansını" delay={200} duration={700} trigger={true} />{" "}
             <span className="bg-gradient-to-r from-brand to-violet-400 bg-clip-text text-transparent">
-              nasıl ölçüyoruz?
+              <ScrambleText text="nasıl ölçüyoruz?" delay={450} duration={700} trigger={true} />
             </span>
           </h1>
           <p className="text-foreground/50 text-base leading-relaxed">
@@ -155,7 +156,7 @@ export default function KpiPage() {
           </p>
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-white text-sm font-semibold hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/30"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-[#0b1a12] text-sm font-semibold hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/30"
           >
             Markanızı Analiz Edelim
             <ArrowRight size={15} />

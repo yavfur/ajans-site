@@ -153,7 +153,7 @@ export default function Services() {
                   <p className="text-foreground/60 text-sm leading-relaxed mb-3">
                     Hangi paketi seçeceğinizden emin değil misiniz?
                   </p>
-                  <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-brand text-white text-sm font-medium group-hover:bg-brand/90 transition-colors cursor-pointer">
+                  <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium group-hover:bg-brand/90 transition-colors cursor-pointer">
                     Ücretsiz Danışmanlık Al
                   </span>
                 </div>

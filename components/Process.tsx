@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Database, Lightbulb, Rocket, BarChart2, RefreshCw } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 
 const steps = [
   {
@@ -59,11 +60,12 @@ export default function Process() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">002/</p>
           <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
             Sürecimiz
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            5 adımda büyüme sistemi
+            <ScrambleText text="5 adımda büyüme sistemi" duration={900} />
           </h2>
           <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm leading-relaxed">
             Her adımda ne yapıldığını bilirsiniz. Sürpriz yok, gecikme yok.

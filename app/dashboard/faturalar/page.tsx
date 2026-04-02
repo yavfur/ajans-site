@@ -54,7 +54,7 @@ export default function DashboardFaturalarPage() {
                 <div className="flex items-center gap-3">
                   <span className={`px-2.5 py-1 rounded-full border text-xs font-medium ${color}`}>{label}</span>
                   {inv.status === "PENDING" && (
-                    <button className="px-4 py-2 rounded-lg bg-brand text-white text-sm hover:bg-brand/90 transition-colors">
+                    <button className="px-4 py-2 rounded-lg bg-brand text-[#0b1a12] text-sm hover:bg-brand/90 transition-colors">
                       Öde
                     </button>
                   )}

@@ -84,7 +84,7 @@ export default function AdminFaturalarPage() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-foreground">Faturalar</h1>
         <button onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors">
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors">
           <Plus size={16} /> Fatura Oluştur
         </button>
       </div>
@@ -114,7 +114,7 @@ export default function AdminFaturalarPage() {
           </div>
           <div className="sm:col-span-2 flex gap-3">
             <button type="submit" disabled={submitting}
-              className="px-5 py-2.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
+              className="px-5 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
               {submitting ? "Oluşturuluyor..." : "Fatura Oluştur"}
             </button>
             <button type="button" onClick={() => setShowForm(false)}

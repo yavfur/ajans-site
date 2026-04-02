@@ -1,8 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import ScrambleText from "@/components/ScrambleText";
 
 const cases = [
   {
@@ -18,6 +20,7 @@ const cases = [
       { label: "Aylık Ciro Büyümesi", value: "%218" },
     ],
     accent: "from-rose-500/20 to-orange-500/5",
+    bar: "bg-rose-400",
     dot: "bg-rose-400",
   },
   {
@@ -33,6 +36,7 @@ const cases = [
       { label: "Ort. Sipariş Değeri", value: "+%67" },
     ],
     accent: "from-amber-500/20 to-yellow-500/5",
+    bar: "bg-amber-400",
     dot: "bg-amber-400",
   },
   {
@@ -48,99 +52,144 @@ const cases = [
       { label: "Müşteri Edinme Maliyeti", value: "₺28" },
     ],
     accent: "from-emerald-500/20 to-teal-500/5",
+    bar: "bg-emerald-400",
     dot: "bg-emerald-400",
   },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] as const } },
-};
-
 export default function CaseStudies() {
+  const [active, setActive] = useState(0);
+  const [dir, setDir] = useState(1);
+
+  function go(next: number) {
+    setDir(next > active ? 1 : -1);
+    setActive(next);
+  }
+
+  function prev() {
+    go(active === 0 ? cases.length - 1 : active - 1);
+  }
+
+  function next() {
+    go(active === cases.length - 1 ? 0 : active + 1);
+  }
+
+  const c = cases[active];
+
   return (
     <section className="py-28 px-4 sm:px-6 bg-muted/20 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent to-border" />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">004/</p>
           <span className="inline-flex items-center gap-1.5 mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
             <TrendingUp size={11} />
             Sonuçlarımız
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">
-            Rakamlarla Konuşuyoruz
+            <ScrambleText text="Rakamlarla Konuşuyoruz" duration={900} />
           </h2>
           <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base leading-relaxed">
             Her marka farklıdır. Yaklaşımımız her zaman veriye ve sonuca dayanır.
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-5"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {cases.map((c) => (
+        {/* Carousel */}
+        <div className="relative">
+          <AnimatePresence mode="wait" custom={dir}>
             <motion.div
-              key={c.brand}
-              variants={item}
-              className={`relative rounded-2xl border border-border bg-background overflow-hidden group hover:border-border/80 hover:-translate-y-1 transition-all duration-300 hover:shadow-xl`}
+              key={active}
+              custom={dir}
+              initial={{ opacity: 0, x: dir * 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: dir * -60 }}
+              transition={{ duration: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
+              className="relative rounded-2xl border border-border bg-background overflow-hidden"
             >
-              {/* Top gradient stripe */}
+              {/* Top gradient bar */}
               <div className={`h-1 w-full bg-gradient-to-r ${c.accent}`} />
 
-              <div className="p-7">
-                {/* Header */}
-                <div className="flex items-start justify-between gap-3 mb-5">
+              <div className="p-8 md:p-10">
+                <div className="grid md:grid-cols-2 gap-8 items-start">
+                  {/* Left */}
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`w-2 h-2 rounded-full ${c.dot}`} />
-                      <h3 className="text-base font-bold text-foreground">{c.brand}</h3>
+                      <h3 className="text-xl font-bold text-foreground">{c.brand}</h3>
                     </div>
-                    <p className="text-xs text-foreground/40">{c.sector}</p>
+                    <p className="text-xs text-foreground/40 mb-4">{c.sector}</p>
+
+                    <span className={`inline-block px-2.5 py-1 rounded-full border text-xs font-medium mb-5 ${c.tagColor}`}>
+                      {c.tag}
+                    </span>
+
+                    <p className="text-sm text-foreground/55 leading-relaxed mb-4 pb-4 border-b border-border">
+                      {c.challenge}
+                    </p>
+
+                    <p className="text-sm text-foreground/70 italic leading-relaxed">
+                      &ldquo;{c.result}&rdquo;
+                    </p>
                   </div>
-                  <span className={`shrink-0 px-2 py-1 rounded-full border text-xs font-medium ${c.tagColor}`}>
-                    {c.tag}
-                  </span>
+
+                  {/* Right: Metrics */}
+                  <div className="flex flex-col gap-4">
+                    {c.metrics.map((m) => (
+                      <div key={m.label} className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
+                        <span className="text-sm text-foreground/50">{m.label}</span>
+                        <span className="text-2xl font-bold text-foreground">{m.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
-                {/* Challenge */}
-                <p className="text-sm text-foreground/50 leading-relaxed mb-4 pb-4 border-b border-border">
-                  {c.challenge}
-                </p>
-
-                {/* Metrics */}
-                <div className="grid grid-cols-3 gap-3 mb-5">
-                  {c.metrics.map((m) => (
-                    <div key={m.label} className="text-center">
-                      <div className="text-lg font-bold text-foreground">{m.value}</div>
-                      <div className="text-[10px] text-foreground/40 leading-tight mt-0.5">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Result quote */}
-                <p className="text-xs text-foreground/60 italic leading-relaxed">
-                  &ldquo;{c.result}&rdquo;
-                </p>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
+          </AnimatePresence>
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between mt-6">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={prev}
+                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                onClick={next}
+                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+
+            {/* Position indicator — anima.ai style */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-mono text-foreground/25">
+                {String(active + 1).padStart(2, "0")}/{String(cases.length).padStart(2, "0")}
+              </span>
+              <div className="flex gap-1.5">
+                {cases.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => go(i)}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* CTA */}
         <motion.div
@@ -152,7 +201,7 @@ export default function CaseStudies() {
         >
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-[#0b1a12] font-semibold text-sm hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
           >
             Sizin Başarı Hikayenizi Yazalım
             <ArrowUpRight size={16} />

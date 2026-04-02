@@ -54,7 +54,7 @@ export default function AdminIletisimPage() {
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-foreground">{s.name}</h3>
                     {!s.isRead && (
-                      <span className="px-1.5 py-0.5 rounded-full bg-brand text-white text-xs font-medium">Yeni</span>
+                      <span className="px-1.5 py-0.5 rounded-full bg-brand text-[#0b1a12] text-xs font-medium">Yeni</span>
                     )}
                   </div>
                   <p className="text-xs text-foreground/40 mt-0.5">

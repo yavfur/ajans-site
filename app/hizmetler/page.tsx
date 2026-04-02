@@ -250,7 +250,7 @@ export default function HizmetlerPage() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
               {pkg.highlighted && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-brand text-white text-xs font-semibold shadow-lg shadow-brand/30">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-brand text-[#0b1a12] text-xs font-semibold shadow-lg shadow-brand/30">
                   En Popüler
                 </div>
               )}
@@ -283,7 +283,7 @@ export default function HizmetlerPage() {
                 href="/iletisim"
                 className={`inline-flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                   pkg.highlighted
-                    ? "bg-brand text-white hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/25"
+                    ? "bg-brand text-[#0b1a12] hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/25"
                     : "border border-border text-foreground/70 hover:border-brand/50 hover:text-brand"
                 }`}
               >
@@ -306,7 +306,7 @@ export default function HizmetlerPage() {
           </p>
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-all duration-200 hover:shadow-lg hover:shadow-brand/25 cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-all duration-200 hover:shadow-lg hover:shadow-brand/25 cursor-pointer"
           >
             Ücretsiz Danışmanlık Al
             <ArrowRight size={14} />

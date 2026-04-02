@@ -72,7 +72,7 @@ export default function AdminHizmetlerPage() {
         action={
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors cursor-pointer"
           >
             <Plus size={15} />
             Hizmet Ekle
@@ -120,7 +120,7 @@ export default function AdminHizmetlerPage() {
           </div>
           <div className="sm:col-span-3 flex gap-3">
             <button type="submit" disabled={submitting}
-              className="px-5 py-2.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
+              className="px-5 py-2.5 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors">
               {submitting ? "Oluşturuluyor..." : "Oluştur"}
             </button>
             <button type="button" onClick={() => setShowForm(false)}

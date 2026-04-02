@@ -131,7 +131,7 @@ export default function GirisPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-1 w-full py-3 rounded-xl bg-brand text-white font-semibold text-sm hover:bg-brand/90 disabled:opacity-60 transition-all duration-200 hover:shadow-lg hover:shadow-brand/25 flex items-center justify-center gap-2 cursor-pointer"
+            className="mt-1 w-full py-3 rounded-xl bg-brand text-[#0b1a12] font-semibold text-sm hover:bg-brand/90 disabled:opacity-60 transition-all duration-200 hover:shadow-lg hover:shadow-brand/25 flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <>

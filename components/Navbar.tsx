@@ -69,7 +69,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/iletisim"
-            className="inline-flex items-center px-4 py-2 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-all duration-200 hover:shadow-md hover:shadow-brand/30 cursor-pointer"
+            className="inline-flex items-center px-4 py-2 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-all duration-200 hover:shadow-md hover:shadow-brand/30 cursor-pointer"
           >
             Teklif Al
           </Link>
@@ -134,7 +134,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/iletisim"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Teklif Al

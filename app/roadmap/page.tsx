@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Database, FlaskConical, TrendingUp, RefreshCw, ArrowRight, CheckCircle } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 
 const phases = [
   {
@@ -67,9 +68,9 @@ export default function RoadmapPage() {
             Büyüme Yol Haritası
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mt-3 mb-4 leading-tight">
-            Büyüme{" "}
+            <ScrambleText text="Büyüme" delay={200} duration={600} trigger={true} />{" "}
             <span className="bg-gradient-to-r from-brand to-violet-400 bg-clip-text text-transparent">
-              Yol Haritamız
+              <ScrambleText text="Yol Haritamız" delay={400} duration={700} trigger={true} />
             </span>
           </h1>
           <p className="text-foreground/50 text-base leading-relaxed max-w-lg mx-auto">
@@ -138,7 +139,7 @@ export default function RoadmapPage() {
           <p className="text-foreground/50 text-sm mb-6">Ücretsiz görüşmede markanız için yol haritasını birlikte çizelim.</p>
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/30 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-[#0b1a12] font-semibold text-sm hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/30 hover:-translate-y-0.5"
           >
             Ücretsiz Analiz Al
             <ArrowRight size={15} />

@@ -47,7 +47,7 @@ export default function CtaSection() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-14">
             <Link
               href="/iletisim"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand text-[#0b1a12] font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
             >
               Ücretsiz Analiz Talep Et
               <ArrowRight size={16} />

@@ -86,7 +86,7 @@ export default function MusteriDuzenlePage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 py-3 rounded-lg bg-brand text-white font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors"
+          className="mt-2 py-3 rounded-lg bg-brand text-[#0b1a12] font-medium hover:bg-brand/90 disabled:opacity-50 transition-colors"
         >
           {loading ? "Kaydediliyor..." : "Değişiklikleri Kaydet"}
         </button>

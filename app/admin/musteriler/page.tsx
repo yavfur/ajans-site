@@ -62,7 +62,7 @@ export default function MusterilerPage() {
         action={
           <Link
             href="/admin/musteriler/yeni"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors cursor-pointer"
           >
             <Plus size={15} />
             Yeni Müşteri
