@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import PublicShell from "@/components/PublicShell";
 import Toaster from "@/components/Toaster";
 
 export const metadata: Metadata = {
@@ -42,9 +41,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark">
       <body className="min-h-screen antialiased flex flex-col">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+        <PublicShell>{children}</PublicShell>
         <Toaster />
       </body>
     </html>
