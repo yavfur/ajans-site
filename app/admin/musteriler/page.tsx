@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus, Pencil, Trash2, User2, Search } from "lucide-react";
 import PageHeader from "@/components/admin/PageHeader";
 import { SkeletonTable } from "@/components/LoadingSkeleton";
+import toast from "react-hot-toast";
 
 type ClientService = {
   id: string;
@@ -37,8 +38,13 @@ export default function MusterilerPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Bu müşteriyi silmek istediğinize emin misiniz?")) return;
-    await fetch(`/api/admin/musteriler/${id}`, { method: "DELETE" });
-    fetchClients();
+    const res = await fetch(`/api/admin/musteriler/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      toast.success("Müşteri silindi.");
+      fetchClients();
+    } else {
+      toast.error("Silme işlemi başarısız.");
+    }
   };
 
   const filtered = clients.filter(

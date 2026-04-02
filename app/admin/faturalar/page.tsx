@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Invoice = {
   id: string;
@@ -41,15 +42,20 @@ export default function AdminFaturalarPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    await fetch("/api/admin/faturalar", {
+    const res = await fetch("/api/admin/faturalar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
     setSubmitting(false);
-    setShowForm(false);
-    setForm({ userId: "", amount: "", description: "", dueDate: "" });
-    fetchInvoices();
+    if (res.ok) {
+      toast.success("Fatura oluşturuldu.");
+      setShowForm(false);
+      setForm({ userId: "", amount: "", description: "", dueDate: "" });
+      fetchInvoices();
+    } else {
+      toast.error("Fatura oluşturulamadı.");
+    }
   };
 
   return (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 import { Mail, Phone, Camera, Briefcase, AtSign, MessageCircle, CheckCircle, ChevronDown, Clock } from "lucide-react";
 
 const serviceOptions = [
@@ -65,6 +66,7 @@ export default function IletisimPage() {
     e.preventDefault();
     console.log({ ...form, services: selected });
     setSubmitted(true);
+    toast.success("Mesajınız alındı! En kısa sürede dönüş yapacağız.");
   };
 
   return (
