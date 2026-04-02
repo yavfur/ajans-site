@@ -19,14 +19,17 @@ const proof = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen overflow-hidden flex flex-col">
       <ShaderAnimation />
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
 
       {/* Radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-brand/15 blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      {/* Navbar spacer */}
+      <div className="h-[72px] shrink-0" />
+
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto w-full px-4 sm:px-6 text-center py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
