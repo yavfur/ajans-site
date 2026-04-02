@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum ServiceStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+enum BillingType {
+  MONTHLY
+  ONE_TIME
+}
+
+enum ContentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(CLIENT)
+  phone     String?
+  company   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  clientServices ClientService[]
+  invoices       Invoice[]
+  sentMessages   Message[]       @relation("SentMessages")
+  receivedMessages Message[]     @relation("ReceivedMessages")
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  isActive    Boolean @default(true)
+
+  clientServices ClientService[]
+}
+
+model ClientService {
+  id          String        @id @default(cuid())
+  userId      String
+  serviceId   String
+  status      ServiceStatus @default(ACTIVE)
+  startDate   DateTime      @default(now())
+  price       Float
+  billingType BillingType   @default(MONTHLY)
+
+  user     User      @relation(fields: [userId], references: [id])
+  service  Service   @relation(fields: [serviceId], references: [id])
+  contents Content[]
+}
+
+model Content {
+  id              String        @id @default(cuid())
+  clientServiceId String
+  title           String
+  description     String?
+  files           String[]
+  status          ContentStatus @default(PENDING)
+  feedback        String?
+  createdAt       DateTime      @default(now())
+
+  clientService ClientService @relation(fields: [clientServiceId], references: [id])
+}
+
+model Invoice {
+  id               String        @id @default(cuid())
+  userId           String
+  amount           Float
+  description      String?
+  status           InvoiceStatus @default(PENDING)
+  dueDate          DateTime
+  paidAt           DateTime?
+  iyzicoPaymentId  String?
+  createdAt        DateTime      @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  content    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  from User @relation("SentMessages", fields: [fromUserId], references: [id])
+  to   User @relation("ReceivedMessages", fields: [toUserId], references: [id])
+}
