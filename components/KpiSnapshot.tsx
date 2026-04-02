@@ -35,9 +35,9 @@ const kpis = [
     desc: "Reklamın dikkat çekme oranı",
     value: "3.8%",
     sub: "Sektör ort. 1.2%",
-    color: "text-violet-400",
-    bg: "bg-violet-500/10 border-violet-500/20",
-    glow: "bg-violet-500/5",
+    color: "text-brand",
+    bg: "bg-brand/10 border-brand/20",
+    glow: "bg-brand/5",
   },
   {
     icon: ShoppingCart,
@@ -46,9 +46,9 @@ const kpis = [
     desc: "Ziyaretçinin müşteriye dönüşme oranı",
     value: "%4.1",
     sub: "Sektör ort. %1.8",
-    color: "text-amber-400",
-    bg: "bg-amber-500/10 border-amber-500/20",
-    glow: "bg-amber-500/5",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10 border-emerald-500/20",
+    glow: "bg-emerald-500/5",
   },
 ];
 
@@ -63,9 +63,7 @@ const item = {
 
 export default function KpiSnapshot() {
   return (
-    <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent to-border" />
-
+    <section className="py-24 px-4 sm:px-6 relative overflow-hidden border-t border-border/20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           className="text-center mb-12"
@@ -81,7 +79,7 @@ export default function KpiSnapshot() {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
             <ScrambleText text="Performansınızı sayılarla yönetin" duration={900} />
           </h2>
-          <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm leading-relaxed">
+          <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm font-light leading-relaxed">
             Reklam bütçenizin gerçekte ne kadar çalıştığını 4 temel metrikle ölçüyoruz.
           </p>
         </motion.div>
@@ -108,7 +106,7 @@ export default function KpiSnapshot() {
                   </div>
                   <p className="text-xs text-foreground/40 font-medium mb-0.5">{k.label}</p>
                   <h3 className="text-sm font-semibold text-foreground mb-1">{k.title}</h3>
-                  <p className="text-xs text-foreground/50 mb-4 leading-relaxed">{k.desc}</p>
+                  <p className="text-xs text-foreground/50 font-light mb-4 leading-relaxed">{k.desc}</p>
                   <div className={`text-3xl font-bold tracking-tight ${k.color}`}>{k.value}</div>
                   <p className="text-xs text-foreground/30 mt-1">{k.sub}</p>
                 </div>

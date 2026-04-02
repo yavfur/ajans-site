@@ -11,7 +11,7 @@ const cases = [
     brand: "Lumière Skin",
     sector: "Kozmetik & Cilt Bakımı",
     tag: "Paid Advertising + Content",
-    tagColor: "text-rose-400 bg-rose-500/10 border-rose-500/20",
+    tagColor: "text-brand bg-brand/10 border-brand/20",
     challenge: "Yüksek CPA ve düşük ROAS ile boğuşan bir kozmetik markası.",
     result: "6 ayda Meta Ads ROAS'ını 1.8x'den 6.4x'e çıkardık.",
     metrics: [
@@ -19,15 +19,15 @@ const cases = [
       { label: "CPA Düşüşü", value: "%54" },
       { label: "Aylık Ciro Büyümesi", value: "%218" },
     ],
-    accent: "from-rose-500/20 to-orange-500/5",
-    bar: "bg-rose-400",
-    dot: "bg-rose-400",
+    accent: "from-brand/20 to-brand/5",
+    bar: "bg-brand",
+    dot: "bg-brand",
   },
   {
     brand: "StepUp Ayakkabı",
     sector: "Moda & E-ticaret",
     tag: "Shopify + Marketplace",
-    tagColor: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    tagColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
     challenge: "Trendyol'da görünürlük sorunu ve yüksek iade oranı.",
     result: "Trendyol'da kategori liderliğine ulaştık, iade oranı %38 düştü.",
     metrics: [
@@ -35,15 +35,15 @@ const cases = [
       { label: "İade Oranı Düşüşü", value: "%38" },
       { label: "Ort. Sipariş Değeri", value: "+%67" },
     ],
-    accent: "from-amber-500/20 to-yellow-500/5",
-    bar: "bg-amber-400",
-    dot: "bg-amber-400",
+    accent: "from-emerald-500/20 to-emerald-500/5",
+    bar: "bg-emerald-400",
+    dot: "bg-emerald-400",
   },
   {
     brand: "NutriBox",
     sector: "Sağlık & Gıda",
     tag: "Sosyal Medya + Ads",
-    tagColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    tagColor: "text-brand bg-brand/10 border-brand/20",
     challenge: "Sıfırdan marka bilinirliği oluşturmak ve subscription modelini büyütmek.",
     result: "İlk 4 ayda 12.000 aktif aboneye ulaştık.",
     metrics: [
@@ -51,9 +51,9 @@ const cases = [
       { label: "Instagram Büyümesi", value: "%840" },
       { label: "Müşteri Edinme Maliyeti", value: "₺28" },
     ],
-    accent: "from-emerald-500/20 to-teal-500/5",
-    bar: "bg-emerald-400",
-    dot: "bg-emerald-400",
+    accent: "from-brand/15 to-emerald-500/5",
+    bar: "bg-brand",
+    dot: "bg-brand",
   },
 ];
 
@@ -66,21 +66,15 @@ export default function CaseStudies() {
     setActive(next);
   }
 
-  function prev() {
-    go(active === 0 ? cases.length - 1 : active - 1);
-  }
-
-  function next() {
-    go(active === cases.length - 1 ? 0 : active + 1);
-  }
-
   const c = cases[active];
 
   return (
-    <section className="py-28 px-4 sm:px-6 bg-muted/20 relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 relative overflow-hidden border-t border-border/20">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent to-border" />
+      {/* Subtle alt bg */}
+      <div className="absolute inset-0 bg-[#0d2018]/40 pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="relative max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           className="text-center mb-14"
@@ -97,7 +91,7 @@ export default function CaseStudies() {
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">
             <ScrambleText text="Rakamlarla Konuşuyoruz" duration={900} />
           </h2>
-          <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base leading-relaxed">
+          <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base font-light leading-relaxed">
             Her marka farklıdır. Yaklaşımımız her zaman veriye ve sonuca dayanır.
           </p>
         </motion.div>
@@ -114,24 +108,22 @@ export default function CaseStudies() {
               transition={{ duration: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
               className="relative rounded-2xl border border-border bg-background overflow-hidden"
             >
-              {/* Top gradient bar */}
               <div className={`h-1 w-full bg-gradient-to-r ${c.accent}`} />
 
               <div className="p-8 md:p-10">
                 <div className="grid md:grid-cols-2 gap-8 items-start">
-                  {/* Left */}
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`w-2 h-2 rounded-full ${c.dot}`} />
                       <h3 className="text-xl font-bold text-foreground">{c.brand}</h3>
                     </div>
-                    <p className="text-xs text-foreground/40 mb-4">{c.sector}</p>
+                    <p className="text-xs text-foreground/40 font-light mb-4">{c.sector}</p>
 
                     <span className={`inline-block px-2.5 py-1 rounded-full border text-xs font-medium mb-5 ${c.tagColor}`}>
                       {c.tag}
                     </span>
 
-                    <p className="text-sm text-foreground/55 leading-relaxed mb-4 pb-4 border-b border-border">
+                    <p className="text-sm text-foreground/55 font-light leading-relaxed mb-4 pb-4 border-b border-border">
                       {c.challenge}
                     </p>
 
@@ -140,11 +132,10 @@ export default function CaseStudies() {
                     </p>
                   </div>
 
-                  {/* Right: Metrics */}
                   <div className="flex flex-col gap-4">
                     {c.metrics.map((m) => (
                       <div key={m.label} className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
-                        <span className="text-sm text-foreground/50">{m.label}</span>
+                        <span className="text-sm text-foreground/50 font-light">{m.label}</span>
                         <span className="text-2xl font-bold text-foreground">{m.value}</span>
                       </div>
                     ))}
@@ -154,24 +145,22 @@ export default function CaseStudies() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation */}
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center gap-3">
               <button
-                onClick={prev}
+                onClick={() => go(active === 0 ? cases.length - 1 : active - 1)}
                 className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
               >
                 <ChevronLeft size={18} />
               </button>
               <button
-                onClick={next}
+                onClick={() => go(active === cases.length - 1 ? 0 : active + 1)}
                 className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
               >
                 <ChevronRight size={18} />
               </button>
             </div>
 
-            {/* Position indicator — anima.ai style */}
             <div className="flex items-center gap-3">
               <span className="text-sm font-mono text-foreground/25">
                 {String(active + 1).padStart(2, "0")}/{String(cases.length).padStart(2, "0")}
@@ -181,9 +170,7 @@ export default function CaseStudies() {
                   <button
                     key={i}
                     onClick={() => go(i)}
-                    className={`h-1 rounded-full transition-all duration-300 ${
-                      i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"
-                    }`}
+                    className={`h-1 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"}`}
                   />
                 ))}
               </div>
@@ -191,7 +178,6 @@ export default function CaseStudies() {
           </div>
         </div>
 
-        {/* CTA */}
         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 16 }}

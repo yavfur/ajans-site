@@ -7,44 +7,40 @@ import ScrambleText from "@/components/ScrambleText";
 
 const testimonials = [
   {
-    quote:
-      "Daha önce 3 ajansla çalıştık, hepsi vaat verdi ama sonuç yoktu. Burada ilk aydan itibaren ROAS'ımız ikiye katlandı. Artık reklam bütçemizi güvenle artırabiliyoruz.",
+    quote: "Daha önce 3 ajansla çalıştık, hepsi vaat verdi ama sonuç yoktu. Burada ilk aydan itibaren ROAS'ımız ikiye katlandı. Artık reklam bütçemizi güvenle artırabiliyoruz.",
     name: "Selin Korkmaz",
     title: "Kurucu",
     company: "Lumière Skin",
     initial: "SK",
-    color: "bg-rose-500/20 text-rose-400",
-    accent: "border-rose-500/20",
+    color: "bg-brand/15 text-brand",
+    accent: "border-brand/20",
   },
   {
-    quote:
-      "Trendyol'da satışlarımız durma noktasına gelmişti. Ürün listelememizi ve kampanyalarımızı yeniden yapılandırdılar. 3 ayda ciromuz üç katına çıktı. Beklentilerimin çok ötesinde.",
+    quote: "Trendyol'da satışlarımız durma noktasına gelmişti. Ürün listelememizi ve kampanyalarımızı yeniden yapılandırdılar. 3 ayda ciromuz üç katına çıktı. Beklentilerimin çok ötesinde.",
     name: "Murat Demir",
     title: "E-ticaret Müdürü",
     company: "StepUp Ayakkabı",
     initial: "MD",
-    color: "bg-amber-500/20 text-amber-400",
-    accent: "border-amber-500/20",
-  },
-  {
-    quote:
-      "Haftalık raporlar gerçekten değerli — ne yaptıklarını, neden yaptıklarını her zaman açıklıyorlar. 'Ajansımıza güveniyoruz' diyebilmek için yıllar gerekti, bu ekiple birkaç ay yetti.",
-    name: "Ayşe Yıldız",
-    title: "CEO",
-    company: "NutriBox",
-    initial: "AY",
     color: "bg-emerald-500/20 text-emerald-400",
     accent: "border-emerald-500/20",
   },
   {
-    quote:
-      "Instagram hesabımız 6 ayda 4.000'den 38.000 takipçiye çıktı. Ama asıl etkileyici olan: bu büyüme satışa dönüştü. Influencer ortaklıklarını da çok iyi yönettiler.",
+    quote: "Haftalık raporlar gerçekten değerli — ne yaptıklarını, neden yaptıklarını her zaman açıklıyorlar. 'Ajansımıza güveniyoruz' diyebilmek için yıllar gerekti, bu ekiple birkaç ay yetti.",
+    name: "Ayşe Yıldız",
+    title: "CEO",
+    company: "NutriBox",
+    initial: "AY",
+    color: "bg-brand/15 text-brand",
+    accent: "border-brand/20",
+  },
+  {
+    quote: "Instagram hesabımız 6 ayda 4.000'den 38.000 takipçiye çıktı. Ama asıl etkileyici olan: bu büyüme satışa dönüştü. Influencer ortaklıklarını da çok iyi yönettiler.",
     name: "Caner Şahin",
     title: "Marka Direktörü",
     company: "BeautyLab TR",
     initial: "CS",
-    color: "bg-violet-500/20 text-violet-400",
-    accent: "border-violet-500/20",
+    color: "bg-emerald-500/20 text-emerald-400",
+    accent: "border-emerald-500/20",
   },
 ];
 
@@ -74,16 +70,14 @@ export default function Testimonials() {
 
   return (
     <section
-      className="py-28 px-4 sm:px-6 relative overflow-hidden"
+      className="py-28 px-4 sm:px-6 relative overflow-hidden border-t border-border/20"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/3 to-transparent pointer-events-none" />
-      {/* Gradient orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-3xl mx-auto relative">
-        {/* Header */}
         <motion.div
           className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
@@ -98,12 +92,11 @@ export default function Testimonials() {
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">
             <ScrambleText text="Müşterilerimiz Anlatıyor" duration={900} />
           </h2>
-          <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base leading-relaxed">
+          <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base font-light leading-relaxed">
             Başarı hikayelerini kendi sesleriyle duymak daha anlamlı.
           </p>
         </motion.div>
 
-        {/* Rotating card */}
         <div className="relative min-h-[240px] flex items-center">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div
@@ -115,26 +108,23 @@ export default function Testimonials() {
               transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
               className={`w-full p-8 md:p-10 rounded-2xl border bg-background ${t.accent}`}
             >
-              {/* Stars */}
               <div className="flex gap-0.5 mb-6">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={13} className="fill-amber-400 text-amber-400" />
+                  <Star key={i} size={13} className="fill-brand text-brand" />
                 ))}
               </div>
 
-              {/* Quote */}
-              <p className="text-base md:text-lg text-foreground/70 leading-relaxed mb-8">
+              <p className="text-base md:text-lg text-foreground/70 font-light leading-relaxed mb-8">
                 &ldquo;{t.quote}&rdquo;
               </p>
 
-              {/* Author */}
               <div className="flex items-center gap-3">
                 <div className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${t.color}`}>
                   {t.initial}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                  <p className="text-xs text-foreground/40">
+                  <p className="text-xs text-foreground/40 font-light">
                     {t.title} · {t.company}
                   </p>
                 </div>
@@ -143,7 +133,6 @@ export default function Testimonials() {
           </AnimatePresence>
         </div>
 
-        {/* Controls */}
         <div className="flex items-center justify-between mt-6">
           <div className="flex items-center gap-3">
             <button
@@ -160,7 +149,6 @@ export default function Testimonials() {
             </button>
           </div>
 
-          {/* Position + progress dots */}
           <div className="flex items-center gap-3">
             <span className="text-sm font-mono text-foreground/25">
               {String(active + 1).padStart(2, "0")}/{String(testimonials.length).padStart(2, "0")}
@@ -170,9 +158,7 @@ export default function Testimonials() {
                 <button
                   key={i}
                   onClick={() => { setPaused(true); go(i); }}
-                  className={`h-1 rounded-full transition-all duration-300 ${
-                    i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"
-                  }`}
+                  className={`h-1 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"}`}
                 />
               ))}
             </div>

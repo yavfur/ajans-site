@@ -40,7 +40,7 @@ export default function DataPositioning() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">
               <ScrambleText text="Her karar" duration={700} />{" "}
-              <span className="bg-gradient-to-r from-brand to-violet-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand to-emerald-400 bg-clip-text text-transparent">
                 <ScrambleText text="veriye dayanır" delay={200} duration={800} />
               </span>
             </h2>
