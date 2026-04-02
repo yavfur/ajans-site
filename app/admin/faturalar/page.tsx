@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Trash2, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import toast from "react-hot-toast";
 
 type Invoice = {
@@ -17,9 +17,9 @@ type Invoice = {
 type Client = { id: string; name: string };
 
 const statusConfig = {
-  PENDING: { label: "Bekliyor", color: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20" },
-  PAID: { label: "Ödendi", color: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" },
-  OVERDUE: { label: "Gecikmiş", color: "text-red-400 bg-red-400/10 border-red-400/20" },
+  PENDING: { label: "Bekliyor", color: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20", icon: Clock },
+  PAID: { label: "Ödendi", color: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle },
+  OVERDUE: { label: "Gecikmiş", color: "text-red-400 bg-red-400/10 border-red-400/20", icon: AlertCircle },
 };
 
 export default function AdminFaturalarPage() {
@@ -55,6 +55,27 @@ export default function AdminFaturalarPage() {
       fetchInvoices();
     } else {
       toast.error("Fatura oluşturulamadı.");
+    }
+  };
+
+  const handleStatusChange = async (id: string, status: string) => {
+    const res = await fetch(`/api/admin/faturalar/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (res.ok) {
+      toast.success("Fatura durumu güncellendi.");
+      fetchInvoices();
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Bu faturayı silmek istediğinize emin misiniz?")) return;
+    const res = await fetch(`/api/admin/faturalar/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      toast.success("Fatura silindi.");
+      fetchInvoices();
     }
   };
 
@@ -108,16 +129,16 @@ export default function AdminFaturalarPage() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-background/50">
-              {["Müşteri", "Tutar", "Açıklama", "Son Tarih", "Durum"].map((h) => (
+              {["Müşteri", "Tutar", "Açıklama", "Son Tarih", "Durum", ""].map((h) => (
                 <th key={h} className="text-left px-5 py-3.5 text-foreground/50 font-medium">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {invoices.length === 0 ? (
-              <tr><td colSpan={5} className="text-center py-10 text-foreground/30 text-sm">Fatura bulunamadı.</td></tr>
+              <tr><td colSpan={6} className="text-center py-10 text-foreground/30 text-sm">Fatura bulunamadı.</td></tr>
             ) : invoices.map((inv) => {
-              const { label, color } = statusConfig[inv.status];
+              const { label, color, icon: Icon } = statusConfig[inv.status];
               return (
                 <tr key={inv.id} className="border-b border-border last:border-0 hover:bg-background/30 transition-colors">
                   <td className="px-5 py-4 font-medium text-foreground">{inv.user.name}</td>
@@ -125,7 +146,38 @@ export default function AdminFaturalarPage() {
                   <td className="px-5 py-4 text-foreground/60">{inv.description ?? "-"}</td>
                   <td className="px-5 py-4 text-foreground/60">{new Date(inv.dueDate).toLocaleDateString("tr-TR")}</td>
                   <td className="px-5 py-4">
-                    <span className={`px-2.5 py-1 rounded-full border text-xs font-medium ${color}`}>{label}</span>
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium ${color}`}>
+                      <Icon size={11} />
+                      {label}
+                    </span>
+                  </td>
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-1 justify-end">
+                      {inv.status !== "PAID" && (
+                        <button
+                          onClick={() => handleStatusChange(inv.id, "PAID")}
+                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-medium hover:bg-emerald-500/20 transition-colors"
+                          title="Ödendi olarak işaretle"
+                        >
+                          Ödendi
+                        </button>
+                      )}
+                      {inv.status === "PENDING" && (
+                        <button
+                          onClick={() => handleStatusChange(inv.id, "OVERDUE")}
+                          className="px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-medium hover:bg-red-500/20 transition-colors"
+                          title="Gecikmiş olarak işaretle"
+                        >
+                          Gecikmiş
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(inv.id)}
+                        className="p-1.5 rounded-lg text-foreground/30 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

@@ -10,14 +10,18 @@ import {
   Receipt,
   MessageSquare,
   LogOut,
+  Layers,
+  Inbox,
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/musteriler", label: "Müşteriler", icon: Users },
+  { href: "/admin/hizmetler", label: "Hizmetler", icon: Layers },
   { href: "/admin/icerikler", label: "İçerikler", icon: FileText },
   { href: "/admin/faturalar", label: "Faturalar", icon: Receipt },
   { href: "/admin/mesajlar", label: "Mesajlar", icon: MessageSquare },
+  { href: "/admin/iletisim", label: "İletişim Talepleri", icon: Inbox },
 ];
 
 export default function AdminSidebar({ user }: { user: { name?: string | null } }) {

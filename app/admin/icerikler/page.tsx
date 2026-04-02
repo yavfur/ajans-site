@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Clock, CheckCircle, XCircle, Filter } from "lucide-react";
+import { Plus, Clock, CheckCircle, XCircle, Filter, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Content = {
   id: string;
   title: string;
   description: string | null;
   status: "PENDING" | "APPROVED" | "REJECTED";
+  feedback: string | null;
   createdAt: string;
   files: string[];
   clientService: {
@@ -34,6 +36,8 @@ export default function IceriklerPage() {
   const [clientServices, setClientServices] = useState<{ id: string; label: string }[]>([]);
   const [form, setForm] = useState({ clientServiceId: "", title: "", description: "", files: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [rejectId, setRejectId] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState("");
 
   const fetchContents = async () => {
     const params = new URLSearchParams();
@@ -50,6 +54,7 @@ export default function IceriklerPage() {
 
   useEffect(() => {
     fetchContents();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterUser, filterStatus]);
 
   const loadClientServices = async (userId: string) => {
@@ -68,15 +73,56 @@ export default function IceriklerPage() {
     e.preventDefault();
     setSubmitting(true);
     const files = form.files ? form.files.split(",").map((f) => f.trim()).filter(Boolean) : [];
-    await fetch("/api/admin/icerikler", {
+    const res = await fetch("/api/admin/icerikler", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, files }),
     });
     setSubmitting(false);
-    setShowForm(false);
-    setForm({ clientServiceId: "", title: "", description: "", files: "" });
-    fetchContents();
+    if (res.ok) {
+      toast.success("İçerik müşteriye sunuldu.");
+      setShowForm(false);
+      setForm({ clientServiceId: "", title: "", description: "", files: "" });
+      fetchContents();
+    } else {
+      toast.error("İçerik oluşturulamadı.");
+    }
+  };
+
+  const handleApprove = async (id: string) => {
+    const res = await fetch(`/api/admin/icerikler/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "APPROVED" }),
+    });
+    if (res.ok) {
+      toast.success("İçerik onaylandı.");
+      fetchContents();
+    }
+  };
+
+  const handleReject = async () => {
+    if (!rejectId) return;
+    const res = await fetch(`/api/admin/icerikler/${rejectId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "REJECTED", feedback }),
+    });
+    if (res.ok) {
+      toast.success("İçerik reddedildi.");
+      setRejectId(null);
+      setFeedback("");
+      fetchContents();
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Bu içeriği silmek istediğinize emin misiniz?")) return;
+    const res = await fetch(`/api/admin/icerikler/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      toast.success("İçerik silindi.");
+      fetchContents();
+    }
   };
 
   return (
@@ -132,7 +178,7 @@ export default function IceriklerPage() {
               className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground text-sm focus:outline-none focus:border-brand/60 transition-colors resize-none" />
           </div>
           <div>
-            <label className="block text-xs text-foreground/50 mb-1.5">Dosya URL'leri (virgülle ayırın)</label>
+            <label className="block text-xs text-foreground/50 mb-1.5">Dosya URL&apos;leri (virgülle ayırın)</label>
             <input value={form.files} onChange={(e) => setForm({ ...form, files: e.target.value })} placeholder="https://..."
               className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground text-sm focus:outline-none focus:border-brand/60 transition-colors" />
           </div>
@@ -147,6 +193,33 @@ export default function IceriklerPage() {
             </button>
           </div>
         </form>
+      )}
+
+      {/* Reddet Modal */}
+      {rejectId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-background border border-border rounded-2xl p-6 w-full max-w-md mx-4">
+            <h3 className="text-base font-semibold text-foreground mb-3">İçeriği Reddet</h3>
+            <p className="text-xs text-foreground/50 mb-3">Müşteriye gönderilecek geri bildirim (isteğe bağlı):</p>
+            <textarea
+              rows={3}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Revizyon açıklaması..."
+              className="w-full px-3 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:border-red-500/60 resize-none transition-colors"
+            />
+            <div className="flex gap-3 mt-4">
+              <button onClick={handleReject}
+                className="flex-1 py-2.5 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors">
+                Reddet
+              </button>
+              <button onClick={() => { setRejectId(null); setFeedback(""); }}
+                className="flex-1 py-2.5 rounded-lg border border-border text-foreground/60 text-sm hover:text-foreground transition-colors">
+                Vazgeç
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Filtreler */}
@@ -178,25 +251,58 @@ export default function IceriklerPage() {
           {contents.map((content) => {
             const { label, icon: Icon, color } = statusConfig[content.status];
             return (
-              <div key={content.id} className="p-5 rounded-xl border border-border bg-background flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs text-foreground/40 bg-muted px-2 py-0.5 rounded-full">
-                      {content.clientService.user.name} · {content.clientService.service.name}
+              <div key={content.id} className="p-5 rounded-xl border border-border bg-background">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-xs text-foreground/40 bg-muted px-2 py-0.5 rounded-full">
+                        {content.clientService.user.name} · {content.clientService.service.name}
+                      </span>
+                    </div>
+                    <p className="font-medium text-foreground text-sm">{content.title}</p>
+                    {content.description && (
+                      <p className="text-xs text-foreground/50 mt-1">{content.description}</p>
+                    )}
+                    {content.feedback && (
+                      <p className="text-xs text-red-400/70 mt-1.5 italic">Geri bildirim: {content.feedback}</p>
+                    )}
+                    <p className="text-xs text-foreground/30 mt-2">
+                      {new Date(content.createdAt).toLocaleDateString("tr-TR")}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium ${color}`}>
+                      <Icon size={12} />
+                      {label}
                     </span>
                   </div>
-                  <p className="font-medium text-foreground text-sm">{content.title}</p>
-                  {content.description && (
-                    <p className="text-xs text-foreground/50 mt-1 truncate">{content.description}</p>
-                  )}
-                  <p className="text-xs text-foreground/30 mt-2">
-                    {new Date(content.createdAt).toLocaleDateString("tr-TR")}
-                  </p>
                 </div>
-                <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium shrink-0 ${color}`}>
-                  <Icon size={12} />
-                  {label}
-                </span>
+
+                {/* Aksiyon Butonları */}
+                {content.status === "PENDING" && (
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-border">
+                    <button onClick={() => handleApprove(content.id)}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-medium hover:bg-emerald-500/20 transition-colors">
+                      <CheckCircle size={13} /> Onayla
+                    </button>
+                    <button onClick={() => setRejectId(content.id)}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-medium hover:bg-red-500/20 transition-colors">
+                      <XCircle size={13} /> Reddet
+                    </button>
+                    <button onClick={() => handleDelete(content.id)}
+                      className="ml-auto p-2 rounded-lg text-foreground/30 hover:text-red-400 hover:bg-red-500/10 transition-all">
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                )}
+                {content.status !== "PENDING" && (
+                  <div className="flex justify-end mt-3">
+                    <button onClick={() => handleDelete(content.id)}
+                      className="p-2 rounded-lg text-foreground/25 hover:text-red-400 hover:bg-red-500/10 transition-all">
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

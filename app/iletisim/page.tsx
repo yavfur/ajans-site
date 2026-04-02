@@ -62,11 +62,19 @@ export default function IletisimPage() {
       prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
     );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ ...form, services: selected });
-    setSubmitted(true);
-    toast.success("Mesajınız alındı! En kısa sürede dönüş yapacağız.");
+    const res = await fetch("/api/iletisim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, services: selected }),
+    });
+    if (res.ok) {
+      setSubmitted(true);
+      toast.success("Mesajınız alındı! En kısa sürede dönüş yapacağız.");
+    } else {
+      toast.error("Gönderim sırasında bir hata oluştu.");
+    }
   };
 
   return (

@@ -114,3 +114,17 @@ model Message {
   from User @relation("SentMessages", fields: [fromUserId], references: [id])
   to   User @relation("ReceivedMessages", fields: [toUserId], references: [id])
 }
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  company   String
+  email     String
+  phone     String?
+  website   String?
+  services  String[]
+  budget    String?
+  message   String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
