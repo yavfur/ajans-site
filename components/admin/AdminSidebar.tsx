@@ -24,21 +24,31 @@ const navItems = [
   { href: "/admin/iletisim", label: "İletişim Talepleri", icon: Inbox },
 ];
 
-export default function AdminSidebar({ user }: { user: { name?: string | null } }) {
+export default function AdminSidebar({
+  user,
+  onClose,
+}: {
+  user: { name?: string | null };
+  onClose?: () => void;
+}) {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-background border-r border-border flex flex-col z-40">
+    <aside className="h-full w-60 bg-background border-r border-border flex flex-col">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-border">
-        <Link href="/admin" className="text-base font-bold text-foreground tracking-tight">
+        <Link
+          href="/admin"
+          onClick={onClose}
+          className="text-base font-bold text-foreground tracking-tight"
+        >
           Ajans<span className="text-brand">.</span>
           <span className="text-xs font-normal text-foreground/35 ml-2">Admin</span>
         </Link>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-3 flex flex-col gap-0.5">
+      <nav className="flex-1 px-2 py-3 flex flex-col gap-0.5 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active =
             href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
@@ -46,6 +56,7 @@ export default function AdminSidebar({ user }: { user: { name?: string | null } 
             <Link
               key={href}
               href={href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer ${
                 active
                   ? "bg-brand/10 text-brand font-medium"

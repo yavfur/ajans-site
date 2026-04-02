@@ -10,9 +10,11 @@ type Service = { id: string; name: string; icon: string };
 export default function DashboardSidebar({
   user,
   services,
+  onClose,
 }: {
   user: { name?: string | null };
   services: Service[];
+  onClose?: () => void;
 }) {
   const pathname = usePathname();
 
@@ -28,9 +30,9 @@ export default function DashboardSidebar({
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-background border-r border-border flex flex-col z-40">
+    <aside className="h-full w-60 bg-background border-r border-border flex flex-col">
       <div className="px-5 py-5 border-b border-border">
-        <Link href="/dashboard" className="text-base font-bold text-foreground tracking-tight">
+        <Link href="/dashboard" onClick={onClose} className="text-base font-bold text-foreground tracking-tight">
           Ajans<span className="text-brand">.</span>
           <span className="text-xs font-normal text-foreground/35 ml-2">Panel</span>
         </Link>
@@ -40,6 +42,7 @@ export default function DashboardSidebar({
         {/* Genel Bakış */}
         <Link
           href="/dashboard"
+          onClick={onClose}
           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer ${
             pathname === "/dashboard"
               ? "bg-brand/10 text-brand font-medium"
@@ -63,6 +66,7 @@ export default function DashboardSidebar({
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={onClose}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer ${
                     active
                       ? "bg-brand/10 text-brand font-medium"
@@ -88,6 +92,7 @@ export default function DashboardSidebar({
             <Link
               key={link.href}
               href={link.href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer ${
                 active
                   ? "bg-brand/10 text-brand font-medium"

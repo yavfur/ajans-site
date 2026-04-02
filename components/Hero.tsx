@@ -2,13 +2,19 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, CheckCircle } from "lucide-react";
 import { ShaderAnimation } from "@/components/ShaderAnimation";
 
 const stats = [
-  { value: "50+", label: "Mutlu Marka" },
+  { value: "50+", label: "Büyüyen Marka" },
   { value: "₺10M+", label: "Yönetilen Ad Spend" },
-  { value: "%340", label: "Ort. ROAS Artışı" },
+  { value: "6.4x", label: "En Yüksek ROAS" },
+];
+
+const proof = [
+  "İlk görüşme ücretsiz",
+  "Sözleşmesiz başlangıç",
+  "Haftalık raporlama",
 ];
 
 export default function Hero() {
@@ -28,7 +34,7 @@ export default function Hero() {
         >
           <span className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-            E-ticaret Odaklı Dijital Pazarlama
+            Türkiye&apos;nin E-ticaret Odaklı Büyüme Ajansı
           </span>
         </motion.div>
 
@@ -38,25 +44,39 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
         >
-          <span className="text-white">E-ticaret Markanız İçin</span>
+          <span className="text-white">Reklam Değil,</span>
           <br />
           <span className="bg-gradient-to-r from-brand via-violet-400 to-brand/70 bg-clip-text text-transparent">
-            360° Dijital
+            Gerçek Büyüme
           </span>
           <br />
-          <span className="text-white/90">Büyüme</span>
+          <span className="text-white/90">Sağlıyoruz</span>
         </motion.h1>
 
         <motion.p
-          className="text-white/55 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-white/55 text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
         >
-          ROI odaklı, veri destekli stratejilerle markanızı büyütüyoruz.
-          Meta & Google Ads'den Shopify geliştirmeye, içerik üretiminden
-          marketplace yönetimine kadar tek çatı altında.
+          Meta & Google Ads'den Shopify geliştirmeye, marketplace yönetiminden
+          içerik üretimine kadar — e-ticaret markanız için tek stratejik iş ortağı.
         </motion.p>
+
+        {/* Micro trust signals */}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          {proof.map((p) => (
+            <span key={p} className="flex items-center gap-1.5 text-sm text-white/50">
+              <CheckCircle size={13} className="text-brand shrink-0" />
+              {p}
+            </span>
+          ))}
+        </motion.div>
 
         <motion.div
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
@@ -68,20 +88,20 @@ export default function Hero() {
             href="/iletisim"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/40 hover:-translate-y-0.5 cursor-pointer w-full sm:w-auto justify-center"
           >
-            Ücretsiz Danışmanlık Al
+            Ücretsiz Büyüme Analizi Al
             <ArrowRight size={16} />
           </Link>
           <Link
             href="/hizmetler"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/15 text-white/75 font-medium hover:border-brand/50 hover:text-white hover:bg-white/5 transition-all duration-200 backdrop-blur-sm cursor-pointer w-full sm:w-auto justify-center"
           >
-            Hizmetlerimiz
+            Sonuçlarımızı İncele
           </Link>
         </motion.div>
 
         {/* Stats */}
         <motion.div
-          className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/10"
+          className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
