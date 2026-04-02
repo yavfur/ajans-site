@@ -8,6 +8,8 @@ import { Menu, X, LogIn } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/hizmetler", label: "Hizmetler" },
+  { href: "/roadmap", label: "Roadmap" },
+  { href: "/kpi", label: "KPI" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];

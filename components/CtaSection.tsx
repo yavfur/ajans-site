@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 
 const proof = [
-  { value: "50+", label: "Aktif Marka" },
-  { value: "₺10M+", label: "Ad Spend" },
-  { value: "%340", label: "Ort. ROAS" },
+  { value: "50+", label: "Büyüyen Marka" },
+  { value: "6.4x", label: "En Yüksek ROAS" },
+  { value: "₺10M+", label: "Yönetilen Ad Spend" },
 ];
 
 export default function CtaSection() {
@@ -33,31 +33,30 @@ export default function CtaSection() {
           </div>
 
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-5 leading-tight">
-            Markanızı Bir Sonraki{" "}
+            İşinizi veriyle büyütmeye{" "}
             <span className="bg-gradient-to-r from-brand to-violet-400 bg-clip-text text-transparent">
-              Seviyeye
-            </span>{" "}
-            Taşıyalım
+              hazır mısınız?
+            </span>
           </h2>
 
           <p className="text-foreground/50 mb-10 text-lg max-w-xl mx-auto leading-relaxed">
-            Ücretsiz 30 dakikalık dijital pazarlama analizi için hemen iletişime geçin.
-            Hızlıca büyüme fırsatlarınızı tespit edelim.
+            Ücretsiz 30 dakikalık büyüme analizi için hemen iletişime geçin.
+            Hızlıca fırsatlarınızı tespit edelim.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-14">
             <Link
               href="/iletisim"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand text-white font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
             >
               Ücretsiz Analiz Talep Et
               <ArrowRight size={16} />
             </Link>
             <Link
-              href="/hizmetler"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-border text-foreground/70 font-medium hover:border-brand/40 hover:text-foreground transition-all duration-200 cursor-pointer"
+              href="/roadmap"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-border text-foreground/70 font-medium hover:border-brand/40 hover:text-foreground transition-all duration-200"
             >
-              Hizmetlerimizi İncele
+              Demo Paneli Gör
             </Link>
           </div>
 
