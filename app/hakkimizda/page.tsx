@@ -52,7 +52,7 @@ const certs = [
 export default function HakkimizdaPage() {
   return (
     <div className="min-h-screen pt-28 pb-16">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Hero */}
         <motion.div

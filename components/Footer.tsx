@@ -21,7 +21,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="border-t border-border">
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-3 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 sm:grid-cols-3 gap-10">
         {/* Logo + Açıklama */}
         <div className="flex flex-col gap-4">
           <Link href="/" className="text-xl font-bold text-foreground tracking-tight">
@@ -79,7 +79,7 @@ export default function Footer() {
       </div>
 
       {/* Alt çizgi */}
-      <div className="border-t border-border px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="border-t border-border px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-xs text-foreground/30">
           © 2026 Ajans. Tüm hakları saklıdır.
         </p>

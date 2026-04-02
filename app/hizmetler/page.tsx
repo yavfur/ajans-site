@@ -152,7 +152,7 @@ export default function HizmetlerPage() {
   return (
     <div className="min-h-screen pt-28 pb-16">
       {/* Hero */}
-      <div className="max-w-6xl mx-auto px-6 text-center py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export default function HizmetlerPage() {
       </div>
 
       {/* Hizmet Detayları */}
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-6 mb-28">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col gap-6 mb-28">
         {services.map((service, i) => {
           const Icon = service.icon;
           return (
@@ -216,7 +216,7 @@ export default function HizmetlerPage() {
       </div>
 
       {/* Paketler */}
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}

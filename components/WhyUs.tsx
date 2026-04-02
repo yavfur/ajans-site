@@ -36,7 +36,7 @@ const reasons = [
 
 export default function WhyUs() {
   return (
-    <section className="py-28 px-6 bg-muted/20 relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 bg-muted/20 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent to-border" />
 
       <div className="max-w-6xl mx-auto">

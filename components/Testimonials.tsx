@@ -54,7 +54,7 @@ const item = {
 
 export default function Testimonials() {
   return (
-    <section className="py-28 px-6 relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/3 to-transparent pointer-events-none" />
 

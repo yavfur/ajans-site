@@ -12,7 +12,7 @@ const proof = [
 
 export default function CtaSection() {
   return (
-    <section className="py-28 px-6 relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/5 to-transparent pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-brand/8 rounded-full blur-[100px] pointer-events-none" />

@@ -69,7 +69,7 @@ const item = {
 
 export default function Services() {
   return (
-    <section className="py-28 px-6 relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 relative overflow-hidden">
       {/* Background grid pattern */}
       <div
         className="absolute inset-0 opacity-[0.03]"

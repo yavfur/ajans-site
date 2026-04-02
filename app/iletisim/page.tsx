@@ -78,7 +78,7 @@ export default function IletisimPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-6">
+    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Başlık */}
         <motion.div
