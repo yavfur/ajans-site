@@ -12,7 +12,7 @@ export async function GET() {
     prisma.user.count({ where: { role: "CLIENT", isActive: true } }),
     prisma.content.count({ where: { status: "PENDING" } }),
     prisma.invoice.count({ where: { status: "PENDING" } }),
-    prisma.message.count({ where: { receiverId: null, isRead: false } }),
+    prisma.message.count({ where: { isRead: false } }),
   ]);
 
   return NextResponse.json({ totalClients, pendingContents, unpaidInvoices, unreadMessages });

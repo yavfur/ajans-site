@@ -12,7 +12,7 @@ export default async function DashboardPage() {
     prisma.content.count({ where: { clientService: { userId }, status: "PENDING" } }),
     prisma.content.count({ where: { clientService: { userId }, status: "APPROVED" } }),
     prisma.content.count({ where: { clientService: { userId }, status: "REJECTED" } }),
-    prisma.message.count({ where: { receiverId: userId, isRead: false } }),
+    prisma.message.count({ where: { toUserId: userId, isRead: false } }),
   ]);
 
   const stats = [
