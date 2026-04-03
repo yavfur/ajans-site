@@ -2,46 +2,63 @@
 
 import { motion } from "framer-motion";
 
-const platforms = [
-  { name: "Meta Ads" },
-  { name: "Google Ads" },
-  { name: "TikTok Ads" },
-  { name: "Trendyol" },
-  { name: "Shopify" },
-  { name: "Amazon TR" },
-  { name: "Hepsiburada" },
-  { name: "Instagram" },
+const clients = [
+  { name: "Marka A", abbr: "MA" },
+  { name: "Marka B", abbr: "MB" },
+  { name: "Marka C", abbr: "MC" },
+  { name: "Marka D", abbr: "MD" },
+  { name: "Marka E", abbr: "ME" },
 ];
 
-const items = [...platforms, ...platforms];
+const metrics = [
+  { value: "20+", label: "markayla çalıştık" },
+  { value: "5M+ TL", label: "reklam yönettik" },
+];
 
 export default function PlatformPartners() {
   return (
-    <section className="py-12 border-t border-b border-border bg-muted/50">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 mb-6 text-center">
-        <p className="text-xs font-medium text-muted-foreground tracking-[0.2em] uppercase">
-          Çalıştığımız Platformlar
-        </p>
-      </div>
+    <section className="py-16 lg:py-20 px-4 sm:px-6" style={{ background: "#F9F9F9" }}>
+      <div className="max-w-[1200px] mx-auto">
+        <motion.p
+          className="text-xs font-semibold text-muted-foreground tracking-[0.2em] uppercase text-center mb-10"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          Güvendikleri Markalar
+        </motion.p>
 
-      <div className="relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-muted/50 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-muted/50 to-transparent z-10 pointer-events-none" />
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {clients.map((c, i) => (
+            <motion.div
+              key={c.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.07, ease: "easeOut" }}
+              className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+            >
+              {/* Placeholder logo badge */}
+              <div className="w-8 h-8 rounded-md bg-brand/10 flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-brand">{c.abbr}</span>
+              </div>
+              <span className="text-sm font-semibold text-foreground whitespace-nowrap">{c.name}</span>
+            </motion.div>
+          ))}
+        </div>
 
         <motion.div
-          className="flex gap-4 w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ willChange: "transform" }}
+          className="flex flex-wrap justify-center gap-8 lg:gap-16"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.35, ease: "easeOut" }}
         >
-          {items.map((p, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-2.5 px-5 py-2.5 rounded-lg border border-border bg-white shrink-0"
-            >
-              <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
-                {p.name}
-              </span>
+          {metrics.map((m) => (
+            <div key={m.label} className="text-center">
+              <span className="text-2xl font-bold text-foreground">{m.value} </span>
+              <span className="text-sm text-muted-foreground">{m.label}</span>
             </div>
           ))}
         </motion.div>
