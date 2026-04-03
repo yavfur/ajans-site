@@ -45,7 +45,7 @@ const cases = [
 
 export default function CaseStudies() {
   return (
-    <section className="py-24 lg:py-32 px-4 sm:px-6 bg-white">
+    <section className="py-24 lg:py-32 px-4 sm:px-6" style={{ background: "#050505" }}>
       <div className="max-w-[1200px] mx-auto">
         <motion.div
           className="text-center mb-14"
@@ -54,11 +54,14 @@ export default function CaseStudies() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <p className="text-xs font-semibold text-brand tracking-[0.2em] uppercase mb-3">004 — Sonuçlarımız</p>
-          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-foreground mb-4">
+          <span className="inline-block mb-4 px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase text-violet-300"
+            style={{ border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)" }}>
+            Sonuçlarımız
+          </span>
+          <h2 className="text-[clamp(28px,4vw,48px)] font-bold text-white mb-4">
             Rakamlarla konuşuyoruz
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
+          <p className="max-w-lg mx-auto leading-relaxed" style={{ color: "#888899" }}>
             Her marka farklıdır. Yaklaşımımız her zaman veriye ve sonuca dayanır.
           </p>
         </motion.div>
@@ -71,30 +74,36 @@ export default function CaseStudies() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08, ease: "easeOut" }}
-              className="rounded-2xl border border-border bg-white hover:border-brand/25 hover:shadow-lg hover:shadow-black/5 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
+              className="rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 group"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
             >
-              {/* Top accent line */}
-              <div className="h-1 bg-brand w-full" style={{ opacity: 0.15 + i * 0.15 }} />
+              {/* Top gradient accent */}
+              <div className="h-px w-full"
+                style={{ background: "linear-gradient(90deg, #7C3AED, #C084FC, #06B6D4)", opacity: 0.4 + i * 0.2 }} />
 
               <div className="p-7">
                 <div className="flex items-start justify-between gap-2 mb-5">
                   <div>
-                    <h3 className="font-bold text-foreground text-base">{c.brand}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{c.sector}</p>
+                    <h3 className="font-bold text-white text-base">{c.brand}</h3>
+                    <p className="text-xs mt-0.5" style={{ color: "#888899" }}>{c.sector}</p>
                   </div>
-                  <span className="shrink-0 px-2.5 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-medium border border-border">
+                  <span className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium"
+                    style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", color: "#C084FC" }}>
                     {c.tag}
                   </span>
                 </div>
 
-                <div className="mb-5 pb-5 border-b border-border space-y-2.5">
+                <div className="mb-5 pb-5 space-y-2.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                   <div>
-                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Problem</span>
-                    <p className="text-sm text-foreground mt-0.5">{c.challenge}</p>
+                    <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "#888899" }}>Problem</span>
+                    <p className="text-sm text-white/70 mt-0.5">{c.challenge}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Çözüm</span>
-                    <p className="text-sm text-muted-foreground mt-0.5">{c.solution}</p>
+                    <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "#888899" }}>Çözüm</span>
+                    <p className="text-sm mt-0.5" style={{ color: "#888899" }}>{c.solution}</p>
                   </div>
                 </div>
 
@@ -102,8 +111,8 @@ export default function CaseStudies() {
                 <div className="grid grid-cols-3 gap-3">
                   {c.metrics.map((m) => (
                     <div key={m.label} className="text-center">
-                      <div className="text-xl font-bold text-brand">{m.value}</div>
-                      <div className="text-[10px] text-muted-foreground mt-0.5 leading-tight">{m.label}</div>
+                      <div className="text-xl font-bold gradient-text">{m.value}</div>
+                      <div className="text-[10px] mt-0.5 leading-tight" style={{ color: "#888899" }}>{m.label}</div>
                     </div>
                   ))}
                 </div>
@@ -121,7 +130,11 @@ export default function CaseStudies() {
         >
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm hover:bg-brand/90 transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-brand/20 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:-translate-y-0.5"
+            style={{
+              background: "linear-gradient(135deg, #7C3AED, #C084FC)",
+              boxShadow: "0 0 24px rgba(124,58,237,0.3)",
+            }}
           >
             Sizin Başarı Hikayenizi Yazalım
             <ArrowUpRight size={16} />

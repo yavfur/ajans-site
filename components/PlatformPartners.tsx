@@ -17,10 +17,11 @@ const metrics = [
 
 export default function PlatformPartners() {
   return (
-    <section className="py-16 lg:py-20 px-4 sm:px-6" style={{ background: "#F9F9F9" }}>
+    <section className="py-16 lg:py-20 px-4 sm:px-6" style={{ background: "#0A0A0F", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
       <div className="max-w-[1200px] mx-auto">
         <motion.p
-          className="text-xs font-semibold text-muted-foreground tracking-[0.2em] uppercase text-center mb-10"
+          className="text-xs font-semibold tracking-[0.2em] uppercase text-center mb-10"
+          style={{ color: "#888899" }}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -37,13 +38,15 @@ export default function PlatformPartners() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.07, ease: "easeOut" }}
-              className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+              className="flex items-center gap-3 px-6 py-4 rounded-xl transition-all duration-200 cursor-default hover:-translate-y-0.5"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               {/* Placeholder logo badge */}
-              <div className="w-8 h-8 rounded-md bg-brand/10 flex items-center justify-center shrink-0">
-                <span className="text-[10px] font-bold text-brand">{c.abbr}</span>
+              <div className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
+                style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.2)" }}>
+                <span className="text-[10px] font-bold" style={{ color: "#C084FC" }}>{c.abbr}</span>
               </div>
-              <span className="text-sm font-semibold text-foreground whitespace-nowrap">{c.name}</span>
+              <span className="text-sm font-semibold text-white whitespace-nowrap">{c.name}</span>
             </motion.div>
           ))}
         </div>
@@ -57,8 +60,8 @@ export default function PlatformPartners() {
         >
           {metrics.map((m) => (
             <div key={m.label} className="text-center">
-              <span className="text-2xl font-bold text-foreground">{m.value} </span>
-              <span className="text-sm text-muted-foreground">{m.label}</span>
+              <span className="text-2xl font-bold text-white">{m.value} </span>
+              <span className="text-sm" style={{ color: "#888899" }}>{m.label}</span>
             </div>
           ))}
         </motion.div>

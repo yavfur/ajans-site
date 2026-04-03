@@ -61,7 +61,8 @@ export default function Testimonials() {
 
   return (
     <section
-      className="py-24 lg:py-32 px-4 sm:px-6 bg-muted/40"
+      className="py-24 lg:py-32 px-4 sm:px-6"
+      style={{ background: "#0A0A0F" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -73,8 +74,11 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <p className="text-xs font-semibold text-brand tracking-[0.2em] uppercase mb-3">005 — Referanslar</p>
-          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-foreground mb-4">
+          <span className="inline-block mb-4 px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase text-cyan-300"
+            style={{ border: "1px solid rgba(6,182,212,0.3)", background: "rgba(6,182,212,0.08)" }}>
+            Referanslar
+          </span>
+          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-white mb-4">
             Müşterilerimiz anlatıyor
           </h2>
         </motion.div>
@@ -87,25 +91,27 @@ export default function Testimonials() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: dir * -20 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="w-full p-8 md:p-10 rounded-2xl border border-border bg-white"
+              className="w-full p-8 md:p-10 rounded-2xl"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               <div className="flex gap-1 mb-6">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={14} className="fill-brand text-brand" />
+                  <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
 
-              <p className="text-lg md:text-xl text-foreground leading-relaxed mb-8 font-medium">
+              <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-8 font-medium">
                 &ldquo;{t.quote}&rdquo;
               </p>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-xs font-bold text-white shrink-0">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+                  style={{ background: "linear-gradient(135deg, #7C3AED, #C084FC)" }}>
                   {t.initial}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                  <p className="text-xs text-muted-foreground">{t.title} · {t.company}</p>
+                  <p className="text-sm font-semibold text-white">{t.name}</p>
+                  <p className="text-xs" style={{ color: "#888899" }}>{t.title} · {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -116,20 +122,22 @@ export default function Testimonials() {
           <div className="flex gap-2">
             <button
               onClick={() => { setPaused(true); go(active === 0 ? testimonials.length - 1 : active - 1); }}
-              className="w-10 h-10 rounded-xl border border-border bg-white flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-brand/30 transition-all duration-200"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white/40 hover:text-white transition-all duration-200"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => { setPaused(true); go((active + 1) % testimonials.length); }}
-              className="w-10 h-10 rounded-xl border border-border bg-white flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-brand/30 transition-all duration-200"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white/40 hover:text-white transition-all duration-200"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               <ChevronRight size={18} />
             </button>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm font-mono text-muted-foreground">
+            <span className="text-sm font-mono" style={{ color: "#888899" }}>
               {String(active + 1).padStart(2, "0")}/{String(testimonials.length).padStart(2, "0")}
             </span>
             <div className="flex gap-1.5">
@@ -137,7 +145,11 @@ export default function Testimonials() {
                 <button
                   key={i}
                   onClick={() => { setPaused(true); go(i); }}
-                  className={`h-1 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-brand" : "w-1.5 bg-border"}`}
+                  className="h-1 rounded-full transition-all duration-300"
+                  style={{
+                    width: i === active ? "24px" : "6px",
+                    background: i === active ? "linear-gradient(90deg, #7C3AED, #C084FC)" : "rgba(255,255,255,0.1)",
+                  }}
                 />
               ))}
             </div>
