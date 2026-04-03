@@ -2,67 +2,51 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
-
-const proof = [
-  { value: "50+", label: "Büyüyen Marka" },
-  { value: "6.4x", label: "En Yüksek ROAS" },
-  { value: "₺10M+", label: "Yönetilen Ad Spend" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-28 px-4 sm:px-6 relative overflow-hidden border-t border-border/20">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/5 to-transparent pointer-events-none" />
-      <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-brand/8 rounded-full blur-[80px] pointer-events-none" />
-
-      <div className="relative max-w-3xl mx-auto text-center">
+    <section className="py-24 lg:py-32 px-4 sm:px-6 bg-brand">
+      <div className="max-w-[760px] mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div className="flex items-center justify-center gap-1 mb-6">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} size={14} className="fill-brand text-brand" />
-            ))}
-            <span className="ml-2 text-sm text-foreground/50 font-light">50+ markanın tercihi</span>
-          </div>
-
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-5 leading-tight">
-            İşinizi veriyle büyütmeye{" "}
-            <span className="bg-gradient-to-r from-brand to-emerald-400 bg-clip-text text-transparent">
-              hazır mısınız?
-            </span>
+          <h2 className="text-[clamp(28px,5vw,52px)] font-bold text-white mb-5 leading-tight">
+            İşinizi veriyle büyütmeye hazır mısınız?
           </h2>
 
-          <p className="text-foreground/50 mb-10 text-lg font-light max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/70 mb-10 text-lg max-w-xl mx-auto leading-relaxed">
             Ücretsiz 30 dakikalık büyüme analizi için hemen iletişime geçin.
-            Hızlıca fırsatlarınızı tespit edelim.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-14">
             <Link
               href="/iletisim"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand text-[#0b1a12] font-semibold hover:bg-brand/90 transition-all duration-200 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white text-brand font-semibold hover:bg-white/95 transition-all duration-200 shadow-lg hover:-translate-y-0.5"
             >
-              Ücretsiz Büyüme Analizi Al
+              Ücretsiz Analiz Al
               <ArrowRight size={16} />
             </Link>
             <Link
               href="/roadmap"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-border text-foreground/70 font-medium hover:border-brand/40 hover:text-foreground transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-white/25 text-white font-medium hover:bg-white/10 transition-all duration-200"
             >
               Süreci İncele
             </Link>
           </div>
 
-          <div className="flex items-center justify-center gap-8 pt-8 border-t border-border">
-            {proof.map((p) => (
+          <div className="flex items-center justify-center gap-10 pt-8 border-t border-white/15">
+            {[
+              { value: "50+", label: "Büyüyen Marka" },
+              { value: "6.4x", label: "En Yüksek ROAS" },
+              { value: "₺10M+", label: "Yönetilen Ad Spend" },
+            ].map((p) => (
               <div key={p.label} className="text-center">
-                <div className="text-xl font-bold text-foreground">{p.value}</div>
-                <div className="text-xs text-foreground/40 font-light mt-0.5">{p.label}</div>
+                <div className="text-2xl font-bold text-white">{p.value}</div>
+                <div className="text-xs text-white/55 mt-0.5">{p.label}</div>
               </div>
             ))}
           </div>

@@ -3,44 +3,35 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import ScrambleText from "@/components/ScrambleText";
 
 const testimonials = [
   {
-    quote: "Daha önce 3 ajansla çalıştık, hepsi vaat verdi ama sonuç yoktu. Burada ilk aydan itibaren ROAS'ımız ikiye katlandı. Artık reklam bütçemizi güvenle artırabiliyoruz.",
+    quote: "Daha önce 3 ajansla çalıştık, hepsi vaat verdi ama sonuç yoktu. Burada ilk aydan itibaren ROAS'ımız ikiye katlandı.",
     name: "Selin Korkmaz",
     title: "Kurucu",
     company: "Lumière Skin",
     initial: "SK",
-    color: "bg-brand/15 text-brand",
-    accent: "border-brand/20",
   },
   {
-    quote: "Trendyol'da satışlarımız durma noktasına gelmişti. Ürün listelememizi ve kampanyalarımızı yeniden yapılandırdılar. 3 ayda ciromuz üç katına çıktı. Beklentilerimin çok ötesinde.",
+    quote: "Trendyol'da satışlarımız durma noktasına gelmişti. 3 ayda ciromuz üç katına çıktı. Beklentilerimin çok ötesinde.",
     name: "Murat Demir",
     title: "E-ticaret Müdürü",
     company: "StepUp Ayakkabı",
     initial: "MD",
-    color: "bg-emerald-500/20 text-emerald-400",
-    accent: "border-emerald-500/20",
   },
   {
-    quote: "Haftalık raporlar gerçekten değerli — ne yaptıklarını, neden yaptıklarını her zaman açıklıyorlar. 'Ajansımıza güveniyoruz' diyebilmek için yıllar gerekti, bu ekiple birkaç ay yetti.",
+    quote: "Haftalık raporlar gerçekten değerli — ne yaptıklarını, neden yaptıklarını her zaman açıklıyorlar.",
     name: "Ayşe Yıldız",
     title: "CEO",
     company: "NutriBox",
     initial: "AY",
-    color: "bg-brand/15 text-brand",
-    accent: "border-brand/20",
   },
   {
-    quote: "Instagram hesabımız 6 ayda 4.000'den 38.000 takipçiye çıktı. Ama asıl etkileyici olan: bu büyüme satışa dönüştü. Influencer ortaklıklarını da çok iyi yönettiler.",
+    quote: "Instagram hesabımız 6 ayda 4.000'den 38.000 takipçiye çıktı. Ama asıl etkileyici olan: bu büyüme satışa dönüştü.",
     name: "Caner Şahin",
     title: "Marka Direktörü",
     company: "BeautyLab TR",
     initial: "CS",
-    color: "bg-emerald-500/20 text-emerald-400",
-    accent: "border-emerald-500/20",
   },
 ];
 
@@ -70,63 +61,51 @@ export default function Testimonials() {
 
   return (
     <section
-      className="py-28 px-4 sm:px-6 relative overflow-hidden border-t border-border/20"
+      className="py-24 lg:py-32 px-4 sm:px-6 bg-muted/40"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/3 to-transparent pointer-events-none" />
-      <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-brand/5 rounded-full blur-[80px] pointer-events-none" />
-
-      <div className="max-w-3xl mx-auto relative">
+      <div className="max-w-[760px] mx-auto">
         <motion.div
           className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">005/</p>
-          <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
-            Referanslar
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">
-            <ScrambleText text="Müşterilerimiz Anlatıyor" duration={900} />
+          <p className="text-xs font-semibold text-brand tracking-[0.2em] uppercase mb-3">005 — Referanslar</p>
+          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-foreground mb-4">
+            Müşterilerimiz anlatıyor
           </h2>
-          <p className="text-foreground/50 mt-4 max-w-xl mx-auto text-base font-light leading-relaxed">
-            Başarı hikayelerini kendi sesleriyle duymak daha anlamlı.
-          </p>
         </motion.div>
 
-        <div className="relative min-h-[240px] flex items-center">
-          <AnimatePresence mode="wait" custom={dir}>
+        <div className="relative min-h-[220px] flex items-center">
+          <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              custom={dir}
-              initial={{ opacity: 0, y: dir * 24 }}
+              initial={{ opacity: 0, y: dir * 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: dir * -24 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-              className={`w-full p-8 md:p-10 rounded-2xl border bg-background ${t.accent}`}
+              exit={{ opacity: 0, y: dir * -20 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="w-full p-8 md:p-10 rounded-2xl border border-border bg-white"
             >
-              <div className="flex gap-0.5 mb-6">
+              <div className="flex gap-1 mb-6">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={13} className="fill-brand text-brand" />
+                  <Star key={i} size={14} className="fill-brand text-brand" />
                 ))}
               </div>
 
-              <p className="text-base md:text-lg text-foreground/70 font-light leading-relaxed mb-8">
+              <p className="text-lg md:text-xl text-foreground leading-relaxed mb-8 font-medium">
                 &ldquo;{t.quote}&rdquo;
               </p>
 
               <div className="flex items-center gap-3">
-                <div className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${t.color}`}>
+                <div className="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-xs font-bold text-white shrink-0">
                   {t.initial}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                  <p className="text-xs text-foreground/40 font-light">
-                    {t.title} · {t.company}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t.title} · {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -134,23 +113,23 @@ export default function Testimonials() {
         </div>
 
         <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center gap-3">
+          <div className="flex gap-2">
             <button
               onClick={() => { setPaused(true); go(active === 0 ? testimonials.length - 1 : active - 1); }}
-              className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+              className="w-10 h-10 rounded-xl border border-border bg-white flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-brand/30 transition-all duration-200"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => { setPaused(true); go((active + 1) % testimonials.length); }}
-              className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-foreground/40 hover:text-foreground hover:border-brand/40 transition-all duration-200"
+              className="w-10 h-10 rounded-xl border border-border bg-white flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-brand/30 transition-all duration-200"
             >
               <ChevronRight size={18} />
             </button>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm font-mono text-foreground/25">
+            <span className="text-sm font-mono text-muted-foreground">
               {String(active + 1).padStart(2, "0")}/{String(testimonials.length).padStart(2, "0")}
             </span>
             <div className="flex gap-1.5">
@@ -158,7 +137,7 @@ export default function Testimonials() {
                 <button
                   key={i}
                   onClick={() => { setPaused(true); go(i); }}
-                  className={`h-1 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-brand" : "w-1.5 bg-foreground/20"}`}
+                  className={`h-1 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-brand" : "w-1.5 bg-border"}`}
                 />
               ))}
             </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -9,97 +9,87 @@
   font-display: optional;
 }
 
-@font-face {
-  font-family: 'Raneva';
-  src: url('/fonts/Raneva-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: optional;
-}
-
 :root {
   --card: #ffffff;
-  --ring: #a1a1a1;
-  --input: #e5e5e5;
-  --muted: #f5f5f5;
-  --accent: #f5f5f5;
-  --border: #e5e5e5;
-  --radius: 0rem;
-  --chart-1: #737373;
-  --chart-2: #737373;
-  --chart-3: #737373;
-  --chart-4: #737373;
-  --chart-5: #737373;
+  --ring: #0A2540;
+  --input: #e5e7eb;
+  --muted: #f9f9f9;
+  --accent: #f1f5f9;
+  --border: #e5e7eb;
+  --radius: 0.75rem;
+  --chart-1: #0A2540;
+  --chart-2: #0A2540;
+  --chart-3: #0A2540;
+  --chart-4: #0A2540;
+  --chart-5: #0A2540;
   --popover: #ffffff;
-  --primary: #737373;
-  --sidebar: #fafafa;
-  --font-mono: Geist Mono, monospace;
-  --font-sans: 'DM Sans', sans-serif;
-  --font-serif: 'Space Grotesk', sans-serif;
-  --font-heading: 'Raneva', 'Space Grotesk', sans-serif;
-  --secondary: #f5f5f5;
+  --primary: #0A2540;
+  --sidebar: #f9f9f9;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-serif: 'Inter', sans-serif;
+  --font-heading: 'Raneva', 'Inter', sans-serif;
+  --secondary: #f9f9f9;
   --background: #ffffff;
-  --foreground: #0a0a0a;
-  --destructive: #e7000b;
+  --foreground: #111111;
+  --destructive: #dc2626;
   --shadow-blur: 0px;
   --shadow-color: hsl(0 0% 0%);
-  --sidebar-ring: #a1a1a1;
+  --sidebar-ring: #0A2540;
   --shadow-spread: 0px;
   --shadow-opacity: 0;
-  --sidebar-accent: #f5f5f5;
-  --sidebar-border: #e5e5e5;
-  --card-foreground: #0a0a0a;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-border: #e5e7eb;
+  --card-foreground: #111111;
   --shadow-offset-x: 0px;
   --shadow-offset-y: 1px;
-  --sidebar-primary: #171717;
-  --muted-foreground: #717171;
-  --accent-foreground: #171717;
-  --popover-foreground: #0a0a0a;
-  --primary-foreground: #fafafa;
-  --sidebar-foreground: #0a0a0a;
-  --secondary-foreground: #171717;
-  --destructive-foreground: #f5f5f5;
-  --sidebar-accent-foreground: #171717;
-  --sidebar-primary-foreground: #fafafa;
-  /* Marka rengi */
-  --brand: #B4FF00;
+  --sidebar-primary: #0A2540;
+  --muted-foreground: #666666;
+  --accent-foreground: #111111;
+  --popover-foreground: #111111;
+  --primary-foreground: #ffffff;
+  --sidebar-foreground: #111111;
+  --secondary-foreground: #111111;
+  --destructive-foreground: #ffffff;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-primary-foreground: #ffffff;
+  --brand: #0A2540;
 }
 
 .dark {
-  --card: #0f2318;
-  --ring: #2a4a30;
-  --input: #1a3822;
-  --muted: #0f2318;
-  --accent: #1a3822;
-  --border: #1c3822;
-  --chart-1: #B4FF00;
-  --chart-2: #B4FF00;
-  --chart-3: #B4FF00;
-  --chart-4: #B4FF00;
-  --chart-5: #B4FF00;
-  --popover: #0f2318;
-  --primary: #B4FF00;
-  --sidebar: #091610;
-  --secondary: #0f2318;
-  --background: #0b1a12;
-  --foreground: #f0faf2;
+  --card: #1a1a2e;
+  --ring: #0A2540;
+  --input: #2d2d3d;
+  --muted: #1e1e2e;
+  --accent: #252535;
+  --border: #2d2d3d;
+  --chart-1: #6366f1;
+  --chart-2: #6366f1;
+  --chart-3: #6366f1;
+  --chart-4: #6366f1;
+  --chart-5: #6366f1;
+  --popover: #1a1a2e;
+  --primary: #6366f1;
+  --sidebar: #111122;
+  --secondary: #1e1e2e;
+  --background: #0f0f1a;
+  --foreground: #f0f0ff;
   --destructive: #ff6467;
-  --sidebar-ring: #1c3822;
-  --sidebar-accent: #0f2318;
-  --sidebar-border: #1c3822;
-  --card-foreground: #f0faf2;
-  --sidebar-primary: #B4FF00;
-  --muted-foreground: #7aad88;
-  --accent-foreground: #f0faf2;
-  --popover-foreground: #f0faf2;
-  --primary-foreground: #0b1a12;
-  --sidebar-foreground: #f0faf2;
-  --secondary-foreground: #f0faf2;
-  --destructive-foreground: #0b1a12;
-  --sidebar-accent-foreground: #f0faf2;
-  --sidebar-primary-foreground: #0b1a12;
-  /* Marka rengi */
-  --brand: #B4FF00;
+  --sidebar-ring: #2d2d3d;
+  --sidebar-accent: #252535;
+  --sidebar-border: #2d2d3d;
+  --card-foreground: #f0f0ff;
+  --sidebar-primary: #6366f1;
+  --muted-foreground: #9999bb;
+  --accent-foreground: #f0f0ff;
+  --popover-foreground: #f0f0ff;
+  --primary-foreground: #ffffff;
+  --sidebar-foreground: #f0f0ff;
+  --secondary-foreground: #f0f0ff;
+  --destructive-foreground: #1a1a2e;
+  --sidebar-accent-foreground: #f0f0ff;
+  --sidebar-primary-foreground: #ffffff;
+  --brand: #6366f1;
 }
 
 @theme inline {
@@ -151,7 +141,7 @@ html {
 }
 
 body {
-  background: radial-gradient(ellipse at top left, #122516 0%, #0b1a12 60%, #080f0a 100%);
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;

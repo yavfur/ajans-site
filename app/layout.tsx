@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="dark">
+    <html lang="tr">
       <body className="min-h-screen antialiased flex flex-col">
         <PublicShell>{children}</PublicShell>
         <Toaster />

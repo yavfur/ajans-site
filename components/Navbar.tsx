@@ -19,12 +19,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Menü açıkken scroll'u engelle
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -33,14 +32,14 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4">
       <nav
-        className={`max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between rounded-2xl transition-all duration-300 ${
+        className={`max-w-[1200px] mx-auto px-5 h-14 flex items-center justify-between rounded-2xl transition-all duration-300 ${
           scrolled
-            ? "bg-background/95 md:bg-background/80 md:backdrop-blur-xl border border-border shadow-lg shadow-black/20"
-            : "bg-background/90 md:bg-background/40 md:backdrop-blur-md border border-white/10"
+            ? "bg-white border border-border shadow-sm shadow-black/5"
+            : "bg-white/80 border border-white/60"
         }`}
       >
         {/* Logo */}
-        <Link href="/" className="text-lg font-bold text-foreground tracking-tight shrink-0">
+        <Link href="/" className="text-[17px] font-bold text-foreground tracking-tight shrink-0">
           Ajans<span className="text-brand">.</span>
         </Link>
 
@@ -50,7 +49,7 @@ export default function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm text-foreground/60 hover:text-foreground transition-colors duration-200"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {link.label}
               </Link>
@@ -58,34 +57,30 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop Right: Login icon + CTA */}
+        {/* Desktop Right */}
         <div className="hidden md:flex items-center gap-2">
           <Link
             href="/giris"
             title="Müşteri Girişi"
-            className="p-2 rounded-lg text-foreground/45 hover:text-foreground hover:bg-white/8 transition-all duration-200"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
           >
             <LogIn size={17} />
           </Link>
           <Link
             href="/iletisim"
-            className="inline-flex items-center px-4 py-2 rounded-lg bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-all duration-200 hover:shadow-md hover:shadow-brand/30 cursor-pointer"
+            className="inline-flex items-center px-4 py-2 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-all duration-200 shadow-sm"
           >
             Teklif Al
           </Link>
         </div>
 
-        {/* Mobile Right: Login icon + Hamburger */}
+        {/* Mobile Right */}
         <div className="md:hidden flex items-center gap-1">
-          <Link
-            href="/giris"
-            title="Müşteri Girişi"
-            className="p-2 rounded-lg text-foreground/50 hover:text-foreground transition-colors"
-          >
+          <Link href="/giris" className="p-2 rounded-lg text-muted-foreground hover:text-foreground transition-colors">
             <LogIn size={18} />
           </Link>
           <button
-            className="p-2 rounded-lg text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menüyü aç/kapat"
           >
@@ -94,16 +89,16 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden mt-2 max-w-6xl mx-auto rounded-2xl bg-background border border-border shadow-xl shadow-black/30 overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="md:hidden mt-2 max-w-[1200px] mx-auto rounded-2xl bg-white border border-border shadow-lg overflow-hidden"
           >
             <div className="px-2 py-2">
               {navLinks.map((link, i) => (
@@ -111,11 +106,11 @@ export default function Navbar() {
                   key={link.href}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.18 }}
+                  transition={{ delay: i * 0.04, duration: 0.15 }}
                 >
                   <Link
                     href={link.href}
-                    className="flex items-center px-4 py-3 rounded-xl text-sm text-foreground/70 hover:text-foreground hover:bg-muted transition-all duration-150"
+                    className="flex items-center px-4 py-3 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-150"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
@@ -126,7 +121,7 @@ export default function Navbar() {
             <div className="px-4 pb-4 pt-1 border-t border-border flex flex-col gap-2">
               <Link
                 href="/giris"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border text-foreground/70 text-sm font-medium hover:text-foreground hover:border-brand/40 transition-all duration-200"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border text-muted-foreground text-sm font-medium hover:text-foreground transition-all duration-200"
                 onClick={() => setMenuOpen(false)}
               >
                 <LogIn size={15} />
@@ -134,7 +129,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/iletisim"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-[#0b1a12] text-sm font-medium hover:bg-brand/90 transition-colors"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand text-white text-sm font-medium hover:bg-brand/90 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Teklif Al

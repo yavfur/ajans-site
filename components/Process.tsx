@@ -1,116 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Database, Lightbulb, Rocket, BarChart2, RefreshCw } from "lucide-react";
-import ScrambleText from "@/components/ScrambleText";
+import { BarChart2, Lightbulb, RefreshCw } from "lucide-react";
 
 const steps = [
   {
     num: "01",
-    icon: Database,
-    title: "Veri Analizi",
-    description: "Mevcut kampanyalarınız, rakipleriniz ve hedef kitleniz analiz edilir. Doğru veri olmadan doğru karar alınamaz.",
-    color: "text-brand",
-    bg: "bg-brand/10 border-brand/20",
+    icon: BarChart2,
+    title: "Analiz Et",
+    description: "Mevcut kampanyalarınızı, rakiplerinizi ve hedef kitlenizi derinlemesine analiz ediyoruz.",
   },
   {
     num: "02",
     icon: Lightbulb,
-    title: "Strateji Oluşturma",
-    description: "Veriye dayalı büyüme haritası hazırlanır. Hangi kanal, hangi bütçe, hangi hedef kitle — her şey yazılı.",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
+    title: "Stratejik Planla",
+    description: "Veriye dayalı büyüme haritası hazırlıyoruz. Her kanal, bütçe ve hedef kitle yazılı olarak belirleniyor.",
   },
   {
     num: "03",
-    icon: Rocket,
-    title: "Kampanya Kurulumu",
-    description: "Tracking, pixel, kampanyalar ve içerik takvimi ilk 2 haftada hazır. Geç kalmak yok.",
-    color: "text-brand",
-    bg: "bg-brand/10 border-brand/20",
-  },
-  {
-    num: "04",
-    icon: BarChart2,
-    title: "Performans Takibi",
-    description: "Haftalık raporlar ve anlık dashboard. Ne yaptığımızı ve neden yaptığımızı her zaman görürsünüz.",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
-  },
-  {
-    num: "05",
     icon: RefreshCw,
-    title: "Sürekli Optimizasyon",
-    description: "Neyin işe yaradığını çoğaltıyor, neyin yaramadığını kesiyoruz. Duygusal değil, tamamen veri odaklı.",
-    color: "text-brand",
-    bg: "bg-brand/10 border-brand/20",
+    title: "Sürekli Optimize Et",
+    description: "Haftalık raporlar ve anlık dashboard ile neyin işe yaradığını çoğaltıyor, yaramayanı kesiyoruz.",
   },
 ];
 
 export default function Process() {
   return (
-    <section className="py-24 px-4 sm:px-6 relative overflow-hidden border-t border-border/20">
-      <div className="max-w-5xl mx-auto">
+    <section className="py-24 lg:py-32 px-4 sm:px-6 bg-muted/40">
+      <div className="max-w-[1200px] mx-auto">
         <motion.div
           className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">002/</p>
-          <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
-            Sürecimiz
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            <ScrambleText text="5 adımda büyüme sistemi" duration={900} />
+          <p className="text-xs font-semibold text-brand tracking-[0.2em] uppercase mb-3">002 — Sürecimiz</p>
+          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-foreground mb-4">
+            3 adımda büyüme sistemi
           </h2>
-          <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm font-light leading-relaxed">
+          <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
             Her adımda ne yapıldığını bilirsiniz. Sürpriz yok, gecikme yok.
           </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          <div className="absolute left-[27px] md:left-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-border via-border/50 to-transparent hidden sm:block" style={{ transform: "translateX(-0.5px)" }} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {steps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1, ease: "easeOut" }}
+                className="relative p-8 rounded-2xl bg-white border border-border hover:border-brand/20 hover:shadow-md transition-all duration-300"
+              >
+                {/* Step number */}
+                <span className="text-[11px] font-mono font-semibold text-brand/40 tracking-widest mb-4 block">{step.num}</span>
 
-          <div className="flex flex-col gap-6">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const isLeft = i % 2 === 0;
-              return (
-                <motion.div
-                  key={step.num}
-                  className={`relative flex items-start gap-4 md:gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
-                  initial={{ opacity: 0, x: isLeft ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.07, ease: [0.25, 0.1, 0.25, 1] as const }}
-                >
-                  <div className={`flex-1 md:max-w-[calc(50%-2rem)] ${isLeft ? "md:pr-8" : "md:pl-8"}`}>
-                    <div className={`group p-5 rounded-2xl border bg-background hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 ${step.bg}`}>
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`w-9 h-9 rounded-xl border flex items-center justify-center ${step.bg}`}>
-                          <Icon size={16} className={step.color} />
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-mono text-foreground/25">{step.num}</span>
-                          <h3 className="text-sm font-semibold text-foreground leading-tight">{step.title}</h3>
-                        </div>
-                      </div>
-                      <p className="text-sm text-foreground/55 font-light leading-relaxed">{step.description}</p>
-                    </div>
-                  </div>
+                <div className="w-11 h-11 rounded-xl bg-brand/8 flex items-center justify-center mb-5">
+                  <Icon size={20} className="text-brand" />
+                </div>
 
-                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-background border-2 border-brand items-center justify-center z-10">
-                    <div className="w-2 h-2 rounded-full bg-brand" />
-                  </div>
+                <h3 className="text-lg font-bold text-foreground mb-3">{step.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
 
-                  <div className="hidden md:block flex-1" />
-                </motion.div>
-              );
-            })}
-          </div>
+                {/* Connector line — desktop only */}
+                {i < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-[3.5rem] -right-4 w-8 h-px bg-border z-10" />
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

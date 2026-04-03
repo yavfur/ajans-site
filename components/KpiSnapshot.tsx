@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { TrendingUp, Target, MousePointerClick, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import ScrambleText from "@/components/ScrambleText";
 
 const kpis = [
   {
@@ -13,9 +12,6 @@ const kpis = [
     desc: "1 TL reklam → kaç TL geri dönüş",
     value: "6.4x",
     sub: "Ortalama müşteri ROAS'ı",
-    color: "text-brand",
-    bg: "bg-brand/10 border-brand/20",
-    glow: "bg-brand/5",
   },
   {
     icon: Target,
@@ -24,9 +20,6 @@ const kpis = [
     desc: "Bir müşteri kazanmanın maliyeti",
     value: "₺42",
     sub: "Ortalama CPA",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
-    glow: "bg-emerald-500/5",
   },
   {
     icon: MousePointerClick,
@@ -35,9 +28,6 @@ const kpis = [
     desc: "Reklamın dikkat çekme oranı",
     value: "3.8%",
     sub: "Sektör ort. 1.2%",
-    color: "text-brand",
-    bg: "bg-brand/10 border-brand/20",
-    glow: "bg-brand/5",
   },
   {
     icon: ShoppingCart,
@@ -46,86 +36,59 @@ const kpis = [
     desc: "Ziyaretçinin müşteriye dönüşme oranı",
     value: "%4.1",
     sub: "Sektör ort. %1.8",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
-    glow: "bg-emerald-500/5",
   },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-};
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const } },
-};
-
 export default function KpiSnapshot() {
   return (
-    <section className="py-24 px-4 sm:px-6 relative overflow-hidden border-t border-border/20">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-24 lg:py-32 px-4 sm:px-6 bg-white">
+      <div className="max-w-[1200px] mx-auto">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <p className="text-[10px] font-mono text-foreground/20 tracking-[0.3em] mb-3">001/</p>
-          <span className="inline-block mb-3 px-3 py-1 rounded-full border border-brand/30 bg-brand/10 text-brand text-xs font-medium tracking-widest uppercase">
-            Temel Metrikler
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            <ScrambleText text="Performansınızı sayılarla yönetin" duration={900} />
+          <p className="text-xs font-semibold text-brand tracking-[0.2em] uppercase mb-3">001 — Temel Metrikler</p>
+          <h2 className="text-[clamp(24px,4vw,40px)] font-bold text-foreground mb-4">
+            Performansınızı sayılarla yönetin
           </h2>
-          <p className="text-foreground/50 mt-3 max-w-lg mx-auto text-sm font-light leading-relaxed">
+          <p className="text-muted-foreground max-w-lg mx-auto leading-relaxed">
             Reklam bütçenizin gerçekte ne kadar çalıştığını 4 temel metrikle ölçüyoruz.
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {kpis.map((k) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {kpis.map((k, i) => {
             const Icon = k.icon;
             return (
               <motion.div
                 key={k.label}
-                variants={item}
-                className={`group relative rounded-2xl border p-6 cursor-default overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:shadow-xl ${k.bg}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07, ease: "easeOut" }}
+                className="p-6 rounded-2xl border border-border bg-white hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5 hover:-translate-y-0.5 transition-all duration-300 cursor-default"
               >
-                <div className={`absolute inset-0 ${k.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                <div className="relative">
-                  <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl border ${k.bg} mb-4`}>
-                    <Icon size={18} className={k.color} />
-                  </div>
-                  <p className="text-xs text-foreground/40 font-medium mb-0.5">{k.label}</p>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">{k.title}</h3>
-                  <p className="text-xs text-foreground/50 font-light mb-4 leading-relaxed">{k.desc}</p>
-                  <div className={`text-3xl font-bold tracking-tight ${k.color}`}>{k.value}</div>
-                  <p className="text-xs text-foreground/30 mt-1">{k.sub}</p>
+                <div className="w-10 h-10 rounded-xl bg-brand/8 flex items-center justify-center mb-5">
+                  <Icon size={18} className="text-brand" />
                 </div>
+                <p className="text-xs text-muted-foreground font-medium mb-0.5">{k.label}</p>
+                <h3 className="text-sm font-semibold text-foreground mb-1">{k.title}</h3>
+                <p className="text-xs text-muted-foreground mb-5 leading-relaxed">{k.desc}</p>
+                <div className="text-3xl font-bold text-brand">{k.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{k.sub}</p>
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="text-center mt-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-        >
-          <Link href="/kpi" className="text-sm text-foreground/40 hover:text-brand transition-colors underline underline-offset-4">
+        <div className="text-center mt-8">
+          <Link href="/kpi" className="text-sm text-muted-foreground hover:text-brand transition-colors underline underline-offset-4">
             Bu metrikleri nasıl ölçüyoruz? →
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
