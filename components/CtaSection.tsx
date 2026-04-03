@@ -2,97 +2,121 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="relative py-32 px-4 sm:px-6 overflow-hidden" style={{ background: "#050505" }}>
-      {/* Gradient background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124,58,237,0.15) 0%, rgba(6,182,212,0.08) 40%, transparent 70%)",
-        }}
-      />
+    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+      {/* Background gradient */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(99,102,241,0.1) 0%, rgba(249,115,22,0.04) 40%, transparent 70%)",
+      }} />
 
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
+      {/* Grid pattern */}
+      <div className="grid-bg" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5 }} />
 
-      {/* Floating blobs */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-violet-600/10 blur-[100px] pointer-events-none animate-blob1" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-cyan-500/8 blur-[80px] pointer-events-none animate-blob2" />
+      {/* Floating glows */}
+      <div style={{
+        position: "absolute", top: "20%", left: "15%",
+        width: "300px", height: "300px", borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+        filter: "blur(60px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "absolute", bottom: "20%", right: "10%",
+        width: "250px", height: "250px", borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)",
+        filter: "blur(60px)", pointerEvents: "none",
+      }} />
 
-      <div className="relative max-w-[760px] mx-auto text-center">
+      <div style={{ maxWidth: "760px", margin: "0 auto", padding: "0 24px", textAlign: "center", position: "relative" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         >
-          <span className="inline-block mb-6 px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase text-violet-300"
-            style={{ border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)" }}>
-            Harekete Geçin
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: "6px",
+            padding: "6px 14px", borderRadius: "99px",
+            background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)",
+            fontSize: "12px", fontWeight: 600, color: "#FB923C",
+            letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "24px",
+          }}>
+            <Zap size={11} />
+            Harekete Geç
           </span>
 
-          <h2 className="text-[clamp(32px,6vw,64px)] font-bold text-white mb-6 leading-[1.08] tracking-tight">
-            İşinizi veriyle
-            <br />
-            <span className="gradient-text-shimmer">büyütmeye hazır mısınız?</span>
+          <h2 style={{
+            fontSize: "clamp(32px, 5.5vw, 60px)", fontWeight: 700,
+            color: "#FFFFFF", fontFamily: "var(--font-heading)",
+            letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: "20px",
+          }}>
+            Markanın reklam performansını{" "}
+            <span className="gradient-text-cta">analiz edelim</span>
           </h2>
 
-          <p className="text-[#888899] mb-12 text-lg max-w-lg mx-auto leading-relaxed">
-            Ücretsiz 30 dakikalık büyüme analizi için hemen iletişime geçin.
+          <p style={{ fontSize: "17px", color: "#9CA3AF", lineHeight: 1.65, maxWidth: "520px", margin: "0 auto 40px" }}>
+            Ücretsiz growth planını al. Rakiplerine kıyasla nerede durduğunu görelim ve büyüme fırsatlarını ortaya çıkaralım.
           </p>
 
-          {/* CTA Button — glow pulse */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link
-              href="/iletisim"
-              className="relative inline-flex items-center justify-center gap-2 px-10 py-5 rounded-2xl text-base font-semibold text-white transition-all duration-300 hover:scale-105 group overflow-hidden glow-pulse"
-              style={{
-                background: "linear-gradient(135deg, #7C3AED, #C084FC, #06B6D4)",
-                backgroundSize: "200% 200%",
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Ücretsiz Analiz Al
+          {/* CTA Buttons */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+              <Link
+                href="/iletisim"
+                className="glow-orange"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "10px",
+                  padding: "16px 32px", borderRadius: "14px",
+                  background: "#F97316", color: "#FFFFFF",
+                  fontWeight: 700, fontSize: "16px", textDecoration: "none",
+                  transition: "transform 0.2s ease",
+                  fontFamily: "var(--font-heading)",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+              >
+                Reklam performansını analiz et
                 <ArrowRight size={18} />
-              </span>
-              <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </Link>
+              </Link>
 
-            <Link
-              href="/roadmap"
-              className="inline-flex items-center justify-center gap-2 px-8 py-5 rounded-2xl text-sm font-medium text-white/55 hover:text-white transition-all duration-200 hover:bg-white/5"
-              style={{ border: "1px solid rgba(255,255,255,0.08)" }}
-            >
-              Süreci İncele
-            </Link>
+              <Link
+                href="/iletisim"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                  padding: "16px 28px", borderRadius: "14px",
+                  background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
+                  color: "#9CA3AF", fontWeight: 500, fontSize: "14px", textDecoration: "none",
+                  transition: "color 0.2s, background 0.2s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "#9CA3AF"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
+              >
+                Ücretsiz growth planını al
+              </Link>
+            </div>
+
+            <p style={{ fontSize: "12px", color: "#6B7280", marginTop: "8px" }}>
+              Kredi kartı gerekmez • İlk görüşme ücretsiz • 48 saat içinde yanıt
+            </p>
           </div>
 
-          <p className="text-sm text-[#888899]">
-            Markanı ücretsiz analiz edelim ve fırsatları ortaya çıkaralım
-          </p>
-
           {/* Mini stats */}
-          <div className="mt-16 pt-10 flex flex-wrap items-center justify-center gap-10"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{
+            marginTop: "56px", paddingTop: "32px",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "40px",
+          }}>
             {[
               { value: "50+", label: "Büyüyen Marka" },
               { value: "6.4x", label: "En Yüksek ROAS" },
-              { value: "₺10M+", label: "Yönetilen Ad Spend" },
-            ].map((p) => (
-              <div key={p.label} className="text-center">
-                <div className="text-2xl font-bold text-white mb-0.5">{p.value}</div>
-                <div className="text-xs text-[#888899]">{p.label}</div>
+              { value: "₺5M+", label: "Yönetilen Bütçe" },
+            ].map((s) => (
+              <div key={s.label} style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "22px", fontWeight: 700, color: "#22C55E", fontFamily: "var(--font-heading)" }}>{s.value}</div>
+                <div style={{ fontSize: "12px", color: "#9CA3AF", marginTop: "3px" }}>{s.label}</div>
               </div>
             ))}
           </div>

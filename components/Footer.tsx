@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Camera, Briefcase, AtSign, ArrowRight } from "lucide-react";
+import { Camera, Briefcase, AtSign, ArrowRight, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -22,98 +22,95 @@ const socials = [
 function SocialIcon({ icon: Icon, label, href }: { icon: React.ElementType; label: string; href: string }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <a
-      href={href}
-      aria-label={label}
+    <a href={href} aria-label={label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
       style={{
-        background: hovered ? "rgba(124,58,237,0.2)" : "rgba(255,255,255,0.04)",
-        border: hovered ? "1px solid rgba(124,58,237,0.4)" : "1px solid rgba(255,255,255,0.07)",
-        transform: hovered ? "scale(1.1)" : "scale(1)",
-        boxShadow: hovered ? "0 0 20px rgba(124,58,237,0.4)" : "none",
+        width: "36px", height: "36px", borderRadius: "10px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        background: hovered ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.04)",
+        border: hovered ? "1px solid rgba(99,102,241,0.4)" : "1px solid rgba(255,255,255,0.07)",
+        color: hovered ? "#a5b4fc" : "rgba(255,255,255,0.35)",
+        transition: "all 0.2s",
+        boxShadow: hovered ? "0 0 16px rgba(99,102,241,0.3)" : "none",
       }}
     >
-      <Icon size={15} style={{ color: hovered ? "#C084FC" : "rgba(255,255,255,0.4)" }} />
+      <Icon size={14} />
     </a>
   );
 }
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-      {/* ── Top CTA ── */}
-      <div className="relative overflow-hidden py-20 px-4 sm:px-6"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 80% at 50% 100%, rgba(124,58,237,0.12), transparent 70%)" }} />
+    <footer style={{ background: "#0B0F1A", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+      {/* Top CTA */}
+      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.04)", padding: "64px 0", position: "relative", overflow: "hidden" }}>
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "radial-gradient(ellipse 60% 80% at 50% 100%, rgba(99,102,241,0.08), transparent 70%)",
+        }} />
 
         <motion.div
-          className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-8"
-          initial={{ opacity: 0, y: 24 }}
+          style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", display: "flex", flexDirection: "column", gap: "24px", alignItems: "center" }}
+          className="lg:flex-row lg:justify-between lg:items-center"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div>
-            <h3 className="text-3xl lg:text-4xl font-bold text-white tracking-tight mb-2">
+          <div style={{ textAlign: "center" }} className="lg:text-left">
+            <h3 style={{ fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", letterSpacing: "-0.02em", marginBottom: "6px" }}>
               Projenizi konuşalım.
             </h3>
-            <p className="text-[#888899]">Ücretsiz danışmanlık için hemen ulaşın.</p>
+            <p style={{ fontSize: "14px", color: "#9CA3AF" }}>48 saat içinde yanıt garantisi.</p>
           </div>
-          <Link
-            href="/iletisim"
-            className="shrink-0 inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-white font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          <Link href="/iletisim"
+            className="glow-orange"
             style={{
-              background: "linear-gradient(135deg, #7C3AED, #C084FC)",
-              boxShadow: "0 0 30px rgba(124,58,237,0.3)",
+              display: "inline-flex", alignItems: "center", gap: "8px",
+              padding: "14px 28px", borderRadius: "12px",
+              background: "#F97316", color: "#FFFFFF",
+              fontWeight: 700, fontSize: "14px", textDecoration: "none",
+              transition: "transform 0.2s", fontFamily: "var(--font-heading)",
+              flexShrink: 0,
             }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
           >
-            Bize Ulaşın
-            <ArrowRight size={16} />
+            Bize Ulaşın <ArrowRight size={15} />
           </Link>
         </motion.div>
       </div>
 
       {/* Gradient separator */}
-      <div className="h-px w-full"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.4), rgba(6,182,212,0.3), transparent)" }} />
+      <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.4), rgba(34,197,94,0.3), transparent)" }} />
 
-      {/* ── Main grid ── */}
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 sm:grid-cols-3 gap-12">
+      {/* Main grid */}
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "56px 24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "40px" }}>
         {/* Logo + tagline */}
-        <div className="flex flex-col gap-5">
-          <Link href="/" className="text-xl font-bold tracking-tight">
-            <span className="text-white">Ajans</span>
-            <span className="gradient-text">.</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "6px", textDecoration: "none" }}>
+            <Zap size={14} style={{ color: "#22C55E" }} />
+            <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)" }}>Ajans</span>
+            <span style={{ color: "#6366F1", fontWeight: 700 }}>.</span>
           </Link>
-          <p className="text-sm leading-relaxed max-w-xs" style={{ color: "#888899" }}>
-            Biz sadece trafik değil, satış üretiyoruz. E-ticaret markaları için veri odaklı büyüme.
+          <p style={{ fontSize: "13px", color: "#9CA3AF", lineHeight: 1.6, maxWidth: "220px" }}>
+            Veri odaklı reklam sistemi. Trafik değil, satış üretiyoruz.
           </p>
-          <div className="flex gap-2 mt-1">
-            {socials.map((s) => (
-              <SocialIcon key={s.label} {...s} />
-            ))}
+          <div style={{ display: "flex", gap: "8px" }}>
+            {socials.map((s) => <SocialIcon key={s.label} {...s} />)}
           </div>
         </div>
 
         {/* Links */}
         <div>
-          <h4 className="text-xs font-semibold uppercase tracking-[0.15em] mb-5"
-            style={{ color: "rgba(255,255,255,0.35)" }}>
-            Sayfalar
-          </h4>
-          <ul className="flex flex-col gap-3">
+          <h4 style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "16px" }}>Sayfalar</h4>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
             {quickLinks.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-sm transition-colors duration-200"
-                  style={{ color: "rgba(255,255,255,0.4)" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
-                >
+                <Link href={link.href} style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "#fff"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
                   {link.label}
                 </Link>
               </li>
@@ -123,38 +120,29 @@ export default function Footer() {
 
         {/* Contact */}
         <div>
-          <h4 className="text-xs font-semibold uppercase tracking-[0.15em] mb-5"
-            style={{ color: "rgba(255,255,255,0.35)" }}>
-            İletişim
-          </h4>
-          <div className="flex flex-col gap-3 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
-            <a href="mailto:info@ajans.com"
-              className="hover:text-white transition-colors duration-200">
+          <h4 style={{ fontSize: "11px", fontWeight: 600, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "16px" }}>İletişim</h4>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <a href="mailto:info@ajans.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
               info@ajans.com
             </a>
-            <a href="tel:+905001234567"
-              className="hover:text-white transition-colors duration-200">
+            <a href="tel:+905001234567" style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
               +90 500 123 45 67
             </a>
-            <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.2)" }}>
-              Pzt–Cum: 09:00–18:00
-            </p>
+            <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.2)", marginTop: "4px" }}>Pzt–Cum: 09:00–18:00</p>
           </div>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="px-4 sm:px-6 py-5 max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
-          © 2026 Ajans. Tüm hakları saklıdır.
-        </p>
-        <Link href="/gizlilik"
-          className="text-xs transition-colors duration-200"
-          style={{ color: "rgba(255,255,255,0.2)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.2)")}
-        >
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.04)", padding: "16px 24px", maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+        <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)" }}>© 2026 Ajans. Tüm hakları saklıdır.</p>
+        <Link href="/gizlilik" style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)", textDecoration: "none", transition: "color 0.2s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.2)"; }}>
           Gizlilik Politikası
         </Link>
       </div>

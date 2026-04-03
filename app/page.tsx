@@ -1,8 +1,10 @@
 import Hero from "@/components/Hero";
 import PlatformPartners from "@/components/PlatformPartners";
+import DataBlock from "@/components/DataBlock";
 import Services from "@/components/Services";
-import WhyUs from "@/components/WhyUs";
+import Process from "@/components/Process";
 import CaseStudies from "@/components/CaseStudies";
+import WhyUs from "@/components/WhyUs";
 import Testimonials from "@/components/Testimonials";
 import CtaSection from "@/components/CtaSection";
 
@@ -11,9 +13,11 @@ export default function Home() {
     <main>
       <Hero />
       <PlatformPartners />
+      <DataBlock />
       <Services />
-      <WhyUs />
+      <Process />
       <CaseStudies />
+      <WhyUs />
       <Testimonials />
       <CtaSection />
     </main>
