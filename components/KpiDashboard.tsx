@@ -2,13 +2,11 @@
 
 import { useRef, useEffect, useState, useId } from "react";
 import { motion, useInView } from "framer-motion";
-import { TrendingUp, TrendingDown, Activity, Wifi, MoreHorizontal } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, Wifi, MoreHorizontal, BarChart2 } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════
    MATH UTILITIES
 ═══════════════════════════════════════════════════════ */
-
-/** Converts an array of values to SVG [x,y] points within a viewBox */
 function toPoints(data: number[], w: number, h: number, padY = 6): [number, number][] {
   const mn = Math.min(...data);
   const mx = Math.max(...data);
@@ -19,7 +17,6 @@ function toPoints(data: number[], w: number, h: number, padY = 6): [number, numb
   ]);
 }
 
-/** Builds a smooth cubic-bezier SVG path from [x,y] points */
 function buildPath(pts: [number, number][]): string {
   if (pts.length < 2) return "";
   let d = `M ${pts[0][0]},${pts[0][1]}`;
@@ -37,12 +34,10 @@ function buildPath(pts: [number, number][]): string {
 ═══════════════════════════════════════════════════════ */
 function useCountUp(target: number, active: boolean, duration = 1.4, decimals = 0) {
   const [value, setValue] = useState(0);
-
   useEffect(() => {
     if (!active) return;
     let startTime: number | null = null;
     const factor = Math.pow(10, decimals);
-
     const tick = (ts: number) => {
       if (!startTime) startTime = ts;
       const progress = Math.min((ts - startTime) / (duration * 1000), 1);
@@ -51,147 +46,110 @@ function useCountUp(target: number, active: boolean, duration = 1.4, decimals = 
       if (progress < 1) requestAnimationFrame(tick);
       else setValue(target);
     };
-
     requestAnimationFrame(tick);
   }, [active, target, duration, decimals]);
-
   return value;
 }
 
 /* ═══════════════════════════════════════════════════════
-   1. MAIN REVENUE CHART
-   Full-width, tall, animated line with glow + area fill
+   1. MAIN REVENUE CHART — H=200, 28 points, peak callout
 ═══════════════════════════════════════════════════════ */
-const REVENUE_DATA = [22, 31, 28, 44, 50, 42, 62, 71, 80, 75, 92, 107, 104, 121, 136, 130, 152, 165, 170, 188];
-const Y_LABELS = ["₺200K", "₺150K", "₺100K", "₺50K"];
-const X_LABELS = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem"];
+const REVENUE_DATA = [18, 25, 22, 35, 42, 38, 50, 58, 54, 68, 76, 72, 88, 95, 90, 108, 115, 110, 128, 140, 136, 155, 162, 158, 174, 188, 184, 200];
+const Y_LABELS   = ["₺200K", "₺150K", "₺100K", "₺50K", "₺0"];
+const X_LABELS   = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu"];
 
 function MainChart({ active }: { active: boolean }) {
-  const uid = useId().replace(/:/g, "");
-  const W = 520;
-  const H = 160; // Tall chart — visually dominant
-
-  const pts = toPoints(REVENUE_DATA, W, H, 10);
+  const uid  = useId().replace(/:/g, "");
+  const W = 560, H = 200;
+  const pts      = toPoints(REVENUE_DATA, W, H, 10);
   const linePath = buildPath(pts);
   const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`;
-  const lastPt = pts[pts.length - 1];
+  const lastPt   = pts[pts.length - 1];
+  const peakIdx  = REVENUE_DATA.indexOf(Math.max(...REVENUE_DATA));
+  const peakPt   = pts[peakIdx];
 
   return (
     <div style={{ position: "relative" }}>
-      {/* Y-axis */}
+      {/* Y-axis labels */}
       <div style={{
-        position: "absolute", left: 0, top: 0,
-        bottom: 22, // leave room for x-labels
-        display: "flex", flexDirection: "column", justifyContent: "space-between",
-        pointerEvents: "none",
+        position: "absolute", left: 0, top: 0, bottom: 20,
+        display: "flex", flexDirection: "column", justifyContent: "space-between", pointerEvents: "none",
       }}>
         {Y_LABELS.map((l) => (
-          <span key={l} style={{ fontSize: "9px", color: "rgba(156,163,175,0.45)", lineHeight: 1, whiteSpace: "nowrap" }}>
-            {l}
-          </span>
+          <span key={l} style={{ fontSize: "8px", color: "rgba(156,163,175,0.38)", lineHeight: 1, whiteSpace: "nowrap" }}>{l}</span>
         ))}
       </div>
 
-      {/* Chart area */}
-      <div style={{ marginLeft: "44px" }}>
-        <svg
-          width="100%"
-          height={H}
-          viewBox={`0 0 ${W} ${H}`}
-          preserveAspectRatio="none"
-          style={{ display: "block", overflow: "visible" }}
-          aria-label="Gelir trendi grafiği"
-          role="img"
-        >
+      {/* SVG area */}
+      <div style={{ marginLeft: "46px" }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"
+          style={{ display: "block", overflow: "visible" }} role="img" aria-label="Gelir trendi grafiği">
           <defs>
-            {/* Stroke gradient: purple → green */}
-            <linearGradient id={`line-grad-${uid}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id={`lg-${uid}`} x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="#6366F1" />
-              <stop offset="45%"  stopColor="#22C55E" />
+              <stop offset="40%"  stopColor="#22C55E" />
               <stop offset="100%" stopColor="#22C55E" />
             </linearGradient>
-
-            {/* Area fill gradient: top color → transparent */}
-            <linearGradient id={`area-grad-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%"   stopColor="#6366F1" stopOpacity="0.28" />
-              <stop offset="55%"  stopColor="#22C55E" stopOpacity="0.10" />
+            <linearGradient id={`ag-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%"   stopColor="#6366F1" stopOpacity="0.38" />
+              <stop offset="50%"  stopColor="#22C55E" stopOpacity="0.14" />
               <stop offset="100%" stopColor="#22C55E" stopOpacity="0" />
             </linearGradient>
-
-            {/* Glow filter on line */}
-            <filter id={`line-glow-${uid}`} x="-10%" y="-50%" width="120%" height="200%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            <filter id={`gf-${uid}`} x="-10%" y="-60%" width="120%" height="220%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
 
-          {/* Horizontal grid lines */}
-          {[0.25, 0.5, 0.75].map((ratio) => (
-            <line
-              key={ratio}
-              x1={0} y1={H * ratio}
-              x2={W} y2={H * ratio}
-              stroke="rgba(255,255,255,0.05)"
-              strokeWidth="1"
-              strokeDasharray="4 4"
-            />
+          {/* Grid lines */}
+          {[0.2, 0.4, 0.6, 0.8].map((r) => (
+            <line key={r} x1={0} y1={H * r} x2={W} y2={H * r}
+              stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="4 6" />
           ))}
 
-          {/* Area fill — fades in */}
-          <motion.path
-            d={areaPath}
-            fill={`url(#area-grad-${uid})`}
-            initial={{ opacity: 0 }}
-            animate={active ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
+          {/* Peak vertical highlight band */}
+          <rect x={peakPt[0] - 18} y={0} width={36} height={H}
+            fill="rgba(99,102,241,0.07)" rx="4" />
 
-          {/* Main line — draws left to right */}
-          <motion.path
-            d={linePath}
-            fill="none"
-            stroke={`url(#line-grad-${uid})`}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            filter={`url(#line-glow-${uid})`}
-            initial={{ pathLength: 0 }}
-            animate={active ? { pathLength: 1 } : {}}
-            transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-          />
+          {/* Area fill */}
+          <motion.path d={areaPath} fill={`url(#ag-${uid})`}
+            initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}}
+            transition={{ duration: 1.2, delay: 0.2 }} />
 
-          {/* Live endpoint dot */}
-          <motion.circle
-            cx={lastPt[0]} cy={lastPt[1]} r={4}
-            fill="#22C55E"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={active ? { scale: 1, opacity: 1 } : {}}
-            transition={{ delay: 1.7, duration: 0.3 }}
-          />
-          {/* Pulse ring around endpoint */}
-          <motion.circle
-            cx={lastPt[0]} cy={lastPt[1]} r={9}
-            fill="none"
-            stroke="#22C55E"
-            strokeWidth="1"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={active ? { scale: [0.8, 1.6, 1.6], opacity: [0, 0.5, 0] } : {}}
-            transition={{
-              delay: 1.9,
-              duration: 1.2,
-              repeat: Infinity,
-              repeatDelay: 1.5,
-              ease: "easeOut",
-            }}
-          />
+          {/* Line */}
+          <motion.path d={linePath} fill="none"
+            stroke={`url(#lg-${uid})`} strokeWidth="2.5" strokeLinecap="round"
+            filter={`url(#gf-${uid})`}
+            initial={{ pathLength: 0 }} animate={active ? { pathLength: 1 } : {}}
+            transition={{ duration: 2.0, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }} />
+
+          {/* Peak callout */}
+          <motion.g initial={{ opacity: 0, y: -6 }} animate={active ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 2.0, duration: 0.4 }}>
+            <rect x={peakPt[0] - 24} y={peakPt[1] - 24} width={48} height={17} rx={4}
+              fill="rgba(99,102,241,0.9)" />
+            <text x={peakPt[0]} y={peakPt[1] - 12} textAnchor="middle"
+              fill="white" fontSize="8" fontFamily="var(--font-mono)">₺200K</text>
+          </motion.g>
+          <motion.circle cx={peakPt[0]} cy={peakPt[1]} r={3.5} fill="#6366F1"
+            initial={{ scale: 0 }} animate={active ? { scale: 1 } : {}}
+            transition={{ delay: 1.9, duration: 0.3 }} />
+
+          {/* Live endpoint */}
+          <motion.circle cx={lastPt[0]} cy={lastPt[1]} r={4} fill="#22C55E"
+            initial={{ scale: 0, opacity: 0 }} animate={active ? { scale: 1, opacity: 1 } : {}}
+            transition={{ delay: 1.9, duration: 0.3 }} />
+          <motion.circle cx={lastPt[0]} cy={lastPt[1]} r={9} fill="none"
+            stroke="#22C55E" strokeWidth="1"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={active ? { scale: [0.8, 1.9, 1.9], opacity: [0, 0.65, 0] } : {}}
+            transition={{ delay: 2.1, duration: 1.4, repeat: Infinity, repeatDelay: 1.2, ease: "easeOut" }} />
         </svg>
 
-        {/* X-axis labels */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "6px" }}>
+        {/* X-axis */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5px" }}>
           {X_LABELS.map((m) => (
-            <span key={m} style={{ fontSize: "9px", color: "rgba(156,163,175,0.4)" }}>{m}</span>
+            <span key={m} style={{ fontSize: "8px", color: "rgba(156,163,175,0.32)" }}>{m}</span>
           ))}
         </div>
       </div>
@@ -200,105 +158,79 @@ function MainChart({ active }: { active: boolean }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   2. FULL-WIDTH SPARKLINE (used inside KPI cards)
+   2. FULL-WIDTH SPARKLINE
 ═══════════════════════════════════════════════════════ */
-function Sparkline({
-  data,
-  color = "#22C55E",
-  active,
-}: {
-  data: number[];
-  color?: string;
-  active: boolean;
-}) {
+function Sparkline({ data, color = "#22C55E", active }: { data: number[]; color?: string; active: boolean }) {
   const uid = useId().replace(/:/g, "");
-  const W = 200; // virtual viewBox width — renders at 100% actual width
-  const H = 32;
-
-  const pts = toPoints(data, W, H, 3);
+  const W = 200, H = 28;
+  const pts      = toPoints(data, W, H, 3);
   const linePath = buildPath(pts);
   const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`;
-
   return (
-    <svg
-      width="100%"
-      height={H}
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      style={{ display: "block" }}
-    >
+    <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display: "block" }}>
       <defs>
-        <linearGradient id={`spark-fill-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%"   stopColor={color} stopOpacity="0.22" />
+        <linearGradient id={`sf-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stopColor={color} stopOpacity="0.28" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-
-      <motion.path
-        d={areaPath}
-        fill={`url(#spark-fill-${uid})`}
-        initial={{ opacity: 0 }}
-        animate={active ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      />
-
-      <motion.path
-        d={linePath}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={active ? { pathLength: 1 } : {}}
-        transition={{ duration: 1.1, ease: "easeInOut" }}
-      />
+      <motion.path d={areaPath} fill={`url(#sf-${uid})`}
+        initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.4 }} />
+      <motion.path d={linePath} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={active ? { pathLength: 1 } : {}}
+        transition={{ duration: 1.1, ease: "easeInOut" }} />
     </svg>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   3. KPI CARDS (2 × 2 grid)
+   3. MINI ROAS BAR (in table rows)
+═══════════════════════════════════════════════════════ */
+function MiniBar({ value, color = "#22C55E" }: { value: number; color?: string }) {
+  return (
+    <div style={{ width: "36px", height: "4px", borderRadius: "2px", background: "rgba(255,255,255,0.07)", overflow: "hidden" }}>
+      <motion.div
+        style={{ height: "100%", borderRadius: "2px", background: color }}
+        initial={{ width: "0%" }}
+        animate={{ width: `${value}%` }}
+        transition={{ duration: 0.9, delay: 1.0, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+      />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   4. KPI CARDS — 2×2 grid
 ═══════════════════════════════════════════════════════ */
 const KPI_DATA = [
   {
-    label: "ROAS",
-    target: 4.2, decimals: 1, prefix: "", suffix: "x",
+    label: "ROAS", target: 4.2, decimals: 1, prefix: "", suffix: "x",
     change: "+32%", positive: true,
     sparkData: [2.1, 2.5, 2.8, 3.1, 3.4, 3.8, 4.0, 4.2],
-    color: "#22C55E",
+    color: "#22C55E", sub: "hedef 5.0x",
   },
   {
-    label: "CPA",
-    target: 38, decimals: 0, prefix: "-", suffix: "%",
+    label: "CPA", target: 38, decimals: 0, prefix: "-", suffix: "%",
     change: "-38%", positive: true,
     sparkData: [100, 90, 82, 75, 69, 63, 60, 62],
-    color: "#22C55E",
+    color: "#22C55E", sub: "₺28 → ₺17",
   },
   {
-    label: "Gelir",
-    target: 120, decimals: 0, prefix: "+", suffix: "%",
+    label: "Gelir", target: 120, decimals: 0, prefix: "+", suffix: "%",
     change: "+120%", positive: true,
     sparkData: [28, 40, 55, 70, 85, 98, 110, 120],
-    color: "#6366F1",
+    color: "#6366F1", sub: "₺564K → ₺1.24M",
   },
   {
-    label: "CTR",
-    target: 3.8, decimals: 1, prefix: "", suffix: "%",
+    label: "CTR", target: 3.8, decimals: 1, prefix: "", suffix: "%",
     change: "+0.9%", positive: true,
     sparkData: [1.9, 2.2, 2.5, 2.9, 3.2, 3.5, 3.7, 3.8],
-    color: "#22C55E",
+    color: "#22C55E", sub: "sektör ort. 1.2%",
   },
 ];
 
-function KpiCard({
-  kpi,
-  active,
-  delay,
-}: {
-  kpi: typeof KPI_DATA[0];
-  active: boolean;
-  delay: number;
-}) {
+function KpiCard({ kpi, active, delay }: { kpi: typeof KPI_DATA[0]; active: boolean; delay: number }) {
   const [hovered, setHovered] = useState(false);
   const count = useCountUp(kpi.target, active, 1.3, kpi.decimals);
   const displayValue = kpi.decimals > 0
@@ -307,140 +239,106 @@ function KpiCard({
 
   return (
     <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 14 }}
-      animate={active ? { opacity: 1, y: 0 } : {}}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 14 }} animate={active ? { opacity: 1, y: 0 } : {}}
       transition={{ delay, duration: 0.45, ease: "easeOut" }}
       style={{
-        padding: "14px 16px 12px",
-        borderRadius: "12px",
-        background: hovered ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
-        border: `1px solid ${hovered ? `${kpi.color}35` : "rgba(255,255,255,0.07)"}`,
-        transition: "background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s",
+        padding: "12px 14px 10px", borderRadius: "12px",
+        background: hovered ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.025)",
+        border: `1px solid ${hovered ? `${kpi.color}40` : "rgba(255,255,255,0.07)"}`,
+        transition: "all 0.2s",
         transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        boxShadow: hovered ? `0 12px 32px ${kpi.color}1A` : "none",
+        boxShadow: hovered ? `0 12px 32px ${kpi.color}18` : "none",
         cursor: "default",
       }}
     >
-      {/* Label + change badge */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-        <span style={{
-          fontSize: "10px", fontWeight: 700, color: "#9CA3AF",
-          textTransform: "uppercase", letterSpacing: "0.1em",
-        }}>
+      {/* Label + badge */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+        <span style={{ fontSize: "9px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em" }}>
           {kpi.label}
         </span>
         <span style={{
           display: "inline-flex", alignItems: "center", gap: "3px",
-          fontSize: "10px", fontWeight: 700, color: kpi.color,
-          background: `${kpi.color}18`, padding: "2px 7px", borderRadius: "99px",
+          fontSize: "9px", fontWeight: 700, color: kpi.color,
+          background: `${kpi.color}18`, padding: "2px 6px", borderRadius: "99px",
         }}>
-          {kpi.positive ? <TrendingUp size={8} /> : <TrendingDown size={8} />}
+          {kpi.positive ? <TrendingUp size={7} /> : <TrendingDown size={7} />}
           {kpi.change}
         </span>
       </div>
 
       {/* Big value */}
       <div style={{
-        fontSize: "26px",
-        fontWeight: 800,
-        color: "#FFFFFF",
-        fontFamily: "var(--font-heading)",
-        letterSpacing: "-0.03em",
-        lineHeight: 1,
-        marginBottom: "10px",
+        fontSize: "28px", fontWeight: 800, color: "#FFFFFF",
+        fontFamily: "var(--font-heading)", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "3px",
       }}>
         {active ? displayValue : `${kpi.prefix}0${kpi.suffix}`}
       </div>
 
-      {/* Full-width sparkline */}
+      {/* Sub label */}
+      <div style={{ fontSize: "9px", color: "rgba(156,163,175,0.5)", marginBottom: "8px", fontFamily: "var(--font-mono)" }}>
+        {kpi.sub}
+      </div>
+
+      {/* Sparkline */}
       <Sparkline data={kpi.sparkData} color={kpi.color} active={active} />
     </motion.div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   4. CAMPAIGN TABLE
+   5. CAMPAIGN TABLE — 4 rows + CTR + mini bar
 ═══════════════════════════════════════════════════════ */
 const CAMPAIGNS = [
-  { name: "Summer Sale",     roas: "4.2x", spend: "₺45K", status: "active" },
-  { name: "Retargeting",     roas: "5.1x", spend: "₺32K", status: "active" },
-  { name: "Brand Awareness", roas: "2.8x", spend: "₺18K", status: "paused" },
+  { name: "Summer Sale",     roas: "4.2x", ctr: "3.8%", spend: "₺45K", roasPct: 84,  status: "active" },
+  { name: "Retargeting",     roas: "5.1x", ctr: "4.2%", spend: "₺32K", roasPct: 100, status: "active" },
+  { name: "Brand Awareness", roas: "2.8x", ctr: "1.9%", spend: "₺18K", roasPct: 56,  status: "paused" },
+  { name: "A/B Test #4",     roas: "3.6x", ctr: "3.1%", spend: "₺12K", roasPct: 72,  status: "active" },
 ];
 
 function CampaignTable({ active }: { active: boolean }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={active ? { opacity: 1 } : {}}
+      initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}}
       transition={{ delay: 0.7, duration: 0.45 }}
-      style={{
-        borderRadius: "10px",
-        background: "rgba(0,0,0,0.25)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        overflow: "hidden",
-      }}
+      style={{ borderRadius: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}
     >
-      {/* Header row */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 56px 58px 62px",
-          padding: "8px 14px",
-          background: "rgba(255,255,255,0.025)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        {["Kampanya", "ROAS", "Harcama", "Durum"].map((h) => (
-          <span
-            key={h}
-            style={{ fontSize: "9px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}
-          >
-            {h}
-          </span>
+      {/* Header */}
+      <div style={{
+        display: "grid", gridTemplateColumns: "1fr 44px 40px 40px 50px 56px",
+        padding: "7px 12px",
+        background: "rgba(255,255,255,0.02)",
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+      }}>
+        {["Kampanya", "ROAS", "CTR", "Bar", "Harcama", "Durum"].map((h) => (
+          <span key={h} style={{ fontSize: "8px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.07em" }}>{h}</span>
         ))}
       </div>
 
-      {/* Data rows */}
+      {/* Rows */}
       {CAMPAIGNS.map((c, i) => (
-        <motion.div
-          key={c.name}
-          initial={{ opacity: 0, x: -10 }}
-          animate={active ? { opacity: 1, x: 0 } : {}}
-          transition={{ delay: 0.8 + i * 0.1, duration: 0.3 }}
+        <motion.div key={c.name}
+          initial={{ opacity: 0, x: -10 }} animate={active ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: 0.85 + i * 0.08, duration: 0.3 }}
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 56px 58px 62px",
-            padding: "9px 14px",
-            alignItems: "center",
+            display: "grid", gridTemplateColumns: "1fr 44px 40px 40px 50px 56px",
+            padding: "8px 12px", alignItems: "center",
             borderBottom: i < CAMPAIGNS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
           }}
         >
-          <span style={{ fontSize: "12px", fontWeight: 500, color: "rgba(255,255,255,0.78)" }}>
-            {c.name}
-          </span>
-          <span style={{ fontSize: "12px", fontWeight: 700, color: "#22C55E", fontFamily: "var(--font-mono)" }}>
-            {c.roas}
-          </span>
-          <span style={{ fontSize: "11px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>
-            {c.spend}
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <span
-              style={{
-                width: "5px", height: "5px", borderRadius: "50%", flexShrink: 0,
-                background: c.status === "active" ? "#22C55E" : "#6B7280",
-                boxShadow: c.status === "active" ? "0 0 6px rgba(34,197,94,0.7)" : "none",
-                display: "inline-block",
-              }}
-            />
-            <span
-              style={{
-                fontSize: "10px", fontWeight: 600,
-                color: c.status === "active" ? "#22C55E" : "#6B7280",
-              }}
-            >
+          <span style={{ fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.75)" }}>{c.name}</span>
+          <span style={{ fontSize: "11px", fontWeight: 700, color: "#22C55E", fontFamily: "var(--font-mono)" }}>{c.roas}</span>
+          <span style={{ fontSize: "10px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>{c.ctr}</span>
+          <MiniBar value={c.roasPct} color={c.status === "active" ? "#22C55E" : "#6B7280"} />
+          <span style={{ fontSize: "10px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>{c.spend}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+            <span style={{
+              width: "5px", height: "5px", borderRadius: "50%", flexShrink: 0,
+              background: c.status === "active" ? "#22C55E" : "#6B7280",
+              boxShadow: c.status === "active" ? "0 0 6px rgba(34,197,94,0.7)" : "none",
+              display: "inline-block",
+            }} />
+            <span style={{ fontSize: "9px", fontWeight: 600, color: c.status === "active" ? "#22C55E" : "#6B7280" }}>
               {c.status === "active" ? "Aktif" : "Durdu"}
             </span>
           </span>
@@ -451,68 +349,36 @@ function CampaignTable({ active }: { active: boolean }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   5. ROAS PROGRESS BAR
+   6. PLATFORM BREAKDOWN — stacked bar + legend
 ═══════════════════════════════════════════════════════ */
-function RoasProgress({ active }: { active: boolean }) {
-  const target = 84; // 4.2x out of 5.0x = 84%
+const PLATFORMS = [
+  { name: "Meta Ads", pct: 52, color: "#6366F1", spend: "₺97K" },
+  { name: "Google",   pct: 31, color: "#22C55E", spend: "₺58K" },
+  { name: "TikTok",   pct: 17, color: "#F97316", spend: "₺31K" },
+];
 
+function PlatformBreakdown({ active }: { active: boolean }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={active ? { opacity: 1 } : {}}
-      transition={{ delay: 1.1, duration: 0.4 }}
-    >
-      {/* Labels */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-        <div>
-          <span style={{ fontSize: "11px", fontWeight: 600, color: "#9CA3AF" }}>ROAS Hedefi</span>
-          <span style={{ fontSize: "11px", color: "rgba(156,163,175,0.5)", marginLeft: "6px" }}>4.2x → 5.0x</span>
-        </div>
-        <span style={{ fontSize: "13px", fontWeight: 800, color: "#22C55E", fontFamily: "var(--font-heading)" }}>
-          {target}%
-        </span>
-      </div>
-
-      {/* Track */}
-      <div
-        style={{
-          height: "7px",
-          borderRadius: "99px",
-          background: "rgba(255,255,255,0.07)",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        {/* Fill */}
-        <motion.div
-          style={{
-            height: "100%",
-            borderRadius: "99px",
-            background: "linear-gradient(90deg, #6366F1 0%, #22C55E 100%)",
-            boxShadow: "0 0 12px rgba(34,197,94,0.55)",
-            position: "relative",
-          }}
-          initial={{ width: "0%" }}
-          animate={active ? { width: `${target}%` } : {}}
-          transition={{ delay: 1.2, duration: 1.4, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-        >
-          {/* Shimmer sweep */}
-          <motion.div
-            style={{
-              position: "absolute", inset: 0,
-              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%)",
-              backgroundSize: "60% 100%",
-            }}
-            animate={active ? { backgroundPosition: ["-60% 0", "160% 0"] } : {}}
-            transition={{ delay: 2.4, duration: 1.2, ease: "easeInOut" }}
+    <motion.div initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}} transition={{ delay: 1.0, duration: 0.4 }}>
+      {/* Stacked bar */}
+      <div style={{ display: "flex", height: "6px", borderRadius: "3px", overflow: "hidden", gap: "2px", marginBottom: "8px" }}>
+        {PLATFORMS.map((p) => (
+          <motion.div key={p.name}
+            style={{ borderRadius: "3px", background: p.color, height: "100%", boxShadow: `0 0 10px ${p.color}55` }}
+            initial={{ width: "0%", opacity: 0 }}
+            animate={active ? { width: `${p.pct}%`, opacity: 1 } : {}}
+            transition={{ delay: 1.1, duration: 1.0, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
           />
-        </motion.div>
+        ))}
       </div>
-
-      {/* Scale ticks */}
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5px" }}>
-        {["0x", "1x", "2x", "3x", "4x", "5x"].map((t) => (
-          <span key={t} style={{ fontSize: "9px", color: "rgba(156,163,175,0.35)" }}>{t}</span>
+      {/* Legend */}
+      <div style={{ display: "flex", gap: "16px" }}>
+        {PLATFORMS.map((p) => (
+          <div key={p.name} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: "6px", height: "6px", borderRadius: "2px", background: p.color, flexShrink: 0 }} />
+            <span style={{ fontSize: "9px", color: "#9CA3AF" }}>{p.name}</span>
+            <span style={{ fontSize: "9px", color: "rgba(156,163,175,0.5)", fontFamily: "var(--font-mono)" }}>{p.pct}% · {p.spend}</span>
+          </div>
         ))}
       </div>
     </motion.div>
@@ -520,7 +386,78 @@ function RoasProgress({ active }: { active: boolean }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   DASHBOARD SHELL — assembles all elements
+   7. DUAL PROGRESS BARS — ROAS + Budget
+═══════════════════════════════════════════════════════ */
+const PROGRESS_BARS = [
+  { label: "ROAS Hedefi", sub: "4.2x → 5.0x", pct: 84, c1: "#6366F1", c2: "#22C55E", ticks: ["0x","1x","2x","3x","4x","5x"] },
+  { label: "Bütçe",       sub: "₺186K / ₺220K", pct: 85, c1: "#6366F1", c2: "#F97316", ticks: null },
+];
+
+function ProgressBars({ active }: { active: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}}
+      transition={{ delay: 1.2, duration: 0.4 }}
+      style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+    >
+      {PROGRESS_BARS.map((b, idx) => (
+        <div key={b.label}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "5px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "10px", fontWeight: 600, color: "#9CA3AF" }}>{b.label}</span>
+              <span style={{ fontSize: "9px", color: "rgba(156,163,175,0.4)", fontFamily: "var(--font-mono)" }}>{b.sub}</span>
+            </div>
+            <span style={{ fontSize: "12px", fontWeight: 800, color: "#22C55E", fontFamily: "var(--font-heading)" }}>{b.pct}%</span>
+          </div>
+
+          <div style={{ height: "6px", borderRadius: "99px", background: "rgba(255,255,255,0.07)", overflow: "hidden", position: "relative" }}>
+            <motion.div
+              style={{
+                height: "100%", borderRadius: "99px",
+                background: `linear-gradient(90deg, ${b.c1} 0%, ${b.c2} 100%)`,
+                boxShadow: `0 0 10px ${b.c2}55`,
+                position: "relative",
+              }}
+              initial={{ width: "0%" }}
+              animate={active ? { width: `${b.pct}%` } : {}}
+              transition={{ delay: 1.3 + idx * 0.2, duration: 1.4, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+            >
+              <motion.div
+                style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)",
+                }}
+                animate={active ? { backgroundPosition: ["-60% 0", "160% 0"] } : {}}
+                transition={{ delay: 2.5 + idx * 0.2, duration: 1.2, ease: "easeInOut" }}
+              />
+            </motion.div>
+          </div>
+
+          {b.ticks && (
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "3px" }}>
+              {b.ticks.map((t) => (
+                <span key={t} style={{ fontSize: "7px", color: "rgba(156,163,175,0.28)" }}>{t}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   8. BOTTOM STATS STRIP
+═══════════════════════════════════════════════════════ */
+const BOTTOM_STATS = [
+  { label: "İzlenim",  value: "8.4M"  },
+  { label: "Tıklama",  value: "312K"  },
+  { label: "Dönüşüm", value: "28.4K" },
+  { label: "CPC",      value: "₺0.59" },
+];
+
+/* ═══════════════════════════════════════════════════════
+   DASHBOARD SHELL
 ═══════════════════════════════════════════════════════ */
 export default function KpiDashboard() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -528,161 +465,187 @@ export default function KpiDashboard() {
 
   return (
     <div ref={containerRef} style={{ position: "relative" }}>
-      {/* Outer ambient glow halo */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: "-28px",
-          borderRadius: "32px",
-          background:
-            "radial-gradient(ellipse at 40% 30%, rgba(99,102,241,0.14) 0%, rgba(34,197,94,0.07) 55%, transparent 75%)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
+
+      {/* Ambient glow — two layered halos */}
+      <div aria-hidden style={{
+        position: "absolute", inset: "-56px",
+        borderRadius: "48px",
+        background: "radial-gradient(ellipse at 35% 25%, rgba(99,102,241,0.26) 0%, rgba(34,197,94,0.12) 45%, transparent 70%)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", inset: "-28px",
+        borderRadius: "40px",
+        background: "radial-gradient(ellipse at 70% 80%, rgba(34,197,94,0.12) 0%, transparent 60%)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
 
       {/* Main glassmorphic card */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          background: "linear-gradient(150deg, rgba(17,24,39,0.97) 0%, rgba(11,15,26,0.94) 100%)",
-          border: "1px solid rgba(99,102,241,0.22)",
-          borderRadius: "20px",
-          overflow: "hidden",
-          boxShadow: [
-            "0 0 0 1px rgba(34,197,94,0.04)",
-            "0 40px 100px rgba(0,0,0,0.55)",
-            "inset 0 1px 0 rgba(255,255,255,0.06)",
-          ].join(", "),
-        }}
-      >
+      <div style={{
+        position: "relative", zIndex: 1,
+        background: "linear-gradient(160deg, rgba(17,24,39,0.99) 0%, rgba(11,15,26,0.97) 60%, rgba(17,24,39,0.96) 100%)",
+        border: "1px solid rgba(99,102,241,0.30)",
+        borderRadius: "22px",
+        overflow: "hidden",
+        boxShadow: [
+          "0 0 0 1px rgba(34,197,94,0.06)",
+          "0 60px 140px rgba(0,0,0,0.70)",
+          "0 20px 50px rgba(0,0,0,0.45)",
+          "inset 0 1px 0 rgba(255,255,255,0.09)",
+          "inset 0 0 100px rgba(99,102,241,0.04)",
+        ].join(", "),
+      }}>
+
         {/* Top inner highlight line */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: 0, left: "15%", right: "15%", height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.65), rgba(34,197,94,0.45), transparent)",
-          }}
-        />
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "8%", right: "8%", height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.9), rgba(34,197,94,0.55), transparent)",
+        }} />
+
+        {/* Subtle inner grid overlay */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          backgroundImage: "linear-gradient(rgba(99,102,241,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.022) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }} />
 
         {/* ── HEADER BAR ── */}
-        <div
-          style={{
-            padding: "14px 20px",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <div style={{
+          padding: "13px 18px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {/* App icon */}
-            <div
-              style={{
-                width: "30px", height: "30px",
-                borderRadius: "9px",
-                background: "linear-gradient(135deg, rgba(99,102,241,0.35), rgba(34,197,94,0.25))",
-                border: "1px solid rgba(99,102,241,0.35)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
+            <div style={{
+              width: "32px", height: "32px", borderRadius: "10px",
+              background: "linear-gradient(135deg, rgba(99,102,241,0.42), rgba(34,197,94,0.25))",
+              border: "1px solid rgba(99,102,241,0.42)",
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              boxShadow: "0 0 18px rgba(99,102,241,0.30)",
+            }}>
               <Activity size={14} style={{ color: "#22C55E" }} />
             </div>
-
             <div>
               <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", lineHeight: 1.2 }}>
                 Performance Dashboard
               </div>
-              <div style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "1px" }}>Son 90 gün · Tüm kampanyalar</div>
+              <div style={{ fontSize: "9px", color: "#9CA3AF", marginTop: "1px" }}>
+                Son 90 gün · Tüm kampanyalar · 3 platform
+              </div>
             </div>
           </div>
 
-          {/* Right: live badge + signal */}
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <motion.span
-                aria-hidden
-                style={{
-                  display: "inline-block",
-                  width: "7px", height: "7px", borderRadius: "50%",
-                  background: "#22C55E",
-                  boxShadow: "0 0 8px rgba(34,197,94,0.8)",
-                }}
-                animate={{ opacity: [1, 0.25, 1] }}
-                transition={{ duration: 1.4, repeat: Infinity }}
-              />
+              <motion.span aria-hidden style={{
+                display: "inline-block", width: "7px", height: "7px", borderRadius: "50%",
+                background: "#22C55E", boxShadow: "0 0 12px rgba(34,197,94,0.95)",
+              }} animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }} />
               <span style={{ fontSize: "10px", fontWeight: 700, color: "#22C55E", letterSpacing: "0.06em" }}>LIVE</span>
             </div>
-            <Wifi size={13} style={{ color: "#9CA3AF", opacity: 0.4 }} aria-hidden />
+            <Wifi size={13} style={{ color: "#9CA3AF", opacity: 0.35 }} aria-hidden />
+            <MoreHorizontal size={14} style={{ color: "#9CA3AF", opacity: 0.28 }} aria-hidden />
           </div>
         </div>
 
         {/* ── BODY ── */}
-        <div style={{ padding: "20px 20px 22px", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div style={{ padding: "16px 18px 20px", display: "flex", flexDirection: "column", gap: "14px" }}>
 
           {/* Revenue headline */}
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
             <div>
-              <p style={{ fontSize: "10px", fontWeight: 600, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: "4px" }}>
+              <p style={{ fontSize: "9px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "3px" }}>
                 Toplam Gelir
               </p>
               <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{
-                  fontSize: "30px", fontWeight: 800, color: "#FFFFFF",
-                  fontFamily: "var(--font-heading)", letterSpacing: "-0.03em",
+                  fontSize: "36px", fontWeight: 800, color: "#FFFFFF",
+                  fontFamily: "var(--font-heading)", letterSpacing: "-0.04em",
                 }}>
                   ₺1.24M
                 </span>
                 <span style={{
                   display: "inline-flex", alignItems: "center", gap: "3px",
-                  fontSize: "12px", fontWeight: 700, color: "#22C55E",
-                  background: "rgba(34,197,94,0.12)",
+                  fontSize: "11px", fontWeight: 700, color: "#22C55E",
+                  background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.2)",
                   padding: "3px 9px", borderRadius: "99px",
                 }}>
-                  <TrendingUp size={10} />
-                  +120%
+                  <TrendingUp size={9} />+120%
                 </span>
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: "10px", color: "#9CA3AF", marginBottom: "2px" }}>Geçen dönem</p>
-              <span style={{ fontSize: "14px", fontWeight: 600, color: "rgba(255,255,255,0.38)", fontFamily: "var(--font-mono)" }}>
-                ₺564K
-              </span>
+              <p style={{ fontSize: "9px", color: "#9CA3AF", marginBottom: "2px" }}>vs önceki dönem</p>
+              <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.28)", fontFamily: "var(--font-mono)" }}>₺564K</span>
             </div>
           </div>
 
-          {/* ① Main revenue chart */}
+          {/* ① Main chart */}
           <MainChart active={isVisible} />
 
-          {/* ② KPI grid — 2 × 2 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+          {/* ② Platform breakdown */}
+          <div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "7px" }}>
+              <span style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                Platform Dağılımı
+              </span>
+              <BarChart2 size={11} style={{ color: "#9CA3AF", opacity: 0.35 }} aria-hidden />
+            </div>
+            <PlatformBreakdown active={isVisible} />
+          </div>
+
+          {/* ③ KPI grid 2×2 */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
             {KPI_DATA.map((kpi, i) => (
               <KpiCard key={kpi.label} kpi={kpi} active={isVisible} delay={0.25 + i * 0.08} />
             ))}
           </div>
 
-          {/* ③ Campaign table */}
+          {/* ④ Campaign table */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span style={{
-                fontSize: "11px", fontWeight: 700,
-                color: "rgba(255,255,255,0.45)",
-                textTransform: "uppercase", letterSpacing: "0.09em",
-              }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "7px" }}>
+              <span style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
                 Aktif Kampanyalar
               </span>
-              <MoreHorizontal size={15} style={{ color: "#9CA3AF", opacity: 0.4 }} aria-hidden />
+              <MoreHorizontal size={13} style={{ color: "#9CA3AF", opacity: 0.32 }} aria-hidden />
             </div>
             <CampaignTable active={isVisible} />
           </div>
 
-          {/* ④ Progress bar */}
-          <RoasProgress active={isVisible} />
+          {/* ⑤ Dual progress bars */}
+          <div>
+            <div style={{ marginBottom: "9px" }}>
+              <span style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                Hedefler
+              </span>
+            </div>
+            <ProgressBars active={isVisible} />
+          </div>
+
+          {/* ⑥ Bottom stat strip */}
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            paddingTop: "12px",
+          }}>
+            {BOTTOM_STATS.map((s, i) => (
+              <div key={s.label} style={{
+                textAlign: "center",
+                borderRight: i < BOTTOM_STATS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+              }}>
+                <motion.div
+                  style={{ fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.72)", fontFamily: "var(--font-mono)" }}
+                  initial={{ opacity: 0 }} animate={isVisible ? { opacity: 1 } : {}}
+                  transition={{ delay: 1.6 + i * 0.07, duration: 0.4 }}
+                >
+                  {s.value}
+                </motion.div>
+                <div style={{ fontSize: "8px", color: "#9CA3AF", marginTop: "2px", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

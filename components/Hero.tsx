@@ -20,26 +20,42 @@ export default function Hero() {
           backgroundSize: "48px 48px",
         }} />
 
-        {/* Layer 2: purple glow — top right */}
+        {/* Layer 2: purple glow — top right, stronger */}
         <div style={{
-          position: "absolute", top: "-15%", right: "-10%",
-          width: "700px", height: "700px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
-          filter: "blur(40px)",
+          position: "absolute", top: "-20%", right: "-15%",
+          width: "900px", height: "900px",
+          background: "radial-gradient(circle, rgba(99,102,241,0.26) 0%, rgba(99,102,241,0.10) 35%, rgba(99,102,241,0.03) 60%, transparent 75%)",
+          filter: "blur(50px)",
         }} />
 
-        {/* Layer 3: green glow — bottom left */}
+        {/* Layer 2b: purple inner core */}
         <div style={{
-          position: "absolute", bottom: "-10%", left: "-5%",
-          width: "600px", height: "600px",
-          background: "radial-gradient(circle, rgba(34,197,94,0.12) 0%, rgba(34,197,94,0.03) 50%, transparent 70%)",
+          position: "absolute", top: "-5%", right: "5%",
+          width: "400px", height: "400px",
+          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%)",
+          filter: "blur(20px)",
+        }} />
+
+        {/* Layer 3: green glow — bottom left, stronger */}
+        <div style={{
+          position: "absolute", bottom: "-15%", left: "-8%",
+          width: "800px", height: "800px",
+          background: "radial-gradient(circle, rgba(34,197,94,0.18) 0%, rgba(34,197,94,0.07) 40%, transparent 70%)",
           filter: "blur(60px)",
+        }} />
+
+        {/* Layer 3b: green accent center-bottom */}
+        <div style={{
+          position: "absolute", bottom: "10%", left: "30%",
+          width: "300px", height: "300px",
+          background: "radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%)",
+          filter: "blur(30px)",
         }} />
 
         {/* Layer 4: center vignette */}
         <div style={{
           position: "absolute", inset: 0,
-          background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(11,15,26,0) 0%, rgba(11,15,26,0.6) 100%)",
+          background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(11,15,26,0) 0%, rgba(11,15,26,0.65) 100%)",
         }} />
 
         {/* Layer 5: scan line */}
@@ -59,7 +75,7 @@ export default function Hero() {
         <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
 
           {/* Split: 40% / 60% */}
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 3fr", gap: "64px", alignItems: "center" }} className="hero-grid">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "48px", alignItems: "center" }} className="hero-grid">
 
             {/* ══ LEFT (40%) — Copy ══ */}
             <div>
@@ -87,10 +103,10 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.08, ease }}
                 style={{
-                  fontSize: "clamp(44px, 5.5vw, 72px)",
+                  fontSize: "clamp(40px, 5vw, 76px)",
                   fontWeight: 800,
-                  lineHeight: 1.04,
-                  letterSpacing: "-0.035em",
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.04em",
                   color: "#FFFFFF",
                   fontFamily: "var(--font-heading)",
                   marginBottom: "20px",
@@ -99,10 +115,11 @@ export default function Hero() {
                 Performans<br />
                 Reklamlarıyla<br />
                 <span style={{
-                  background: "linear-gradient(135deg, #22C55E 0%, #6366F1 60%)",
+                  background: "linear-gradient(120deg, #22C55E 0%, #4ADE80 30%, #6366F1 75%, #818CF8 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
+                  filter: "drop-shadow(0 0 28px rgba(34,197,94,0.35))",
                 }}>
                   Satışlarını Ölçekle
                 </span>
@@ -193,19 +210,43 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 transition={{ delay: 0.7, duration: 0.5 }}
-                style={{ marginTop: "36px", paddingTop: "28px", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", gap: "28px" }}
+                style={{ marginTop: "36px", paddingTop: "24px", borderTop: "1px solid rgba(255,255,255,0.07)" }}
               >
-                {[
-                  { v: "50+", l: "Marka" },
-                  { v: "6.4x", l: "ROAS" },
-                  { v: "₺5M+", l: "Bütçe" },
-                  { v: "%40", l: "CPA↓" },
-                ].map((s) => (
-                  <div key={s.l}>
-                    <div style={{ fontSize: "18px", fontWeight: 700, color: "#22C55E", fontFamily: "var(--font-heading)" }}>{s.v}</div>
-                    <div style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "2px" }}>{s.l}</div>
-                  </div>
-                ))}
+                {/* Stats row */}
+                <div style={{ display: "flex", gap: "24px", marginBottom: "16px" }}>
+                  {[
+                    { v: "50+",  l: "Marka",   c: "#22C55E" },
+                    { v: "6.4x", l: "ROAS",    c: "#22C55E" },
+                    { v: "₺5M+", l: "Bütçe",   c: "#6366F1" },
+                    { v: "%40",  l: "CPA↓",    c: "#22C55E" },
+                  ].map((s) => (
+                    <div key={s.l}>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: s.c, fontFamily: "var(--font-heading)", letterSpacing: "-0.02em" }}>{s.v}</div>
+                      <div style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "2px" }}>{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Live ticker strip */}
+                <div style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "7px 12px", borderRadius: "8px",
+                  background: "rgba(34,197,94,0.06)",
+                  border: "1px solid rgba(34,197,94,0.15)",
+                }}>
+                  <motion.span style={{
+                    width: "5px", height: "5px", borderRadius: "50%", flexShrink: 0,
+                    background: "#22C55E", boxShadow: "0 0 8px rgba(34,197,94,0.8)",
+                    display: "inline-block",
+                  }} animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }} />
+                  <span style={{ fontSize: "10px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>
+                    canlı · <span style={{ color: "#22C55E", fontWeight: 600 }}>3 aktif kampanya</span>
+                    <span style={{ margin: "0 8px", opacity: 0.3 }}>·</span>
+                    bugün <span style={{ color: "#22C55E", fontWeight: 600 }}>₺4,820</span> harcama
+                    <span style={{ margin: "0 8px", opacity: 0.3 }}>·</span>
+                    <span style={{ color: "#22C55E", fontWeight: 600 }}>4.1x</span> ROAS
+                  </span>
+                </div>
               </motion.div>
             </div>
 
