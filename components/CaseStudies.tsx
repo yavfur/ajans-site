@@ -5,59 +5,48 @@ import { useRef, useId, useState } from "react";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
-/* Mini chart helper */
-function smoothPath(pts: [number, number][]): string {
+/* ── smooth bezier path ── */
+function sp(pts: [number, number][]): string {
   if (pts.length < 2) return "";
   let d = `M ${pts[0][0]},${pts[0][1]}`;
   for (let i = 1; i < pts.length; i++) {
-    const p = pts[i - 1], c = pts[i];
-    const cpx = (p[0] + c[0]) / 2;
-    d += ` C ${cpx},${p[1]} ${cpx},${c[1]} ${c[0]},${c[1]}`;
+    const p = pts[i - 1], c = pts[i], cx = (p[0] + c[0]) / 2;
+    d += ` C ${cx},${p[1]} ${cx},${c[1]} ${c[0]},${c[1]}`;
   }
   return d;
 }
 
-function ResultChart({ data, hovered }: { data: number[]; hovered: boolean }) {
+function CaseChart({ data, hov }: { data: number[]; hov: boolean }) {
   const id = useId().replace(/:/g, "");
-  const w = 160, h = 40;
-  const min = Math.min(...data), max = Math.max(...data);
-  const range = max - min || 1;
+  const W = 200, H = 48;
+  const mn = Math.min(...data), mx = Math.max(...data), rng = mx - mn || 1;
   const pts: [number, number][] = data.map((v, i) => [
-    (i / (data.length - 1)) * w,
-    h - 4 - ((v - min) / range) * (h - 8),
+    (i / (data.length - 1)) * W,
+    H - 4 - ((v - mn) / rng) * (H - 8),
   ]);
-  const line = smoothPath(pts);
-  const area = line + ` L ${w},${h} L 0,${h} Z`;
+  const line = sp(pts), area = line + ` L ${W},${H} L 0,${H} Z`;
 
   return (
-    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+    <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ overflow: "visible" }}>
       <defs>
-        <linearGradient id={`cs-sg-${id}`} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#22C55E" />
-          <stop offset="100%" stopColor="#6366F1" />
+        <linearGradient id={`csg-${id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#6366F1" /><stop offset="100%" stopColor="#22C55E" />
         </linearGradient>
-        <linearGradient id={`cs-ag-${id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#22C55E" stopOpacity="0.2" />
+        <linearGradient id={`csa-${id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#22C55E" stopOpacity={hov ? "0.25" : "0.1"} />
           <stop offset="100%" stopColor="#22C55E" stopOpacity="0" />
         </linearGradient>
+        <filter id={`csf-${id}`}><feGaussianBlur stdDeviation="2" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
       </defs>
-      <motion.path
-        d={area}
-        fill={`url(#cs-ag-${id})`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-      />
-      <motion.path
-        d={line}
-        fill="none"
-        stroke={`url(#cs-sg-${id})`}
-        strokeWidth="2"
-        strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: hovered ? 1 : 0.6 }}
-        transition={{ duration: hovered ? 0.7 : 0.3, ease: "easeInOut" }}
-      />
+      <motion.path d={area} fill={`url(#csa-${id})`}
+        animate={{ opacity: hov ? 1 : 0.5 }} transition={{ duration: 0.3 }} />
+      <motion.path d={line} fill="none" stroke={`url(#csg-${id})`} strokeWidth="2"
+        strokeLinecap="round" filter={`url(#csf-${id})`}
+        animate={{ pathLength: hov ? 1 : 0.7 }} transition={{ duration: 0.5, ease: "easeInOut" }} />
+      <motion.circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="3"
+        fill="#22C55E"
+        animate={{ scale: hov ? [1, 1.5, 1] : 1, opacity: hov ? 1 : 0.6 }}
+        transition={{ duration: 0.8, repeat: hov ? Infinity : 0 }} />
     </svg>
   );
 }
@@ -65,137 +54,127 @@ function ResultChart({ data, hovered }: { data: number[]; hovered: boolean }) {
 const cases = [
   {
     brand: "Lumière Skin",
-    sector: "Kozmetik",
+    sector: "Kozmetik & Cilt Bakımı",
     tag: "Meta Ads + Content",
-    problem: "Yüksek CPA, düşük ROAS.",
-    solution: "Kreatif A/B testleri, audience segmentasyonu, retargeting.",
-    resultValue: "+87%",
-    resultLabel: "ROAS artışı",
-    metric2: { val: "-54%", label: "CPA düşüşü" },
-    metric3: { val: "+218%", label: "Ciro artışı" },
-    data: [30, 35, 38, 42, 50, 62, 74, 82, 87],
+    problem: "Yüksek CPA, düşük ROAS, kreatif yorgunluğu.",
+    solution: "Kreatif A/B testleri, audience segmentasyonu ve retargeting funnel kurulumu.",
+    bigResult: "+87%",
+    bigLabel: "ROAS artışı",
+    subs: [{ v: "-54%", l: "CPA düşüşü" }, { v: "+218%", l: "Ciro artışı" }, { v: "6.4x", l: "ROAS" }],
+    data: [30, 35, 38, 44, 52, 63, 74, 82, 87],
+    accent: "#22C55E",
   },
   {
     brand: "StepUp Ayakkabı",
     sector: "Moda & E-ticaret",
     tag: "Shopify + Trendyol",
-    problem: "Trendyol'da görünürlük sorunu.",
-    solution: "Listing optimizasyonu, kampanya yapılandırma.",
-    resultValue: "+312%",
-    resultLabel: "Satış artışı",
-    metric2: { val: "-38%", label: "İade düşüşü" },
-    metric3: { val: "+67%", label: "AOV artışı" },
-    data: [20, 30, 45, 70, 110, 160, 220, 280, 312],
+    problem: "Trendyol'da görünürlük sorunu ve düşük dönüşüm oranı.",
+    solution: "Listing optimizasyonu, kampanya yeniden yapılandırma, iade analizi.",
+    bigResult: "+312%",
+    bigLabel: "Satış artışı",
+    subs: [{ v: "-38%", l: "İade oranı" }, { v: "+67%", l: "AOV artışı" }, { v: "5.1x", l: "ROAS" }],
+    data: [20, 34, 52, 80, 118, 170, 234, 290, 312],
+    accent: "#22C55E",
   },
   {
     brand: "NutriBox",
     sector: "Sağlık & Gıda",
     tag: "Sosyal Medya + Ads",
-    problem: "Sıfırdan marka bilinirliği.",
-    solution: "İçerik + influencer + Meta funnel.",
-    resultValue: "12K+",
-    resultLabel: "Aktif abone",
-    metric2: { val: "+840%", label: "Instagram büyüme" },
-    metric3: { val: "₺28", label: "CAC" },
-    data: [0, 800, 2000, 3500, 5500, 7500, 9200, 11000, 12000],
+    problem: "Sıfırdan marka bilinirliği ve abonelik büyütme.",
+    solution: "İçerik takvimi, influencer ortaklıkları ve Meta Ads funnel.",
+    bigResult: "12K+",
+    bigLabel: "Aktif abone",
+    subs: [{ v: "+840%", l: "Instagram" }, { v: "₺28", l: "CAC" }, { v: "3.2x", l: "LTV/CAC" }],
+    data: [0, 800, 2200, 4000, 6000, 8000, 10000, 11500, 12000],
+    accent: "#6366F1",
   },
 ];
 
-function CaseCard({ c, index }: { c: typeof cases[0]; index: number }) {
+function CaseCard({ c, i }: { c: typeof cases[0]; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [hovered, setHovered] = useState(false);
+  const [hov, setHov] = useState(false);
 
   return (
     <motion.div
       ref={ref}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 36 }}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+      transition={{ duration: 0.65, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       style={{
         background: "#111827",
-        border: `1px solid ${hovered ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.05)"}`,
-        borderRadius: "16px",
+        border: `1px solid ${hov ? c.accent + "28" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: "18px",
         overflow: "hidden",
-        transition: "transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease",
-        transform: hovered ? "translateY(-8px)" : "translateY(0)",
-        boxShadow: hovered ? "0 24px 60px rgba(34,197,94,0.12)" : "0 4px 24px rgba(0,0,0,0.3)",
+        transition: "all 0.3s ease",
+        transform: hov ? "translateY(-8px)" : "translateY(0)",
+        boxShadow: hov ? `0 28px 70px rgba(0,0,0,0.5), 0 0 0 1px ${c.accent}18` : "0 4px 24px rgba(0,0,0,0.3)",
         cursor: "default",
+        display: "flex", flexDirection: "column",
       }}
     >
-      {/* Top: brand header */}
+      {/* Top gradient bar */}
+      <div style={{ height: "2px", background: `linear-gradient(90deg, ${c.accent}, #6366F1)`, opacity: hov ? 1 : 0.3, transition: "opacity 0.3s" }} />
+
+      {/* Brand header */}
       <div style={{
         padding: "20px 24px 16px",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "space-between",
-        gap: "12px",
+        display: "flex", justifyContent: "space-between", alignItems: "flex-start",
       }}>
         <div>
-          <div style={{ fontSize: "15px", fontWeight: 700, color: "#FFFFFF", marginBottom: "2px", fontFamily: "var(--font-heading)" }}>
-            {c.brand}
-          </div>
+          <div style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", marginBottom: "2px" }}>{c.brand}</div>
           <div style={{ fontSize: "11px", color: "#9CA3AF" }}>{c.sector}</div>
         </div>
         <span style={{
-          fontSize: "11px", fontWeight: 600, color: "#a5b4fc",
+          fontSize: "10px", fontWeight: 700, color: "#a5b4fc",
           background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)",
-          padding: "3px 10px", borderRadius: "99px", whiteSpace: "nowrap",
-        }}>
-          {c.tag}
-        </span>
+          padding: "4px 10px", borderRadius: "99px", whiteSpace: "nowrap",
+        }}>{c.tag}</span>
       </div>
 
-      {/* Middle: problem/solution */}
+      {/* Problem / Solution */}
       <div style={{ padding: "16px 24px", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-        <div style={{ marginBottom: "8px" }}>
-          <span style={{ fontSize: "10px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}>Problem</span>
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)", marginTop: "3px", lineHeight: 1.5 }}>{c.problem}</p>
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "9px", fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>Problem</div>
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", lineHeight: 1.5, margin: 0 }}>{c.problem}</p>
         </div>
         <div>
-          <span style={{ fontSize: "10px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}>Çözüm</span>
-          <p style={{ fontSize: "13px", color: "#9CA3AF", marginTop: "3px", lineHeight: 1.5 }}>{c.solution}</p>
+          <div style={{ fontSize: "9px", fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>Çözüm</div>
+          <p style={{ fontSize: "13px", color: "#9CA3AF", lineHeight: 1.5, margin: 0 }}>{c.solution}</p>
         </div>
       </div>
 
-      {/* ─── BIG RESULT — most important ─── */}
-      <div style={{ padding: "20px 24px" }}>
-        {/* Mini chart — reveals fully on hover */}
-        <div style={{ marginBottom: "16px" }}>
-          <ResultChart data={c.data} hovered={hovered} />
+      {/* Chart */}
+      <div style={{ padding: "16px 24px 8px" }}>
+        <CaseChart data={c.data} hov={hov} />
+      </div>
+
+      {/* ── BIG RESULT — dominant ── */}
+      <div style={{ padding: "8px 24px 20px" }}>
+        <div style={{
+          fontSize: "clamp(48px, 5vw, 64px)", fontWeight: 800,
+          color: c.accent, fontFamily: "var(--font-heading)",
+          letterSpacing: "-0.03em", lineHeight: 1,
+          textShadow: hov ? `0 0 40px ${c.accent}60` : "none",
+          transition: "text-shadow 0.3s",
+        }}>
+          {c.bigResult}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "4px", marginBottom: "16px" }}>
+          <TrendingUp size={12} style={{ color: c.accent }} />
+          <span style={{ fontSize: "13px", color: "#9CA3AF" }}>{c.bigLabel}</span>
         </div>
 
-        {/* Big result number */}
-        <div style={{ display: "flex", alignItems: "flex-end", gap: "12px", marginBottom: "16px" }}>
-          <div>
-            <div style={{
-              fontSize: "clamp(36px, 4vw, 48px)",
-              fontWeight: 700,
-              color: "#22C55E",
-              fontFamily: "var(--font-heading)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1,
-            }}>
-              {c.resultValue}
+        {/* Sub metrics */}
+        <div style={{ display: "flex", gap: "0", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "14px" }}>
+          {c.subs.map((s, j) => (
+            <div key={s.l} style={{ flex: 1, textAlign: "center", borderRight: j < c.subs.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", padding: "0 8px" }}>
+              <div style={{ fontSize: "16px", fontWeight: 700, color: "#22C55E" }}>{s.v}</div>
+              <div style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "2px" }}>{s.l}</div>
             </div>
-            <div style={{ fontSize: "13px", color: "#9CA3AF", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
-              <TrendingUp size={12} style={{ color: "#22C55E" }} />
-              {c.resultLabel}
-            </div>
-          </div>
-
-          {/* Secondary metrics */}
-          <div style={{ marginLeft: "auto", display: "flex", gap: "16px" }}>
-            {[c.metric2, c.metric3].map((m) => (
-              <div key={m.label} style={{ textAlign: "right" }}>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: "#22C55E" }}>{m.val}</div>
-                <div style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "2px" }}>{m.label}</div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </motion.div>
@@ -204,71 +183,60 @@ function CaseCard({ c, index }: { c: typeof cases[0]; index: number }) {
 
 export default function CaseStudies() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative" }}>
+    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
       {/* bg glow */}
       <div style={{
-        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-        width: "600px", height: "400px",
-        background: "radial-gradient(ellipse, rgba(34,197,94,0.05) 0%, transparent 70%)",
+        position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)",
+        width: "800px", height: "500px",
+        background: "radial-gradient(ellipse, rgba(34,197,94,0.04) 0%, transparent 70%)",
         pointerEvents: "none",
       }} />
 
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-        {/* Header */}
         <motion.div
-          style={{ textAlign: "center", marginBottom: "56px" }}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          style={{ textAlign: "center", marginBottom: "60px" }}
+          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
         >
           <span style={{
-            display: "inline-block", padding: "5px 14px", borderRadius: "99px",
+            display: "inline-block", padding: "6px 14px", borderRadius: "99px",
             background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.25)",
-            fontSize: "11px", fontWeight: 600, color: "#22C55E",
-            letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "16px",
-          }}>
-            Sonuçlar
-          </span>
+            fontSize: "11px", fontWeight: 700, color: "#22C55E",
+            letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "20px",
+          }}>Kanıtlanmış Sonuçlar</span>
           <h2 style={{
-            fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700,
-            color: "#FFFFFF", fontFamily: "var(--font-heading)",
-            letterSpacing: "-0.02em", marginBottom: "12px",
+            fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800,
+            color: "#FFFFFF", fontFamily: "var(--font-heading)", letterSpacing: "-0.025em", marginBottom: "12px",
           }}>
             Rakamlarla konuşuyoruz
           </h2>
           <p style={{ fontSize: "16px", color: "#9CA3AF", maxWidth: "480px", margin: "0 auto", lineHeight: 1.6 }}>
-            Her büyüme kararı veriye dayanır. Aşağıdaki sonuçlar gerçek müşteri hesaplarından alınmıştır.
+            Veri her zaman konuşur. Aşağıdaki sonuçlar gerçek hesaplardan alınmıştır.
           </p>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "20px", marginBottom: "40px" }}>
-          {cases.map((c, i) => <CaseCard key={c.brand} c={c} index={i} />)}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", marginBottom: "48px" }}>
+          {cases.map((c, i) => <CaseCard key={c.brand} c={c} i={i} />)}
         </div>
 
         <motion.div
           style={{ textAlign: "center" }}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ delay: 0.3 }}
         >
-          <Link
-            href="/iletisim"
-            className="glow-orange"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: "8px",
-              padding: "14px 28px", borderRadius: "12px",
-              background: "#F97316", color: "#FFFFFF",
-              fontWeight: 700, fontSize: "15px", textDecoration: "none",
-              transition: "transform 0.2s ease",
-              fontFamily: "var(--font-heading)",
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+          <Link href="/iletisim" style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "15px 30px", borderRadius: "12px",
+            background: "#F97316", color: "#FFFFFF",
+            fontWeight: 700, fontSize: "15px", textDecoration: "none",
+            fontFamily: "var(--font-heading)",
+            boxShadow: "0 0 24px rgba(249,115,22,0.4)",
+            transition: "transform 0.2s, box-shadow 0.2s",
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 0 40px rgba(249,115,22,0.6)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 0 24px rgba(249,115,22,0.4)"; }}
           >
-            Sizin büyüme hikayenizi yazalım
-            <ArrowUpRight size={16} />
+            Sizin büyüme hikayenizi yazalım <ArrowUpRight size={16} />
           </Link>
         </motion.div>
       </div>
