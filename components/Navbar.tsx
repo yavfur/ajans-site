@@ -35,8 +35,8 @@ export default function Navbar() {
       <nav
         className={`max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between rounded-2xl transition-all duration-300 ${
           scrolled
-            ? "bg-background/80 backdrop-blur-xl border border-border shadow-lg shadow-black/20"
-            : "bg-background/40 backdrop-blur-md border border-white/10"
+            ? "bg-background/95 md:bg-background/80 md:backdrop-blur-xl border border-border shadow-lg shadow-black/20"
+            : "bg-background/90 md:bg-background/40 md:backdrop-blur-md border border-white/10"
         }`}
       >
         {/* Logo */}
@@ -103,7 +103,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden mt-2 max-w-6xl mx-auto rounded-2xl bg-background/95 backdrop-blur-xl border border-border shadow-xl shadow-black/30 overflow-hidden"
+            className="md:hidden mt-2 max-w-6xl mx-auto rounded-2xl bg-background border border-border shadow-xl shadow-black/30 overflow-hidden"
           >
             <div className="px-2 py-2">
               {navLinks.map((link, i) => (

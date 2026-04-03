@@ -1,13 +1,20 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 
 export function ShaderAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationIdRef = useRef<number>(0)
+  const [isMobile, setIsMobile] = useState(true) // default true = no flash
 
   useEffect(() => {
+    // Detect mobile / low-power devices
+    const mobile = window.matchMedia("(max-width: 768px)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    setIsMobile(mobile)
+    if (mobile) return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -21,7 +28,7 @@ export function ShaderAnimation() {
       #define TWO_PI 6.2831853072
       #define PI 3.14159265359
 
-      precision highp float;
+      precision mediump float;
       uniform vec2 resolution;
       uniform float time;
 
@@ -43,7 +50,7 @@ export function ShaderAnimation() {
 
     let renderer: THREE.WebGLRenderer
     try {
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "low-power" })
     } catch {
       return
     }
@@ -59,7 +66,8 @@ export function ShaderAnimation() {
     const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
     scene.add(new THREE.Mesh(geometry, material))
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // Cap pixelRatio at 1 on desktop — massive perf gain on retina
+    renderer.setPixelRatio(1)
 
     const resize = () => {
       const w = canvas.parentElement?.clientWidth ?? window.innerWidth
@@ -71,9 +79,13 @@ export function ShaderAnimation() {
     resize()
     window.addEventListener("resize", resize)
 
+    let frame = 0
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate)
-      uniforms.time.value += 0.05
+      frame++
+      // Render every 2nd frame on desktop → 30fps instead of 60fps
+      if (frame % 2 !== 0) return
+      uniforms.time.value += 0.1
       renderer.render(scene, camera)
     }
     animate()
@@ -85,7 +97,19 @@ export function ShaderAnimation() {
       material.dispose()
       renderer.dispose()
     }
-  }, [])
+  }, [isMobile])
+
+  // Mobile: lightweight static gradient, zero GPU cost
+  if (isMobile) {
+    return (
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          background: "radial-gradient(ellipse at 30% 40%, #1a3a1a 0%, #0b1a12 50%, #050d08 100%)",
+        }}
+      />
+    )
+  }
 
   return (
     <canvas

@@ -36,7 +36,8 @@ export default function PlatformPartners() {
         <motion.div
           className="flex gap-6 w-max"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          style={{ willChange: "transform" }}
         >
           {items.map((p, i) => (
             <div

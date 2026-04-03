@@ -8,9 +8,9 @@ interface ScrambleTextProps {
   text: string;
   className?: string;
   as?: keyof React.JSX.IntrinsicElements;
-  delay?: number;       // ms before animation starts
-  duration?: number;    // total ms for full reveal
-  trigger?: boolean;    // external trigger (defaults to inView)
+  delay?: number;
+  duration?: number;
+  trigger?: boolean;
 }
 
 export default function ScrambleText({
@@ -23,11 +23,18 @@ export default function ScrambleText({
 }: ScrambleTextProps) {
   const [displayed, setDisplayed] = useState(text);
   const [inView, setInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // default true → no animation until checked
   const ref = useRef<HTMLElement>(null);
   const frameRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // IntersectionObserver — fires once when element enters viewport
   useEffect(() => {
+    // Skip animation on touch/mobile devices — too many state updates hurt perf
+    const mobile =
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(max-width: 768px)").matches;
+    setIsMobile(mobile);
+    if (mobile) return;
+
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
@@ -43,7 +50,7 @@ export default function ScrambleText({
     return () => obs.disconnect();
   }, []);
 
-  const shouldPlay = trigger !== undefined ? trigger : inView;
+  const shouldPlay = !isMobile && (trigger !== undefined ? trigger : inView);
 
   useEffect(() => {
     if (!shouldPlay) return;
@@ -58,25 +65,19 @@ export default function ScrambleText({
         frameRef.current = setTimeout(tick, 16);
         return;
       }
-
       const progress = Math.min((now - startAt) / duration, 1);
-      // How many chars are "locked" (revealed in order left→right)
       const locked = Math.floor(progress * len);
-
       const result = text
         .split("")
         .map((char, i) => {
           if (char === " ") return " ";
           if (i < locked) return char;
-          // still scrambling
           return CHARS[Math.floor(Math.random() * CHARS.length)];
         })
         .join("");
-
       setDisplayed(result);
-
       if (now < endAt) {
-        frameRef.current = setTimeout(tick, 28);
+        frameRef.current = setTimeout(tick, 32); // 30fps max
       } else {
         setDisplayed(text);
       }

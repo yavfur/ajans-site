@@ -34,11 +34,11 @@ function MiniChart() {
 export default function DashboardMockup() {
   return (
     <div className="relative w-full max-w-[520px] mx-auto select-none">
-      {/* Glow */}
-      <div className="absolute -inset-4 bg-brand/10 rounded-3xl blur-2xl pointer-events-none" />
+      {/* Glow — desktop only */}
+      <div className="hidden lg:block absolute -inset-4 bg-brand/10 rounded-3xl blur-2xl pointer-events-none" />
 
       {/* Browser chrome */}
-      <div className="relative rounded-2xl border border-border/60 bg-background/90 backdrop-blur-sm shadow-2xl shadow-black/40 overflow-hidden">
+      <div className="relative rounded-2xl border border-border/60 bg-background shadow-2xl shadow-black/40 overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center gap-2 px-4 py-3 border-b border-border/50 bg-muted/30">
           <div className="flex gap-1.5">

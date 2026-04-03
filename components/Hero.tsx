@@ -33,10 +33,9 @@ export default function Hero() {
     <section className="relative min-h-screen overflow-hidden flex flex-col">
       <ShaderAnimation />
       <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/85" />
-      {/* Gradient orbs */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-brand/10 blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 w-[400px] h-[300px] rounded-full bg-brand/6 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/2 w-[600px] h-[200px] rounded-full bg-emerald-900/20 blur-[140px] pointer-events-none" />
+      {/* Gradient orbs — desktop only, GPU-heavy */}
+      <div className="hidden lg:block absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-brand/10 blur-[80px] pointer-events-none" />
+      <div className="hidden lg:block absolute top-1/2 right-1/4 w-[400px] h-[300px] rounded-full bg-brand/6 blur-[60px] pointer-events-none" />
 
       {/* Navbar spacer */}
       <div className="h-[72px] shrink-0" />

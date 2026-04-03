@@ -37,7 +37,7 @@ export default function RoasChart() {
   return (
     <section className="py-24 px-4 sm:px-6 relative overflow-hidden border-t border-border/20" ref={ref}>
       <div className="absolute inset-0 bg-[#0d2018]/40 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-brand/6 rounded-full blur-[100px] pointer-events-none" />
+      <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-brand/6 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="relative max-w-5xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
