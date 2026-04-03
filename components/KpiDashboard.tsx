@@ -201,7 +201,7 @@ function MiniBar({ value, color = "#22C55E" }: { value: number; color?: string }
 }
 
 /* ═══════════════════════════════════════════════════════
-   4. KPI CARDS — 2×2 grid
+   4. KPI CARDS — 2×3 grid (6 cards)
 ═══════════════════════════════════════════════════════ */
 const KPI_DATA = [
   {
@@ -228,6 +228,18 @@ const KPI_DATA = [
     sparkData: [1.9, 2.2, 2.5, 2.9, 3.2, 3.5, 3.7, 3.8],
     color: "#22C55E", sub: "sektör ort. 1.2%",
   },
+  {
+    label: "Conv. Rate", target: 22, decimals: 0, prefix: "+", suffix: "%",
+    change: "+22%", positive: true,
+    sparkData: [8, 10, 12, 14, 16, 18, 20, 22],
+    color: "#22C55E", sub: "3.1% → 3.8%",
+  },
+  {
+    label: "CPC", target: 18, decimals: 0, prefix: "-", suffix: "%",
+    change: "-18%", positive: true,
+    sparkData: [100, 95, 90, 86, 82, 82, 85, 82],
+    color: "#22C55E", sub: "₺1.24 → ₺0.59",
+  },
 ];
 
 function KpiCard({ kpi, active, delay }: { kpi: typeof KPI_DATA[0]; active: boolean; delay: number }) {
@@ -243,12 +255,13 @@ function KpiCard({ kpi, active, delay }: { kpi: typeof KPI_DATA[0]; active: bool
       initial={{ opacity: 0, y: 14 }} animate={active ? { opacity: 1, y: 0 } : {}}
       transition={{ delay, duration: 0.45, ease: "easeOut" }}
       style={{
-        padding: "12px 14px 10px", borderRadius: "12px",
+        padding: "10px 12px 9px 14px", borderRadius: "10px",
         background: hovered ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.025)",
         border: `1px solid ${hovered ? `${kpi.color}40` : "rgba(255,255,255,0.07)"}`,
+        borderLeft: `2px solid ${hovered ? kpi.color : `${kpi.color}55`}`,
         transition: "all 0.2s",
         transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        boxShadow: hovered ? `0 12px 32px ${kpi.color}18` : "none",
+        boxShadow: hovered ? `0 10px 28px ${kpi.color}18, inset 0 0 20px ${kpi.color}06` : "none",
         cursor: "default",
       }}
     >
@@ -287,13 +300,29 @@ function KpiCard({ kpi, active, delay }: { kpi: typeof KPI_DATA[0]; active: bool
 }
 
 /* ═══════════════════════════════════════════════════════
-   5. CAMPAIGN TABLE — 4 rows + CTR + mini bar
+   5. CAMPAIGN TABLE — 4 rows + CTR + sparkline + mini bar
 ═══════════════════════════════════════════════════════ */
+
+/** Tiny inline sparkline for table rows */
+function RowSpark({ data, color }: { data: number[]; color: string }) {
+  const uid = useId().replace(/:/g, "");
+  const W = 48, H = 18;
+  const pts = toPoints(data, W, H, 2);
+  const path = buildPath(pts);
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ display: "block", flexShrink: 0 }}>
+      <motion.path d={path} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+        transition={{ duration: 1.0, delay: 1.0, ease: "easeInOut" }} />
+    </svg>
+  );
+}
+
 const CAMPAIGNS = [
-  { name: "Summer Sale",     roas: "4.2x", ctr: "3.8%", spend: "₺45K", roasPct: 84,  status: "active" },
-  { name: "Retargeting",     roas: "5.1x", ctr: "4.2%", spend: "₺32K", roasPct: 100, status: "active" },
-  { name: "Brand Awareness", roas: "2.8x", ctr: "1.9%", spend: "₺18K", roasPct: 56,  status: "paused" },
-  { name: "A/B Test #4",     roas: "3.6x", ctr: "3.1%", spend: "₺12K", roasPct: 72,  status: "active" },
+  { name: "Summer Sale",     roas: "4.2x", ctr: "3.8%", spend: "₺45K", roasPct: 84,  status: "active",  trend: [28,32,35,39,40,42,41,42] },
+  { name: "Retargeting",     roas: "5.1x", ctr: "4.2%", spend: "₺32K", roasPct: 100, status: "active",  trend: [30,34,38,42,46,49,50,51] },
+  { name: "Brand Awareness", roas: "2.8x", ctr: "1.9%", spend: "₺18K", roasPct: 56,  status: "paused",  trend: [40,38,36,34,33,30,29,28] },
+  { name: "A/B Test #4",     roas: "3.6x", ctr: "3.1%", spend: "₺12K", roasPct: 72,  status: "active",  trend: [20,24,28,30,33,35,35,36] },
 ];
 
 function CampaignTable({ active }: { active: boolean }) {
@@ -305,12 +334,12 @@ function CampaignTable({ active }: { active: boolean }) {
     >
       {/* Header */}
       <div style={{
-        display: "grid", gridTemplateColumns: "1fr 44px 40px 40px 50px 56px",
+        display: "grid", gridTemplateColumns: "1fr 42px 38px 52px 36px 48px 54px",
         padding: "7px 12px",
-        background: "rgba(255,255,255,0.02)",
+        background: "rgba(255,255,255,0.025)",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
       }}>
-        {["Kampanya", "ROAS", "CTR", "Bar", "Harcama", "Durum"].map((h) => (
+        {["Kampanya", "ROAS", "CTR", "Harcama", "Bar", "Trend", "Durum"].map((h) => (
           <span key={h} style={{ fontSize: "8px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.07em" }}>{h}</span>
         ))}
       </div>
@@ -318,19 +347,21 @@ function CampaignTable({ active }: { active: boolean }) {
       {/* Rows */}
       {CAMPAIGNS.map((c, i) => (
         <motion.div key={c.name}
-          initial={{ opacity: 0, x: -10 }} animate={active ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, x: -8 }} animate={active ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: 0.85 + i * 0.08, duration: 0.3 }}
           style={{
-            display: "grid", gridTemplateColumns: "1fr 44px 40px 40px 50px 56px",
+            display: "grid", gridTemplateColumns: "1fr 42px 38px 52px 36px 48px 54px",
             padding: "8px 12px", alignItems: "center",
             borderBottom: i < CAMPAIGNS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+            background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.008)",
           }}
         >
-          <span style={{ fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.75)" }}>{c.name}</span>
+          <span style={{ fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.78)" }}>{c.name}</span>
           <span style={{ fontSize: "11px", fontWeight: 700, color: "#22C55E", fontFamily: "var(--font-mono)" }}>{c.roas}</span>
           <span style={{ fontSize: "10px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>{c.ctr}</span>
-          <MiniBar value={c.roasPct} color={c.status === "active" ? "#22C55E" : "#6B7280"} />
           <span style={{ fontSize: "10px", color: "#9CA3AF", fontFamily: "var(--font-mono)" }}>{c.spend}</span>
+          <MiniBar value={c.roasPct} color={c.status === "active" ? "#22C55E" : "#6B7280"} />
+          <RowSpark data={c.trend} color={c.status === "active" ? "#22C55E" : "#6B7280"} />
           <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
             <span style={{
               width: "5px", height: "5px", borderRadius: "50%", flexShrink: 0,
@@ -529,8 +560,8 @@ export default function KpiDashboard() {
               <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", lineHeight: 1.2 }}>
                 Performance Dashboard
               </div>
-              <div style={{ fontSize: "9px", color: "#9CA3AF", marginTop: "1px" }}>
-                Son 90 gün · Tüm kampanyalar · 3 platform
+              <div style={{ fontSize: "9px", color: "#9CA3AF", marginTop: "1px", fontFamily: "var(--font-mono)" }}>
+                90g · 3 platform · 24 kampanya · ₺186K spend
               </div>
             </div>
           </div>
@@ -594,10 +625,10 @@ export default function KpiDashboard() {
             <PlatformBreakdown active={isVisible} />
           </div>
 
-          {/* ③ KPI grid 2×2 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+          {/* ③ KPI grid 2×3 — 6 cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "7px" }}>
             {KPI_DATA.map((kpi, i) => (
-              <KpiCard key={kpi.label} kpi={kpi} active={isVisible} delay={0.25 + i * 0.08} />
+              <KpiCard key={kpi.label} kpi={kpi} active={isVisible} delay={0.25 + i * 0.07} />
             ))}
           </div>
 

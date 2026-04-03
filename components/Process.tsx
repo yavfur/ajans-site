@@ -36,14 +36,36 @@ export default function Process() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }} className="grid-bg">
-      {/* bg glow */}
-      <div style={{
-        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-        width: "700px", height: "300px",
-        background: "radial-gradient(ellipse, rgba(99,102,241,0.06) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
+    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+      {/* ── BACKGROUND LAYERS ── */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+        {/* Purple glow — top right */}
+        <div style={{
+          position: "absolute", top: "-20%", right: "-10%",
+          width: "700px", height: "700px",
+          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
+          filter: "blur(60px)",
+        }} />
+        {/* Green glow — bottom left */}
+        <div style={{
+          position: "absolute", bottom: "-15%", left: "-8%",
+          width: "600px", height: "600px",
+          background: "radial-gradient(circle, rgba(34,197,94,0.10) 0%, rgba(34,197,94,0.03) 50%, transparent 70%)",
+          filter: "blur(70px)",
+        }} />
+        {/* Center ellipse */}
+        <div style={{
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+          width: "800px", height: "350px",
+          background: "radial-gradient(ellipse, rgba(99,102,241,0.06) 0%, transparent 70%)",
+        }} />
+        {/* Grid */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }} />
+      </div>
 
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
         {/* Header */}
