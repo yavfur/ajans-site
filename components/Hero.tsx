@@ -49,7 +49,7 @@ export default function Hero() {
             background: "linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.5) 30%, rgba(34,197,94,0.3) 70%, transparent 100%)",
             top: 0,
           }}
-          animate={{ top: ["0%", "100%"] }}
+          animate={{ y: ["0vh", "100vh"] }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear", repeatDelay: 4 }}
         />
       </div>
@@ -59,7 +59,7 @@ export default function Hero() {
         <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
 
           {/* Split: 40% / 60% */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }} className="hero-grid">
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 3fr", gap: "64px", alignItems: "center" }} className="hero-grid">
 
             {/* ══ LEFT (40%) — Copy ══ */}
             <div>
