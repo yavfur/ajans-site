@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
-import PlatformPartners from "@/components/PlatformPartners";
-import KpiSection from "@/components/KpiSection";
+import DataReveal from "@/components/DataReveal";
 import DataBlock from "@/components/DataBlock";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
@@ -13,8 +12,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <PlatformPartners />
-      <KpiSection />
+      <DataReveal />
       <DataBlock />
       <Services />
       <Process />
