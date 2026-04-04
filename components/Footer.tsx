@@ -65,11 +65,11 @@ export default function Footer() {
             <p style={{ fontSize: "14px", color: "#888899" }}>48 saat içinde yanıt garantisi.</p>
           </div>
           <Link href="/iletisim"
-            className="glow-orange"
+            className="glow-blue"
             style={{
               display: "inline-flex", alignItems: "center", gap: "8px",
               padding: "14px 28px", borderRadius: "12px",
-              background: "#F97316", color: "#FFFFFF",
+              background: "#3B82F6", color: "#FFFFFF",
               fontWeight: 700, fontSize: "14px", textDecoration: "none",
               transition: "transform 0.2s", fontFamily: "var(--font-heading)",
               flexShrink: 0,

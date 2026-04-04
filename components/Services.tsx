@@ -116,8 +116,6 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
       transition={{ duration: 0.55, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       style={{
         background: hovered ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.03)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
         border: `1px solid ${hovered ? s.accent + "40" : "rgba(255,255,255,0.06)"}`,
         borderRadius: "16px",
         padding: "28px",

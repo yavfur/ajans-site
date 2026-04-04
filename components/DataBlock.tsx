@@ -67,7 +67,7 @@ const LOGOS = [
 
 function StatCard({ s, i }: { s: typeof stats[0]; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [hov, setHov] = useState(false);
   const count = useCountUp(s.target, inView, 1.6, s.dec);
   const display = s.dec > 0 ? `${s.prefix}${count.toFixed(s.dec)}${s.suffix}` : `${s.prefix}${count}${s.suffix}`;
@@ -82,8 +82,6 @@ function StatCard({ s, i }: { s: typeof stats[0]; i: number }) {
       transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       style={{
         background: hov ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
         border: `1px solid ${hov ? s.accent + "35" : "rgba(255,255,255,0.06)"}`,
         borderRadius: "18px",
         padding: "28px 24px 24px",
@@ -169,7 +167,7 @@ function StatCard({ s, i }: { s: typeof stats[0]; i: number }) {
 
 function LogoStrip() {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const [hovIdx, setHovIdx] = useState<number | null>(null);
 
   return (

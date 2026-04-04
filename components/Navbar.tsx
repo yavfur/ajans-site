@@ -98,11 +98,11 @@ export default function Navbar() {
             </Link>
             <Link
               href="/iletisim"
-              className="glow-amber"
+              className="glow-blue"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 padding: "8px 16px", borderRadius: "10px",
-                background: "#F59E0B", color: "#0A0A0F",
+                background: "#3B82F6", color: "#FFFFFF",
                 fontWeight: 700, fontSize: "13px", textDecoration: "none",
                 transition: "transform 0.2s",
                 fontFamily: "var(--font-heading)",
@@ -183,7 +183,7 @@ export default function Navbar() {
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                     padding: "14px", borderRadius: "14px",
-                    background: "#F59E0B", color: "#0A0A0F",
+                    background: "#3B82F6", color: "#FFFFFF",
                     fontWeight: 700, fontSize: "15px", textDecoration: "none", fontFamily: "var(--font-heading)",
                   }}
                 >

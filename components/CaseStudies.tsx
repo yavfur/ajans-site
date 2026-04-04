@@ -139,8 +139,6 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
         gridTemplateColumns: reversed ? "3fr 2fr" : "2fr 3fr",
         gap: "0",
         background: "rgba(255,255,255,0.025)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: "24px",
         overflow: "hidden",

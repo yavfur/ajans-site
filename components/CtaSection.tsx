@@ -24,23 +24,23 @@ export default function CtaSection() {
           background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 65%)",
           filter: "blur(60px)",
         }} />
-        {/* Animated orange glow bottom-right — breathing */}
+        {/* Animated blue glow bottom-right — breathing */}
         <motion.div
           style={{
             position: "absolute", bottom: "-15%", right: "-10%",
             width: "600px", height: "600px",
-            background: "radial-gradient(circle, rgba(249,115,22,0.18) 0%, rgba(249,115,22,0.06) 45%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(59,130,246,0.06) 45%, transparent 70%)",
             filter: "blur(70px)",
           }}
           animate={{ scale: [1, 1.18, 1], opacity: [0.7, 1, 0.7] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         />
-        {/* Secondary orange inner */}
+        {/* Secondary blue inner */}
         <motion.div
           style={{
             position: "absolute", bottom: "5%", right: "5%",
             width: "300px", height: "300px",
-            background: "radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
             filter: "blur(30px)",
           }}
           animate={{ scale: [1, 1.25, 1] }}
@@ -55,7 +55,7 @@ export default function CtaSection() {
         {/* Top separator */}
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.4), rgba(249,115,22,0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.4), rgba(59,130,246,0.3), transparent)",
         }} />
       </div>
 
@@ -70,12 +70,12 @@ export default function CtaSection() {
           <span style={{
             display: "inline-flex", alignItems: "center", gap: "6px",
             padding: "7px 16px", borderRadius: "99px",
-            background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.28)",
-            fontSize: "11px", fontWeight: 700, color: "#FB923C",
+            background: "rgba(59,130,246,0.12)", border: "1px solid rgba(59,130,246,0.28)",
+            fontSize: "11px", fontWeight: 700, color: "#60A5FA",
             letterSpacing: "0.07em", textTransform: "uppercase", marginBottom: "28px",
           }}>
             <motion.span
-              style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#F97316", display: "inline-block", boxShadow: "0 0 8px rgba(249,115,22,0.9)" }}
+              style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3B82F6", display: "inline-block", boxShadow: "0 0 8px rgba(59,130,246,0.9)" }}
               animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1.4, repeat: Infinity }}
             />
             Büyüme Fırsatı
@@ -89,7 +89,7 @@ export default function CtaSection() {
           }}>
             Markanın{" "}
             <span style={{
-              background: "linear-gradient(120deg, #F97316 0%, #FBBF24 50%, #F97316 100%)",
+              background: "linear-gradient(120deg, #3B82F6 0%, #60A5FA 50%, #3B82F6 100%)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
               textShadow: "none",
             }}>
@@ -110,15 +110,15 @@ export default function CtaSection() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: "10px",
                 padding: "18px 36px", borderRadius: "14px",
-                background: "#F97316", color: "#FFFFFF",
+                background: "#3B82F6", color: "#FFFFFF",
                 fontWeight: 700, fontSize: "17px", textDecoration: "none",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 fontFamily: "var(--font-heading)",
-                boxShadow: "0 0 28px rgba(249,115,22,0.5), 0 0 70px rgba(249,115,22,0.2)",
+                boxShadow: "0 0 28px rgba(59,130,246,0.5), 0 0 70px rgba(59,130,246,0.2)",
                 position: "relative", overflow: "hidden",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05) translateY(-2px)"; e.currentTarget.style.boxShadow = "0 0 50px rgba(249,115,22,0.7), 0 0 120px rgba(249,115,22,0.35)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) translateY(0)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(249,115,22,0.5), 0 0 70px rgba(249,115,22,0.2)"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05) translateY(-2px)"; e.currentTarget.style.boxShadow = "0 0 50px rgba(59,130,246,0.7), 0 0 120px rgba(59,130,246,0.35)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1) translateY(0)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(59,130,246,0.5), 0 0 70px rgba(59,130,246,0.2)"; }}
             >
               {/* Shimmer sweep */}
               <motion.span

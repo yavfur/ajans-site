@@ -20,9 +20,10 @@
   --purple-light: #C084FC;           /* gradient end / highlights */
   --cyan:         #06B6D4;           /* UI chrome secondary */
   --cyan-light:   #22D3EE;           /* gradient end */
-  --amber:        #F59E0B;           /* CTA */
-  --amber-light:  #FBBF24;           /* CTA gradient end */
-  --orange:       #F97316;           /* legacy compat */
+  --blue:         #3B82F6;           /* CTA primary */
+  --blue-light:   #60A5FA;           /* CTA gradient end */
+  --amber:        #F59E0B;           /* kept for legacy */
+  --orange:       #F97316;           /* kept for legacy */
 
   /* ── Surface ── */
   --card:   rgba(255,255,255,0.03);
@@ -125,9 +126,9 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-/* CTA gradient: amber */
+/* CTA gradient: blue */
 .gradient-text-cta {
-  background: linear-gradient(120deg, #F59E0B, #FBBF24);
+  background: linear-gradient(120deg, #3B82F6, #60A5FA);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -151,24 +152,19 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 }
 
 /* Glow utilities */
-.glow-amber {
-  box-shadow: 0 0 28px rgba(245,158,11,0.45), 0 0 70px rgba(245,158,11,0.2);
+.glow-blue {
+  box-shadow: 0 0 28px rgba(59,130,246,0.45), 0 0 70px rgba(59,130,246,0.2);
   transition: box-shadow 0.25s ease;
 }
-.glow-amber:hover {
-  box-shadow: 0 0 50px rgba(245,158,11,0.65), 0 0 120px rgba(245,158,11,0.35);
+.glow-blue:hover {
+  box-shadow: 0 0 50px rgba(59,130,246,0.65), 0 0 120px rgba(59,130,246,0.35);
 }
 .glow-purple { box-shadow: 0 0 24px rgba(124,58,237,0.4); }
 .glow-cyan   { box-shadow: 0 0 20px rgba(6,182,212,0.35); }
 .glow-green  { box-shadow: 0 0 20px rgba(34,197,94,0.35); }
-/* legacy */
-.glow-orange {
-  box-shadow: 0 0 24px rgba(245,158,11,0.4), 0 0 60px rgba(245,158,11,0.15);
-  transition: box-shadow 0.25s ease;
-}
-.glow-orange:hover {
-  box-shadow: 0 0 40px rgba(245,158,11,0.6), 0 0 100px rgba(245,158,11,0.3);
-}
+/* legacy compat */
+.glow-amber  { box-shadow: 0 0 28px rgba(59,130,246,0.45); }
+.glow-orange { box-shadow: 0 0 24px rgba(59,130,246,0.4); }
 
 /* ── Animations ── */
 @keyframes float-slow {
