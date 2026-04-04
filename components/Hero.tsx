@@ -55,6 +55,37 @@ const STATS = [
   { val: 5,   suffix: "M+₺",label: "Yönetilen Bütçe" },
 ];
 
+/* ── Floating metric cards from reference pattern ── */
+const FLOATING_CARDS = [
+  {
+    metric: "+187%",
+    label: "ROAS artışı",
+    sub: "Lumière Skin · 4 ay",
+    accent: "#22C55E",
+    pos: { top: "18%", right: "3%" },
+    delay: 0,
+    duration: 4.2,
+  },
+  {
+    metric: "−40%",
+    label: "CPA düşüşü",
+    sub: "Ortalama tüm hesaplar",
+    accent: "#A78BFA",
+    pos: { top: "52%", right: "2%" },
+    delay: 1.4,
+    duration: 5.1,
+  },
+  {
+    metric: "6.4×",
+    label: "En yüksek ROAS",
+    sub: "StepUp · 6 ay",
+    accent: "#3B82F6",
+    pos: { bottom: "28%", right: "4%" },
+    delay: 0.8,
+    duration: 3.8,
+  },
+];
+
 export default function Hero() {
   return (
     <section
@@ -144,6 +175,70 @@ export default function Hero() {
         />
       </div>
 
+      {/* ══ FLOATING UI CARDS (desktop only) ══ */}
+      <div className="hidden lg:block" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2 }}>
+        {FLOATING_CARDS.map((card) => (
+          <motion.div
+            key={card.label}
+            style={{
+              position: "absolute",
+              ...card.pos,
+              background: "rgba(255,255,255,0.04)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: `1px solid ${card.accent}30`,
+              borderRadius: "16px",
+              padding: "16px 20px",
+              minWidth: "160px",
+              boxShadow: `0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.accent}10, inset 0 1px 0 rgba(255,255,255,0.06)`,
+            }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
+            transition={{
+              opacity: { duration: 0.6, delay: card.delay + 1.2 },
+              x: { duration: 0.6, delay: card.delay + 1.2 },
+              y: { duration: card.duration, repeat: Infinity, ease: "easeInOut", delay: card.delay + 1.2 },
+            }}
+          >
+            {/* Top accent line */}
+            <div style={{
+              position: "absolute", top: 0, left: "15%", right: "15%", height: "1px",
+              background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)`,
+              borderRadius: "0 0 2px 2px",
+            }} />
+            <div style={{
+              fontSize: "10px",
+              color: "rgba(156,163,175,0.6)",
+              fontFamily: "var(--font-mono)",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              marginBottom: "6px",
+            }}>
+              {card.label}
+            </div>
+            <div style={{
+              fontSize: "28px",
+              fontWeight: 800,
+              color: card.accent,
+              fontFamily: "var(--font-heading)",
+              letterSpacing: "-0.03em",
+              lineHeight: 1,
+              textShadow: `0 0 20px ${card.accent}60`,
+            }}>
+              {card.metric}
+            </div>
+            <div style={{
+              fontSize: "9px",
+              color: "rgba(156,163,175,0.4)",
+              fontFamily: "var(--font-mono)",
+              marginTop: "5px",
+            }}>
+              {card.sub}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
       {/* ══ MAIN CONTENT ══ */}
       <div
         style={{
@@ -197,7 +292,7 @@ export default function Hero() {
         </motion.div>
 
         {/* ── HERO HEADLINE — curtain reveal ── */}
-        <div style={{ marginBottom: "clamp(24px, 4vh, 48px)" }}>
+        <div style={{ marginBottom: "clamp(24px, 4vh, 48px)", maxWidth: "min(75vw, 900px)" }}>
           {/* Line 1 */}
           <RevealLine delay={0.15}>
             <span
