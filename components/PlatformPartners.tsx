@@ -17,9 +17,9 @@ const items = [...platforms, ...platforms];
 
 export default function PlatformPartners() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "40px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+    <section style={{ background: "#050505", padding: "40px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", marginBottom: "20px" }}>
-        <p style={{ fontSize: "11px", fontWeight: 600, color: "#9CA3AF", letterSpacing: "0.15em", textTransform: "uppercase", textAlign: "center" }}>
+        <p style={{ fontSize: "11px", fontWeight: 600, color: "#888899", letterSpacing: "0.15em", textTransform: "uppercase", textAlign: "center" }}>
           Çalıştığımız Platformlar
         </p>
       </div>
@@ -27,12 +27,12 @@ export default function PlatformPartners() {
       <div style={{ position: "relative", overflow: "hidden" }}>
         <div style={{
           position: "absolute", left: 0, top: 0, bottom: 0, width: "80px",
-          background: "linear-gradient(90deg, #0B0F1A, transparent)",
+          background: "linear-gradient(90deg, #050505, transparent)",
           zIndex: 10, pointerEvents: "none",
         }} />
         <div style={{
           position: "absolute", right: 0, top: 0, bottom: 0, width: "80px",
-          background: "linear-gradient(270deg, #0B0F1A, transparent)",
+          background: "linear-gradient(270deg, #050505, transparent)",
           zIndex: 10, pointerEvents: "none",
         }} />
 
@@ -52,7 +52,7 @@ export default function PlatformPartners() {
                 flexShrink: 0,
               }}
             >
-              <span style={{ fontSize: "13px", fontWeight: 500, color: "#9CA3AF", whiteSpace: "nowrap" }}>
+              <span style={{ fontSize: "13px", fontWeight: 500, color: "#888899", whiteSpace: "nowrap" }}>
                 {p.name}
               </span>
             </div>

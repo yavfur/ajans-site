@@ -138,11 +138,13 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
         display: "grid",
         gridTemplateColumns: reversed ? "3fr 2fr" : "2fr 3fr",
         gap: "0",
-        background: "#111827",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderRadius: "20px",
+        background: "rgba(255,255,255,0.025)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: "24px",
         overflow: "hidden",
-        boxShadow: "0 8px 40px rgba(0,0,0,0.4)",
+        boxShadow: "0 8px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)",
       }}
     >
       {/* LEFT COPY — always rendered first in DOM, flex-order controlled */}
@@ -173,7 +175,7 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
           </div>
           <span style={{
             marginLeft: "auto",
-            fontSize: "9px", fontWeight: 700, color: "#a5b4fc",
+            fontSize: "9px", fontWeight: 700, color: "#C084FC",
             background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)",
             padding: "4px 10px", borderRadius: "99px", whiteSpace: "nowrap",
           }}>{c.tag}</span>
@@ -214,7 +216,7 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
       <div
         style={{
           padding: "44px 40px",
-          background: "linear-gradient(135deg, rgba(17,24,39,0.5) 0%, rgba(11,15,26,0.8) 100%)",
+          background: "linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(5,5,5,0.6) 100%)",
           order: reversed ? 1 : 2,
           display: "flex", flexDirection: "column", justifyContent: "center",
           position: "relative", overflow: "hidden",
@@ -310,7 +312,7 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
 
 export default function CaseStudies() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}>
 
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
@@ -318,7 +320,7 @@ export default function CaseStudies() {
         <div style={{
           position: "absolute", top: "-15%", right: "-10%",
           width: "800px", height: "800px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, rgba(124,58,237,0.06) 40%, transparent 70%)",
           filter: "blur(60px)",
         }} />
         {/* Green glow — bottom left */}
@@ -331,7 +333,7 @@ export default function CaseStudies() {
         {/* Grid */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }} />
       </div>

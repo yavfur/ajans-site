@@ -36,14 +36,14 @@ export default function Process() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}>
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         {/* Purple glow — top right */}
         <div style={{
           position: "absolute", top: "-20%", right: "-10%",
           width: "700px", height: "700px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(124,58,237,0.06) 40%, transparent 70%)",
           filter: "blur(60px)",
         }} />
         {/* Green glow — bottom left */}
@@ -62,7 +62,7 @@ export default function Process() {
         {/* Grid */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }} />
       </div>
@@ -157,8 +157,10 @@ export default function Process() {
 
                   {/* Card */}
                   <div style={{
-                    background: "#111827",
-                    border: "1px solid rgba(255,255,255,0.05)",
+                    background: "rgba(255,255,255,0.03)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.06)",
                     borderRadius: "14px",
                     padding: "24px",
                     position: "relative",

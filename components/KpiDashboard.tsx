@@ -497,46 +497,48 @@ export default function KpiDashboard() {
   return (
     <div ref={containerRef} style={{ position: "relative" }}>
 
-      {/* Ambient glow — two layered halos */}
+      {/* Ambient glow — two layered halos (purple + cyan) */}
       <div aria-hidden style={{
         position: "absolute", inset: "-56px",
         borderRadius: "48px",
-        background: "radial-gradient(ellipse at 35% 25%, rgba(99,102,241,0.26) 0%, rgba(34,197,94,0.12) 45%, transparent 70%)",
+        background: "radial-gradient(ellipse at 35% 25%, rgba(124,58,237,0.28) 0%, rgba(6,182,212,0.10) 45%, transparent 70%)",
         pointerEvents: "none", zIndex: 0,
       }} />
       <div aria-hidden style={{
         position: "absolute", inset: "-28px",
         borderRadius: "40px",
-        background: "radial-gradient(ellipse at 70% 80%, rgba(34,197,94,0.12) 0%, transparent 60%)",
+        background: "radial-gradient(ellipse at 70% 80%, rgba(34,197,94,0.10) 0%, transparent 60%)",
         pointerEvents: "none", zIndex: 0,
       }} />
 
-      {/* Main glassmorphic card */}
+      {/* Main glassmorphism card */}
       <div style={{
         position: "relative", zIndex: 1,
-        background: "linear-gradient(160deg, rgba(17,24,39,0.99) 0%, rgba(11,15,26,0.97) 60%, rgba(17,24,39,0.96) 100%)",
-        border: "1px solid rgba(99,102,241,0.30)",
-        borderRadius: "22px",
+        background: "rgba(255,255,255,0.03)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        borderRadius: "24px",
         overflow: "hidden",
         boxShadow: [
-          "0 0 0 1px rgba(34,197,94,0.06)",
-          "0 60px 140px rgba(0,0,0,0.70)",
-          "0 20px 50px rgba(0,0,0,0.45)",
-          "inset 0 1px 0 rgba(255,255,255,0.09)",
-          "inset 0 0 100px rgba(99,102,241,0.04)",
+          "0 0 0 1px rgba(124,58,237,0.10)",
+          "0 60px 140px rgba(0,0,0,0.75)",
+          "0 20px 50px rgba(0,0,0,0.50)",
+          "inset 0 1px 0 rgba(255,255,255,0.08)",
+          "inset 0 0 80px rgba(124,58,237,0.04)",
         ].join(", "),
       }}>
 
-        {/* Top inner highlight line */}
+        {/* Top inner highlight line — purple → cyan */}
         <div aria-hidden style={{
           position: "absolute", top: 0, left: "8%", right: "8%", height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.9), rgba(34,197,94,0.55), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.9), rgba(6,182,212,0.6), transparent)",
         }} />
 
         {/* Subtle inner grid overlay */}
         <div aria-hidden style={{
           position: "absolute", inset: 0, pointerEvents: "none",
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.022) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.028) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }} />
 
@@ -549,18 +551,18 @@ export default function KpiDashboard() {
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div style={{
               width: "32px", height: "32px", borderRadius: "10px",
-              background: "linear-gradient(135deg, rgba(99,102,241,0.42), rgba(34,197,94,0.25))",
-              border: "1px solid rgba(99,102,241,0.42)",
+              background: "linear-gradient(135deg, rgba(124,58,237,0.45), rgba(6,182,212,0.25))",
+              border: "1px solid rgba(124,58,237,0.40)",
               display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-              boxShadow: "0 0 18px rgba(99,102,241,0.30)",
+              boxShadow: "0 0 18px rgba(124,58,237,0.32)",
             }}>
               <Activity size={14} style={{ color: "#22C55E" }} />
             </div>
             <div>
-              <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", lineHeight: 1.2 }}>
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F7", fontFamily: "var(--font-heading)", lineHeight: 1.2 }}>
                 Performance Dashboard
               </div>
-              <div style={{ fontSize: "9px", color: "#9CA3AF", marginTop: "1px", fontFamily: "var(--font-mono)" }}>
+              <div style={{ fontSize: "9px", color: "#888899", marginTop: "1px", fontFamily: "var(--font-mono)" }}>
                 90g · 3 platform · 24 kampanya · ₺186K spend
               </div>
             </div>
@@ -590,7 +592,7 @@ export default function KpiDashboard() {
               </p>
               <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{
-                  fontSize: "36px", fontWeight: 800, color: "#FFFFFF",
+                  fontSize: "36px", fontWeight: 800, color: "#F5F5F7",
                   fontFamily: "var(--font-heading)", letterSpacing: "-0.04em",
                 }}>
                   ₺1.24M

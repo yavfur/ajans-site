@@ -12,7 +12,7 @@ const services = [
     subtitle: "Büyüme Sistemi",
     description: "Tüm reklam kanallarını tek strateji altında birleştiren veri odaklı büyüme sistemi. ROAS hedefleri, bütçe optimizasyonu ve sürekli A/B test döngüsü.",
     accent: "#6366F1",
-    glow: "rgba(99,102,241,0.25)",
+    glow: "rgba(124,58,237,0.28)",
     metric: "Avg ROAS lift: +2.4x",
     status: "ACTIVE",
     statusColor: "#22C55E",
@@ -115,7 +115,9 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       style={{
-        background: "#111827",
+        background: hovered ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.03)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         border: `1px solid ${hovered ? s.accent + "40" : "rgba(255,255,255,0.06)"}`,
         borderRadius: "16px",
         padding: "28px",
@@ -233,14 +235,14 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
 
 export default function Services() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}>
 
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         <div style={{
           position: "absolute", top: "-20%", right: "-10%",
           width: "800px", height: "800px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.16) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, rgba(124,58,237,0.06) 40%, transparent 70%)",
           filter: "blur(60px)",
         }} />
         <div style={{
@@ -251,7 +253,7 @@ export default function Services() {
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }} />
       </div>
@@ -266,8 +268,8 @@ export default function Services() {
         >
           <span style={{
             display: "inline-block", padding: "5px 14px", borderRadius: "99px",
-            background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.25)",
-            fontSize: "11px", fontWeight: 700, color: "#a5b4fc",
+            background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.28)",
+            fontSize: "11px", fontWeight: 700, color: "#C084FC",
             letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "16px",
           }}>Hizmetler</span>
           <h2 style={{
@@ -315,9 +317,9 @@ export default function Services() {
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 padding: "10px 20px", borderRadius: "10px",
-                background: "#F97316", color: "#FFFFFF",
+                background: "#F59E0B", color: "#0A0A0F",
                 fontWeight: 700, fontSize: "13px", fontFamily: "var(--font-heading)",
-                boxShadow: "0 0 20px rgba(249,115,22,0.35)",
+                boxShadow: "0 0 20px rgba(245,158,11,0.35)",
               }}>
                 Ücretsiz Analiz Al
               </span>

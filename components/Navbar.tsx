@@ -8,8 +8,6 @@ import { LogIn, ArrowRight, Zap } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/hizmetler", label: "Hizmetler" },
-  { href: "/roadmap", label: "Roadmap" },
-  { href: "/kpi", label: "KPI" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];
@@ -52,11 +50,11 @@ export default function Navbar() {
             borderRadius: "16px",
             transition: "all 0.4s ease",
             ...(scrolled ? {
-              background: "rgba(11,15,26,0.85)",
+              background: "rgba(5,5,5,0.88)",
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
               border: "1px solid rgba(255,255,255,0.06)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.08)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.08)",
             } : {
               background: "transparent",
               border: "1px solid transparent",
@@ -65,11 +63,11 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: "6px", textDecoration: "none" }}>
-            <Zap size={16} style={{ color: "#22C55E" }} />
-            <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", fontFamily: "var(--font-heading)", letterSpacing: "-0.02em" }}>
+            <Zap size={16} style={{ color: "#7C3AED" }} />
+            <span style={{ fontSize: "16px", fontWeight: 700, color: "#F5F5F7", fontFamily: "var(--font-heading)", letterSpacing: "-0.02em" }}>
               Ajans
             </span>
-            <span style={{ color: "#6366F1", fontWeight: 700 }}>.</span>
+            <span style={{ color: "#06B6D4", fontWeight: 700 }}>.</span>
           </Link>
 
           {/* Desktop links */}
@@ -100,12 +98,12 @@ export default function Navbar() {
             </Link>
             <Link
               href="/iletisim"
-              className="glow-orange"
+              className="glow-amber"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 padding: "8px 16px", borderRadius: "10px",
-                background: "#F97316", color: "#FFFFFF",
-                fontWeight: 600, fontSize: "13px", textDecoration: "none",
+                background: "#F59E0B", color: "#0A0A0F",
+                fontWeight: 700, fontSize: "13px", textDecoration: "none",
                 transition: "transform 0.2s",
                 fontFamily: "var(--font-heading)",
               }}
@@ -145,7 +143,7 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-40 md:hidden"
             style={{
-              background: "rgba(11,15,26,0.97)",
+              background: "rgba(5,5,5,0.97)",
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
             }}
@@ -153,7 +151,7 @@ export default function Navbar() {
             <div style={{
               position: "absolute", top: "30%", left: "50%", transform: "translate(-50%,-50%)",
               width: "300px", height: "300px", borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(124,58,237,0.14) 0%, transparent 70%)",
               filter: "blur(60px)", pointerEvents: "none",
             }} />
 
@@ -185,7 +183,7 @@ export default function Navbar() {
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                     padding: "14px", borderRadius: "14px",
-                    background: "#F97316", color: "#fff",
+                    background: "#F59E0B", color: "#0A0A0F",
                     fontWeight: 700, fontSize: "15px", textDecoration: "none", fontFamily: "var(--font-heading)",
                   }}
                 >

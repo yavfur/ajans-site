@@ -81,8 +81,10 @@ function StatCard({ s, i }: { s: typeof stats[0]; i: number }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       style={{
-        background: hov ? "#111827" : "rgba(17,24,39,0.85)",
-        border: `1px solid ${hov ? s.accent + "35" : "rgba(255,255,255,0.07)"}`,
+        background: hov ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: `1px solid ${hov ? s.accent + "35" : "rgba(255,255,255,0.06)"}`,
         borderRadius: "18px",
         padding: "28px 24px 24px",
         position: "relative", overflow: "hidden",
@@ -148,7 +150,7 @@ function StatCard({ s, i }: { s: typeof stats[0]; i: number }) {
       <div style={{ fontSize: "15px", fontWeight: 700, color: "#FFFFFF", marginBottom: "4px" }}>
         {s.label}
       </div>
-      <div style={{ fontSize: "12px", color: "#9CA3AF", marginBottom: "14px" }}>{s.sub}</div>
+      <div style={{ fontSize: "12px", color: "#888899", marginBottom: "14px" }}>{s.sub}</div>
 
       {/* Comparison sub-stat */}
       <div style={{
@@ -227,7 +229,7 @@ function LogoStrip() {
 
 export default function DataBlock() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}>
 
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
@@ -235,7 +237,7 @@ export default function DataBlock() {
         <div style={{
           position: "absolute", top: "-20%", right: "-10%",
           width: "700px", height: "700px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, rgba(124,58,237,0.06) 40%, transparent 70%)",
           filter: "blur(60px)",
         }} />
         {/* Green glow — bottom left */}
@@ -248,7 +250,7 @@ export default function DataBlock() {
         {/* Grid */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }} />
         {/* Top separator */}
@@ -285,7 +287,7 @@ export default function DataBlock() {
           }}>
             Rakamlarla Biz
           </h2>
-          <p style={{ fontSize: "16px", color: "#9CA3AF", marginTop: "12px", maxWidth: "400px", margin: "12px auto 0", lineHeight: 1.65 }}>
+          <p style={{ fontSize: "16px", color: "#888899", marginTop: "12px", maxWidth: "400px", margin: "12px auto 0", lineHeight: 1.65 }}>
             Her metrik gerçek müşteri hesaplarından. Dönem ortalamaları, açık kaynak verilerle karşılaştırılmıştır.
           </p>
         </motion.div>

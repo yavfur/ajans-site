@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle, Clock, Shield } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section style={{ background: "#0B0F1A", padding: "120px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "120px 0", position: "relative", overflow: "hidden" }}>
 
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
@@ -14,14 +14,14 @@ export default function CtaSection() {
         <div style={{
           position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
           width: "900px", height: "500px",
-          background: "radial-gradient(ellipse, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.06) 40%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(124,58,237,0.20) 0%, rgba(99,102,241,0.06) 40%, transparent 70%)",
           filter: "blur(40px)",
         }} />
         {/* Purple glow top-left */}
         <div style={{
           position: "absolute", top: "-20%", left: "-10%",
           width: "700px", height: "700px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 65%)",
           filter: "blur(60px)",
         }} />
         {/* Animated orange glow bottom-right — breathing */}
@@ -49,7 +49,7 @@ export default function CtaSection() {
         {/* Grid */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }} />
         {/* Top separator */}

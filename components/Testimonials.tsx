@@ -48,14 +48,14 @@ export default function Testimonials() {
 
   return (
     <section
-      style={{ background: "#0B0F1A", padding: "100px 0", position: "relative", overflow: "hidden" }}
+      style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div style={{
         position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
         width: "600px", height: "300px", borderRadius: "50%",
-        background: "radial-gradient(ellipse, rgba(99,102,241,0.05) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse, rgba(124,58,237,0.05) 0%, transparent 70%)",
         pointerEvents: "none",
       }} />
 
@@ -101,7 +101,7 @@ export default function Testimonials() {
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <div style={{
                   width: "38px", height: "38px", borderRadius: "50%", flexShrink: 0,
-                  background: "linear-gradient(135deg, #6366F1, #22C55E)",
+                  background: "linear-gradient(135deg, #7C3AED, #22C55E)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: "11px", fontWeight: 700, color: "#fff",
                 }}>
@@ -109,7 +109,7 @@ export default function Testimonials() {
                 </div>
                 <div>
                   <div style={{ fontSize: "14px", fontWeight: 600, color: "#FFFFFF" }}>{t.name}</div>
-                  <div style={{ fontSize: "12px", color: "#9CA3AF", marginTop: "2px" }}>{t.title} · {t.company}</div>
+                  <div style={{ fontSize: "12px", color: "#888899", marginTop: "2px" }}>{t.title} · {t.company}</div>
                 </div>
               </div>
             </motion.div>
@@ -145,7 +145,7 @@ export default function Testimonials() {
                 style={{
                   height: "3px", borderRadius: "99px",
                   width: i === active ? "24px" : "6px",
-                  background: i === active ? "linear-gradient(90deg, #6366F1, #22C55E)" : "rgba(255,255,255,0.12)",
+                  background: i === active ? "linear-gradient(90deg, #7C3AED, #22C55E)" : "rgba(255,255,255,0.12)",
                   border: "none", cursor: "pointer", padding: 0,
                   transition: "width 0.3s, background 0.3s",
                 }}
