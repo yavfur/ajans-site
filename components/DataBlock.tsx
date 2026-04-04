@@ -227,7 +227,7 @@ function LogoStrip() {
 
 export default function DataBlock() {
   return (
-    <section style={{ background: "#050505", padding: "100px 0", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#050505", padding: "clamp(60px,10vh,120px) 0", position: "relative", overflow: "hidden" }}>
 
       {/* ── BACKGROUND LAYERS ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
@@ -263,7 +263,7 @@ export default function DataBlock() {
         }} />
       </div>
 
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
         <motion.div
           style={{ textAlign: "center", marginBottom: "56px" }}
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}

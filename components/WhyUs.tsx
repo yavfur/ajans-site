@@ -29,8 +29,8 @@ const reasons = [
 
 export default function WhyUs() {
   return (
-    <section style={{ background: "#050505", padding: "100px 0", position: "relative" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+    <section style={{ background: "#050505", padding: "clamp(60px,10vh,120px) 0", position: "relative" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
         <div className="lg:grid" style={{ display: "grid" }}>
           <div className="lg:grid-cols-[360px,1fr]" style={{ display: "grid", gap: "60px", alignItems: "start" }}>
             {/* Left sticky */}
