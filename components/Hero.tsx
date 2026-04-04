@@ -2,26 +2,23 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-/* ── Curtain-reveal line ── */
+/* ── Curtain line reveal ── */
 function RevealLine({
   children,
   delay = 0,
-  style,
 }: {
   children: React.ReactNode;
   delay?: number;
-  style?: React.CSSProperties;
 }) {
   return (
-    <div style={{ overflow: "hidden", lineHeight: 1.0 }}>
+    <div style={{ overflow: "hidden" }}>
       <motion.div
-        initial={{ y: "105%" }}
+        initial={{ y: "108%" }}
         animate={{ y: "0%" }}
         transition={{ duration: 1.0, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={style}
       >
         {children}
       </motion.div>
@@ -33,65 +30,36 @@ function RevealLine({
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [val, setVal] = useState(0);
   useEffect(() => {
-    const dur = 1800;
     const start = Date.now();
+    const dur = 2000;
     function tick() {
       const p = Math.min((Date.now() - start) / dur, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setVal(Math.round(ease * target));
+      setVal(Math.round((1 - Math.pow(1 - p, 3)) * target));
       if (p < 1) requestAnimationFrame(tick);
       else setVal(target);
     }
-    const t = setTimeout(() => requestAnimationFrame(tick), 1200);
+    const t = setTimeout(() => requestAnimationFrame(tick), 800);
     return () => clearTimeout(t);
   }, [target]);
   return <>{val}{suffix}</>;
 }
 
 const STATS = [
-  { val: 50,  suffix: "+",  label: "Büyüyen Marka" },
-  { val: 38,  suffix: "×",  label: "Ort. ROAS (×10)" },
-  { val: 40,  suffix: "%↓", label: "CPA Düşüşü" },
-  { val: 5,   suffix: "M+₺",label: "Yönetilen Bütçe" },
-];
-
-/* ── Floating metric cards from reference pattern ── */
-const FLOATING_CARDS = [
-  {
-    metric: "+187%",
-    label: "ROAS artışı",
-    sub: "Lumière Skin · 4 ay",
-    accent: "#22C55E",
-    pos: { top: "18%", right: "3%" },
-    delay: 0,
-    duration: 4.2,
-  },
-  {
-    metric: "−40%",
-    label: "CPA düşüşü",
-    sub: "Ortalama tüm hesaplar",
-    accent: "#A78BFA",
-    pos: { top: "52%", right: "2%" },
-    delay: 1.4,
-    duration: 5.1,
-  },
-  {
-    metric: "6.4×",
-    label: "En yüksek ROAS",
-    sub: "StepUp · 6 ay",
-    accent: "#3B82F6",
-    pos: { bottom: "28%", right: "4%" },
-    delay: 0.8,
-    duration: 3.8,
-  },
+  { val: 50,  suffix: "+",   label: "Büyüyen Marka" },
+  { val: 6,   suffix: ".4×", label: "En Yüksek ROAS" },
+  { val: 5,   suffix: "M+₺", label: "Yönetilen Bütçe" },
+  { val: 40,  suffix: "%↓",  label: "Ortalama CPA Düşüşü" },
 ];
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
   return (
     <section
+      ref={sectionRef}
       style={{
         height: "100svh",
-        minHeight: "640px",
+        minHeight: "600px",
         position: "relative",
         overflow: "hidden",
         display: "flex",
@@ -99,145 +67,148 @@ export default function Hero() {
         background: "#050505",
       }}
     >
-      {/* ══ BACKGROUND AURORA ══ */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        {/* Purple aurora — top right */}
+      {/* ══ CSS GRADIENT MESH BACKGROUND ══ */}
+      <div
+        aria-hidden
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+      >
+        {/* Purple blob top-right — CSS animated */}
         <div
           className="animate-blob-1"
           style={{
             position: "absolute",
-            top: "-15%",
-            right: "-10%",
-            width: "clamp(500px,60vw,900px)",
-            height: "clamp(500px,60vw,900px)",
+            top: "-10%",
+            right: "-5%",
+            width: "clamp(400px, 55vw, 800px)",
+            height: "clamp(400px, 55vw, 800px)",
             background:
-              "radial-gradient(circle, rgba(124,58,237,0.28) 0%, rgba(124,58,237,0.08) 40%, transparent 70%)",
+              "radial-gradient(circle, rgba(124,58,237,0.30) 0%, rgba(124,58,237,0.08) 45%, transparent 70%)",
             filter: "blur(80px)",
             willChange: "transform",
           }}
         />
-        {/* Green pulse — bottom left */}
+        {/* Green blob bottom-left — CSS animated */}
         <div
           className="animate-blob-2"
           style={{
             position: "absolute",
-            bottom: "-20%",
+            bottom: "-15%",
             left: "-8%",
-            width: "clamp(400px,50vw,700px)",
-            height: "clamp(400px,50vw,700px)",
+            width: "clamp(350px, 45vw, 650px)",
+            height: "clamp(350px, 45vw, 650px)",
             background:
-              "radial-gradient(circle, rgba(34,197,94,0.16) 0%, rgba(34,197,94,0.04) 50%, transparent 70%)",
+              "radial-gradient(circle, rgba(34,197,94,0.18) 0%, rgba(34,197,94,0.04) 50%, transparent 70%)",
             filter: "blur(90px)",
             willChange: "transform",
           }}
         />
-        {/* Blue accent — bottom right */}
+        {/* Blue accent center — static */}
         <div
           className="animate-blob-3"
           style={{
             position: "absolute",
-            bottom: "5%",
-            right: "5%",
-            width: "300px",
-            height: "300px",
+            top: "40%",
+            left: "30%",
+            width: "400px",
+            height: "400px",
             background:
-              "radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 70%)",
-            filter: "blur(60px)",
+              "radial-gradient(circle, rgba(59,130,246,0.09) 0%, transparent 70%)",
+            filter: "blur(70px)",
             willChange: "transform",
           }}
         />
-        {/* Grid */}
+        {/* Subtle grid */}
         <div
           className="grid-bg"
-          style={{ position: "absolute", inset: 0, opacity: 0.6 }}
+          style={{ position: "absolute", inset: 0, opacity: 0.55 }}
         />
-        {/* Vignette */}
+        {/* Edge vignette */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(5,5,5,0.7) 100%)",
+              "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 25%, rgba(5,5,5,0.65) 100%)",
           }}
         />
-        {/* Scanline */}
+        {/* Scan line */}
         <motion.div
           style={{
             position: "absolute",
-            left: 0, right: 0,
-            height: "1px",
+            left: 0,
+            right: 0,
             top: 0,
+            height: "1px",
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(124,58,237,0.6) 30%, rgba(59,130,246,0.4) 70%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(124,58,237,0.55) 35%, rgba(59,130,246,0.4) 65%, transparent 100%)",
           }}
           animate={{ y: ["0vh", "100vh"] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "linear", repeatDelay: 8 }}
+          transition={{ duration: 16, repeat: Infinity, ease: "linear", repeatDelay: 10 }}
         />
       </div>
 
-      {/* ══ FLOATING UI CARDS (desktop only) ══ */}
-      <div className="hidden lg:block" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2 }}>
-        {FLOATING_CARDS.map((card) => (
-          <motion.div
-            key={card.label}
+      {/* ══ TOP STATS BAR — subtle, minimal ══ */}
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        style={{
+          position: "relative",
+          zIndex: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "clamp(16px, 3vw, 40px)",
+          padding: "14px clamp(16px, 4vw, 48px)",
+          borderBottom: "1px solid rgba(255,255,255,0.05)",
+          flexWrap: "wrap",
+        }}
+      >
+        {STATS.map((s, i) => (
+          <div
+            key={s.label}
             style={{
-              position: "absolute",
-              ...card.pos,
-              background: "rgba(255,255,255,0.04)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: `1px solid ${card.accent}30`,
-              borderRadius: "16px",
-              padding: "16px 20px",
-              minWidth: "160px",
-              boxShadow: `0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.accent}10, inset 0 1px 0 rgba(255,255,255,0.06)`,
-            }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
-            transition={{
-              opacity: { duration: 0.6, delay: card.delay + 1.2 },
-              x: { duration: 0.6, delay: card.delay + 1.2 },
-              y: { duration: card.duration, repeat: Infinity, ease: "easeInOut", delay: card.delay + 1.2 },
+              display: "flex",
+              alignItems: "center",
+              gap: "7px",
             }}
           >
-            {/* Top accent line */}
-            <div style={{
-              position: "absolute", top: 0, left: "15%", right: "15%", height: "1px",
-              background: `linear-gradient(90deg, transparent, ${card.accent}, transparent)`,
-              borderRadius: "0 0 2px 2px",
-            }} />
-            <div style={{
-              fontSize: "10px",
-              color: "rgba(156,163,175,0.6)",
-              fontFamily: "var(--font-mono)",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "6px",
-            }}>
-              {card.label}
-            </div>
-            <div style={{
-              fontSize: "28px",
-              fontWeight: 800,
-              color: card.accent,
-              fontFamily: "var(--font-heading)",
-              letterSpacing: "-0.03em",
-              lineHeight: 1,
-              textShadow: `0 0 20px ${card.accent}60`,
-            }}>
-              {card.metric}
-            </div>
-            <div style={{
-              fontSize: "9px",
-              color: "rgba(156,163,175,0.4)",
-              fontFamily: "var(--font-mono)",
-              marginTop: "5px",
-            }}>
-              {card.sub}
-            </div>
-          </motion.div>
+            <span
+              style={{
+                fontSize: "clamp(13px, 1.6vw, 17px)",
+                fontWeight: 800,
+                color: "#22C55E",
+                fontFamily: "var(--font-heading)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              <Counter target={s.val} suffix={s.suffix} />
+            </span>
+            <span
+              style={{
+                fontSize: "11px",
+                color: "rgba(136,136,153,0.65)",
+                fontFamily: "var(--font-mono)",
+                letterSpacing: "0.05em",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {s.label}
+            </span>
+            {i < STATS.length - 1 && (
+              <span
+                style={{
+                  color: "rgba(255,255,255,0.08)",
+                  marginLeft: "clamp(8px, 1.5vw, 20px)",
+                  fontSize: "10px",
+                }}
+              >
+                ·
+              </span>
+            )}
+          </div>
         ))}
-      </div>
+      </motion.div>
 
       {/* ══ MAIN CONTENT ══ */}
       <div
@@ -246,28 +217,27 @@ export default function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "0 clamp(20px, 5vw, 80px)",
+          padding: "0 clamp(20px, 6vw, 100px)",
           position: "relative",
-          zIndex: 1,
-          maxWidth: "1400px",
+          zIndex: 2,
+          maxWidth: "1280px",
           margin: "0 auto",
           width: "100%",
         }}
       >
-        {/* Top label */}
+        {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            marginBottom: "clamp(24px, 4vh, 48px)",
+            gap: "8px",
+            marginBottom: "clamp(20px, 3vh, 40px)",
           }}
         >
           <span
-            className="animate-pulse-dot"
             style={{
               display: "inline-block",
               width: "6px",
@@ -275,6 +245,7 @@ export default function Hero() {
               borderRadius: "50%",
               background: "#22C55E",
               boxShadow: "0 0 8px rgba(34,197,94,0.8)",
+              animation: "pulse-dot 1.4s ease-in-out infinite",
             }}
           />
           <span
@@ -282,97 +253,86 @@ export default function Hero() {
               fontSize: "11px",
               fontWeight: 600,
               color: "#888899",
-              letterSpacing: "0.2em",
+              letterSpacing: "0.18em",
               textTransform: "uppercase",
               fontFamily: "var(--font-mono)",
             }}
           >
-            Growth Operating System · 2024
+            Performance Marketing · Türkiye
           </span>
         </motion.div>
 
-        {/* ── HERO HEADLINE — curtain reveal ── */}
-        <div style={{ marginBottom: "clamp(24px, 4vh, 48px)", maxWidth: "min(75vw, 900px)" }}>
-          {/* Line 1 */}
-          <RevealLine delay={0.15}>
+        {/* ── BIG HEADLINE — curtain reveal ── */}
+        <div style={{ marginBottom: "clamp(24px, 4vh, 52px)" }}>
+          <RevealLine delay={0.2}>
             <span
               style={{
                 display: "block",
-                fontSize: "clamp(60px, 11.5vw, 168px)",
+                fontSize: "clamp(52px, 10.5vw, 152px)",
                 fontWeight: 800,
-                lineHeight: 0.95,
+                lineHeight: 0.93,
                 letterSpacing: "-0.04em",
                 color: "#F5F5F7",
                 fontFamily: "var(--font-heading)",
               }}
             >
-              BÜYÜME
+              Büyüme
             </span>
           </RevealLine>
-
-          {/* Line 2 — with gradient split */}
-          <RevealLine delay={0.28}>
+          <RevealLine delay={0.32}>
             <span
               style={{
                 display: "block",
-                fontSize: "clamp(60px, 11.5vw, 168px)",
+                fontSize: "clamp(52px, 10.5vw, 152px)",
                 fontWeight: 800,
-                lineHeight: 0.95,
+                lineHeight: 0.93,
                 letterSpacing: "-0.04em",
                 fontFamily: "var(--font-heading)",
+                background:
+                  "linear-gradient(110deg, #A78BFA 0%, #7C3AED 38%, #3B82F6 72%, #60A5FA 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
-              <span
-                style={{
-                  background:
-                    "linear-gradient(120deg, #A78BFA 0%, #7C3AED 45%, #3B82F6 80%, #60A5FA 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                SİSTEMİ
-              </span>
+              Sistemi
             </span>
           </RevealLine>
-
-          {/* Line 3 */}
-          <RevealLine delay={0.41}>
+          <RevealLine delay={0.44}>
             <span
               style={{
                 display: "block",
-                fontSize: "clamp(60px, 11.5vw, 168px)",
+                fontSize: "clamp(52px, 10.5vw, 152px)",
                 fontWeight: 800,
-                lineHeight: 0.95,
+                lineHeight: 0.93,
                 letterSpacing: "-0.04em",
                 color: "#F5F5F7",
                 fontFamily: "var(--font-heading)",
               }}
             >
-              KURUYORUZ
+              Kuruyoruz
             </span>
           </RevealLine>
         </div>
 
-        {/* Sub + CTA row */}
+        {/* Sub + CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.7, delay: 0.78, ease: [0.22, 1, 0.36, 1] }}
           style={{
             display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: "24px",
+            alignItems: "center",
+            gap: "clamp(16px, 3vw, 40px)",
             flexWrap: "wrap",
           }}
         >
           <p
             style={{
-              fontSize: "clamp(15px, 1.6vw, 19px)",
+              fontSize: "clamp(15px, 1.5vw, 18px)",
               color: "#888899",
-              lineHeight: 1.6,
-              maxWidth: "480px",
+              lineHeight: 1.65,
+              maxWidth: "440px",
               margin: 0,
             }}
           >
@@ -380,6 +340,7 @@ export default function Hero() {
             maliyetleri düşür, büyümeyi hızlandır.
           </p>
 
+          {/* CTA — breathing glow */}
           <Link
             href="/iletisim"
             style={{
@@ -394,26 +355,24 @@ export default function Hero() {
               fontSize: "16px",
               textDecoration: "none",
               fontFamily: "var(--font-heading)",
-              boxShadow:
-                "0 0 32px rgba(59,130,246,0.45), 0 0 80px rgba(59,130,246,0.18)",
               position: "relative",
               overflow: "hidden",
-              transition: "transform 0.2s ease, box-shadow 0.2s ease",
-              whiteSpace: "nowrap",
               flexShrink: 0,
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+              animation: "cta-breathe 3s ease-in-out infinite",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.04) translateY(-2px)";
+              e.currentTarget.style.transform = "scale(1.05) translateY(-2px)";
               e.currentTarget.style.boxShadow =
-                "0 0 56px rgba(59,130,246,0.65), 0 0 120px rgba(59,130,246,0.3)";
+                "0 0 60px rgba(59,130,246,0.7), 0 0 140px rgba(59,130,246,0.32)";
+              e.currentTarget.style.animationPlayState = "paused";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1) translateY(0)";
-              e.currentTarget.style.boxShadow =
-                "0 0 32px rgba(59,130,246,0.45), 0 0 80px rgba(59,130,246,0.18)";
+              e.currentTarget.style.transform = "";
+              e.currentTarget.style.boxShadow = "";
+              e.currentTarget.style.animationPlayState = "running";
             }}
           >
-            {/* Shimmer */}
             <span
               className="animate-shimmer"
               aria-hidden
@@ -431,105 +390,47 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* ══ BOTTOM STATS BAR ══ */}
+      {/* ══ SCROLL INDICATOR ══ */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.1 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
         style={{
           position: "relative",
-          zIndex: 1,
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          padding: "clamp(16px,2.5vh,28px) clamp(20px,5vw,80px)",
+          zIndex: 2,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: "24px",
-          background: "rgba(5,5,5,0.6)",
+          gap: "6px",
+          paddingBottom: "24px",
+          color: "#888899",
         }}
       >
-        <div
+        <span
           style={{
-            display: "flex",
-            gap: "clamp(24px,4vw,64px)",
-            flexWrap: "wrap",
+            fontSize: "9px",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            fontFamily: "var(--font-mono)",
+            opacity: 0.4,
           }}
         >
-          {STATS.map((s, i) => (
-            <div key={s.label}>
-              <div
-                style={{
-                  fontSize: "clamp(22px, 2.8vw, 38px)",
-                  fontWeight: 800,
-                  color: "#22C55E",
-                  fontFamily: "var(--font-heading)",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1,
-                }}
-              >
-                <Counter target={s.val} suffix={s.suffix} />
-              </div>
-              <div
-                style={{
-                  fontSize: "10px",
-                  color: "#888899",
-                  marginTop: "3px",
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Scroll indicator */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            flexShrink: 0,
-          }}
+          Keşfet
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span
-            style={{
-              fontSize: "10px",
-              color: "#888899",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            Keşfet
-          </span>
-          <div
-            style={{
-              width: "1px",
-              height: "32px",
-              background:
-                "linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <motion.div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "50%",
-                background: "linear-gradient(to bottom, #3B82F6, transparent)",
-              }}
-              animate={{ y: ["−100%", "200%"] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
-            />
-          </div>
-        </div>
+          <ChevronDown size={16} style={{ opacity: 0.3 }} />
+        </motion.div>
       </motion.div>
+
+      <style>{`
+        @keyframes cta-breathe {
+          0%, 100% { box-shadow: 0 0 28px rgba(59,130,246,0.4), 0 0 70px rgba(59,130,246,0.16); }
+          50%       { box-shadow: 0 0 48px rgba(59,130,246,0.65), 0 0 120px rgba(59,130,246,0.28); }
+        }
+      `}</style>
     </section>
   );
 }

@@ -134,6 +134,7 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
       initial={{ opacity: 0, y: 48 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+      className="case-row"
       style={{
         display: "grid",
         gridTemplateColumns: reversed ? "3fr 2fr" : "2fr 3fr",
@@ -243,7 +244,7 @@ function CaseRow({ c, i }: { c: typeof cases[0]; i: number }) {
           transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
           style={{ position: "relative", zIndex: 1 }}
         >
-          <div style={{
+          <div className="case-result-num" style={{
             fontSize: "clamp(64px, 9vw, 112px)",
             fontWeight: 900,
             color: c.color,
@@ -378,19 +379,42 @@ export default function CaseStudies() {
           <Link href="/iletisim" style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             padding: "16px 32px", borderRadius: "12px",
-            background: "#F97316", color: "#FFFFFF",
+            background: "#3B82F6", color: "#FFFFFF",
             fontWeight: 700, fontSize: "15px", textDecoration: "none",
             fontFamily: "var(--font-heading)",
-            boxShadow: "0 0 28px rgba(249,115,22,0.45), 0 0 60px rgba(249,115,22,0.18)",
+            boxShadow: "0 0 28px rgba(59,130,246,0.45), 0 0 60px rgba(59,130,246,0.18)",
             transition: "transform 0.2s, box-shadow 0.2s",
           }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 0 48px rgba(249,115,22,0.65), 0 0 100px rgba(249,115,22,0.3)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(249,115,22,0.45), 0 0 60px rgba(249,115,22,0.18)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 0 48px rgba(59,130,246,0.65), 0 0 100px rgba(59,130,246,0.3)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(59,130,246,0.45), 0 0 60px rgba(59,130,246,0.18)"; }}
           >
             Sizin büyüme hikayenizi yazalım <ArrowUpRight size={16} />
           </Link>
         </motion.div>
       </div>
+
+      {/* ── MOBILE OVERRIDES ── */}
+      <style>{`
+        @media (max-width: 768px) {
+          .case-row {
+            grid-template-columns: 1fr !important;
+            border-radius: 16px !important;
+          }
+          .case-row > div {
+            order: unset !important;
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+            padding: 28px 20px !important;
+          }
+          .case-row > div:last-child {
+            border-bottom: none !important;
+          }
+          .case-result-num {
+            font-size: clamp(52px, 14vw, 80px) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
